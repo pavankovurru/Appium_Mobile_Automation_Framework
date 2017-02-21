@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn"><!-- use status="trace" for troubleshooting -->
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} | [%M] | (%F:%L) | %m%n"/>
+        </Console>
+        <File name="FILE" fileName="Logging.log" append="false">
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} | [%M] | (%F:%L) | %m%n</pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="trace">
+            <AppenderRef ref="STDOUT" level="trace" />
+            <AppenderRef ref="FILE" />
+        </Root>
+    </Loggers>
+</Configuration>
