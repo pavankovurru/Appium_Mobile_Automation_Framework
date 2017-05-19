@@ -3,6 +3,7 @@ package com.company.project.tests;
 import com.company.project.constants.Global.GlobalConstants;
 import com.company.project.utilities.AppiumUtil;
 import com.company.project.utilities.PropertiesLoader;
+import com.company.project.utilities.RunOn;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
@@ -24,64 +25,12 @@ public class LoginTest {
 
   @BeforeMethod
   public void login() {
-
-    //Creating driver object based on Environment.properties configuration
-
-    String run = pro.getProperty("RunOn");
-    String appname = System.getProperty("user.dir")+"/src/main/resources/"+pro.getProperty("AppName");
-
-    switch (run) {
-
-        //ANDROID NATIVE APP
-
-        case "AndroidEmulatorNativeApp":
-            driver=AppiumUtil.createLocalAndroidDriver_For_Emulator(appname);
-            break;
-
-        case "AndroidDeviceNativeApp":
-            driver=AppiumUtil.createLocalAndroidDriver_For_RealDevice(appname);
-            break;
-
-        //ANDROID WEB APP
-
-        case "AndroidEmulatorWebApp":
-            driver=AppiumUtil.createLocalAndroidDriver_For_WebApp_In_Emulator("Chrome");
-            break;
-
-        case "AndroidDeviceWebApp":
-            driver=AppiumUtil.createLocalAndroidDriver_For_WebApp_In_RealDevice("Chrome");
-            break;
-
-       // IOS NATIVE APP
-
-        case "IosSimulatorNativeApp":
-            driver=AppiumUtil.createLocalIOSDriver_For_NativeApp_In_Simulator(appname);
-            break;
-
-        case "IosDeviceNativeApp":
-            driver=AppiumUtil.createLocalIOSDriver_For_NativeApp_In_IOSDEVICE(appname,"iPhone 7","TEST ORG ID");
-            break;
-
-        //IOS WEB APP
-
-        case "IosSimulatorWebApp":
-            driver=AppiumUtil.createLocalIOSDriver_For_WebApp_In_Simulator("Safari");
-            break;
-
-        case "IosDeviceWebApp":
-            driver=AppiumUtil.createLocalIOSDriver_For_WebApp_In_IOSDEVICE("Safari","iPhone 7","TEST ORG ID");
-            break;
-
-
-        default:
-        throw new IllegalArgumentException("Invalid parameter used in Environment.properties file : " + run);
-    }
-
+      driver = RunOn.run();
 
   }
 
   @Test(priority = 1)
-  public void androidSimulator() {
+  public void androidEmulator() {
 
       log.info("Testing a - "+driver.getContext());
       driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().text(\"Views\")")).click();
@@ -148,10 +97,10 @@ public class LoginTest {
     @Test(priority = 5)
     public void iosSimulatorNativeApp(){
 
-      log.info("IOS driver for simulator successful");
-      driver.findElementById("TextView").click();
-       AppiumUtil.sleep(3);
-       driver.findElementByName("Back").click();
+        log.info("IOS driver for simulator successful");
+        driver.findElementById("TextView").click();
+        AppiumUtil.sleep(3);
+        driver.findElementByName("Back").click();
         AppiumUtil.sleep(3);
         driver.findElementByAccessibilityId("TextView").click();
         driver.findElementsByXPath("");

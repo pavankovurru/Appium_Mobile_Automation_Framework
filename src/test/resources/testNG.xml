@@ -9,7 +9,7 @@
         <listener class-name="com.company.project.utilities.TestListener" />
     </listeners>
 
-    <test name="MAAS UI TESTS" >
+    <test name=" UI TESTS" >
         <packages>
             <package name="com.company.project.tests.*"/>
         </packages>
