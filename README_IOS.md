@@ -5,7 +5,7 @@
 ## IOS CONFIGURATIONS AND DEPENDANCIES
 
 1. Install `XCODE`.  
-2. Install `APPIUM 1.6 or higher` using `npm install -g appium`.   
+2. Install  appium desktop or `APPIUM 1.6 or higher` using `npm install -g appium`.   
 3. `brew install ideviceinstaller`
 4. `brew install carthage`
 5. `npm install -g ios-deploy`
@@ -45,15 +45,16 @@ RUN APPIUM FROM TERMINAL SO THAT 1.6 OR HIGHER VERSION WILL BE INVOKED.
 CLICK ON APPIUM INSPECTOR PRESENT IN GUI WHICH WILL DISPLAY APPIUM INSPECTOR AS SHOWN BELOW.
 ```
 
-![alt tag](https://github.com/pavankovurru/Appium_Mobile_Automation_Framework/blob/master/src/main/resources/Screen%20Shot%202017-02-19%20at%208.38.28%20PM.png)
+![alt tag](https://github.com/pavankovurru/Appium_Mobile_Automation_Framework/blob/master/src/main/resources/AppiumInspector.png)
 
 
 `driver.findElementById("");`  
 `driver.findElementByAccessibilityId("");`  
 `driver.findElementByName("");`  
+`driver.findElementByClassName("");`  -- type value in inspector can be used here
  
  
-` NAME` and `LABEL`  values in the APPIUM INSPECTOR can be used in the above methods to perform user actions.
+` NAME` and `LABEL`  values in the APPIUM INSPECTOR can be used in the id and name methods to perform user actions.
  `XPATH` value in appium Inspector can be used in  `driver.findElementsByXPath("");`. 
   
   
