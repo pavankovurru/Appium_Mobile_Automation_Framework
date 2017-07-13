@@ -13,7 +13,7 @@
 
 ## ANDROID ELEMENT LOCATOR TOOLS  
 
-1) `$ANDROID_HOME/tools/uiautomatorviewer`
+1) `$ANDROID_HOME/tools/bin/uiautomatorviewer`
 
 Have the app running, open `UIAutomatorViewer` and click on the device screen shot icon to locate elements of the running page in an emulator/Android Device. Hover over the mouse on the element and observe (node detail) section present at lower bottom corner of the uiautomatorviewer Which lists out all available attribute names and values.
 
