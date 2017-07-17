@@ -32,7 +32,9 @@ echo $ANDROID_HOME
 
 Have the app running, open `UIAutomatorViewer` and click on the device screen shot icon to locate elements of the running page in an emulator/Android Device. Hover over the mouse on the element and observe (node detail) section present at lower bottom corner of the uiautomatorviewer Which lists out all available attribute names and values.
 
+```
 Similar to selenium "resource-ID" value can be used in driver.findElementById() method , "class" value can be used in driver.findElementByClassName() method.
+```
 
 2) `By XPATH`
 
