@@ -18,10 +18,11 @@ Works on Emulators, Simulators & Real Devices.
 
 ##  IMPORTANT FILES  
 
-1. src/main/java/com/company/project/properties/`Environment.properties` -- This file contains `RunOn`
- and `AppName` parameters which controls the app that user want to test and where appium tests should run on.  
+1. src/main/resources -- This folder contains Android,IOS apps that will be tested locally.   
  
 2. src/main/java/com/company/project/utilities/`AppiumUtil.java` -- Has Utility functions that can be used in appium tests including Appium driver Creation on Simulators, Emulators and Real Devices.
+
+3. src/test/resources --  Has testNG xml's which are parameterized with `AppName` and `TargetDevice` details so that these XML's can be modified to target differnt apps, environments and target devices. 
 
 
 
