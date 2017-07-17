@@ -6,6 +6,21 @@
 1. Install JAVA.  
 2. Install Android SDK.    
 3. Create ANDROID_HOME environment variable which contains path of android sdk.     
+
+```
+nano ~/.bash_profile 
+
+Add lines:
+export ANDROID_HOME=/YOUR_PATH_TO/android-sdk
+export PATH=$ANDROID_HOME/platform-tools:$PATH
+export PATH=$ANDROID_HOME/tools:$PATH
+
+Reopen terminal and check if it worked:
+source ~/.bash_profile
+echo $ANDROID_HOME
+
+```
+
 4. Update path variable to include $ANDROID_HOME/Platform_tools folder.  
 5. Update path variable to include $ANDROID_HOME/tools folder.  
 6. Create an android emulator and have it up and running  along with appium server if tests are run locally on android emulator.  
