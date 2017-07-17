@@ -51,8 +51,8 @@ import java.util.concurrent.TimeUnit;
 public class AppiumUtil {
 
   public static Logger log = LogManager.getLogger();
-//  static PropertiesLoader environmentProperties =
-//      new PropertiesLoader(GlobalConstants.ENVIRONMENT_PROPERTY_PATH);
+  //  static PropertiesLoader environmentProperties =
+  //      new PropertiesLoader(GlobalConstants.ENVIRONMENT_PROPERTY_PATH);
   static AppiumDriver driver;
   static String parentHandle;
   static Alert alert;
@@ -72,7 +72,7 @@ public class AppiumUtil {
     cap.setCapability(MobileCapabilityType.APP, appName);
 
     try {
-       driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+      driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
       log.info("Android Driver object created for emulator");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
@@ -91,7 +91,7 @@ public class AppiumUtil {
     cap.setCapability(MobileCapabilityType.APP, appName);
 
     try {
-       driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+      driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
       log.info("Android Driver object created for Real Android Device");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
@@ -111,7 +111,7 @@ public class AppiumUtil {
     cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
 
     try {
-       driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+      driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
       log.info("Android Driver object created for Web App in  Android Emulator");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
@@ -131,7 +131,7 @@ public class AppiumUtil {
     cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
 
     try {
-       driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+      driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
       log.info("Android Driver object created for Web App in  Android Device");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
@@ -167,7 +167,12 @@ public class AppiumUtil {
   }
 
   public static AppiumDriver createLocalIOSDriver_For_NativeApp_In_IOSDEVICE(
-      String appName, String deviceName, String orgID , String bundleID , String udid ,  String platformVersion) {
+      String appName,
+      String deviceName,
+      String orgID,
+      String bundleID,
+      String udid,
+      String platformVersion) {
 
     cap = new DesiredCapabilities();
     //cap.setCapability(MobileCapabilityType.BROWSER_NAME, "");
@@ -183,7 +188,7 @@ public class AppiumUtil {
     cap.setCapability(MobileCapabilityType.APP, appName);
     cap.setCapability("xcodeOrgId", orgID);
     cap.setCapability("xcodeSigningId", "iPhone Developer");
-    cap.setCapability("updatedWDABundleId",bundleID);
+    cap.setCapability("updatedWDABundleId", bundleID);
 
     try {
       driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
@@ -207,7 +212,7 @@ public class AppiumUtil {
     cap.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
 
     try {
-       driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+      driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
       log.info("IOS Driver object created for Simulator");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
@@ -231,7 +236,7 @@ public class AppiumUtil {
     cap.setCapability("xcodeSigningId", "iPhone Developer");
 
     try {
-       driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+      driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
       log.info("IOS Driver object created for Simulator");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
@@ -267,55 +272,64 @@ public class AppiumUtil {
     return el;
   }
 
-  public static MobileElement scrollAndroid(String text) {
+  public static MobileElement androidScrollToText(String text) {
 
     MobileElement el =
         (MobileElement)
             driver.findElement(
                 MobileBy.AndroidUIAutomator(
-                    "new UiScrollable(new UiSelector()).scrollIntoView(text(\""+text+"\"));"));
+                    "new UiScrollable(new UiSelector()).scrollIntoView(text(\"" + text + "\"));"));
     return el;
   }
 
-  public static MobileElement scrollIOS(String tabletext, String text) {
+    public static MobileElement androidScrollUSingContentDesc(String contentDesc) {
 
-    MobileElement table = (MobileElement) driver.findElement(MobileBy
-            .IosUIAutomation(".tableViews()[0]"));
-    MobileElement slider = (MobileElement) table.findElement(MobileBy
-            .IosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS 'Slider'\")"));
+        MobileElement el =
+            (MobileElement)
+                driver.findElement(
+                    MobileBy.AndroidUIAutomator(
+                        "new UiScrollable(new UiSelector()).scrollIntoView(content-desc(\"" + contentDesc + "\"));"));
+        return el;
+    }
+
+
+    public static MobileElement scrollIOS(String tabletext, String text) {
+
+    MobileElement table =
+        (MobileElement) driver.findElement(MobileBy.IosUIAutomation(".tableViews()[0]"));
+    MobileElement slider =
+        (MobileElement)
+            table.findElement(
+                MobileBy.IosUIAutomation(
+                    ".scrollToElementWithPredicate(\"name CONTAINS 'Slider'\")"));
     return slider;
   }
 
-
-  public static void  scrollIOS_Up_Using_accessibilityID(String  accessibilityID) {
-   Boolean cont=true;
-    while  (cont) {
+  public static void scrollIOS_Up_Using_accessibilityID(String accessibilityID) {
+    Boolean cont = true;
+    while (cont) {
 
       try {
         WebElement el = driver.findElementByAccessibilityId(accessibilityID);
         if (el.isDisplayed()) {
-          log.info("element with accessibilityID "+accessibilityID+ " is Visible");
+          log.info("element with accessibilityID " + accessibilityID + " is Visible");
           break;
         } else scrollIOS_up();
-      }
-
-      catch (NoSuchElementException e){
+      } catch (NoSuchElementException e) {
         scrollIOS_up();
       }
-
-
-      }
+    }
   }
 
-  public static void  scrollIOS_up() {
-      Dimension size = driver.manage().window().getSize();
-      int x = size.getWidth() / 2;
-      int start_y = (int) (size.getHeight() * 0.60);
-      int end_y = (int) (size.getHeight() * 0.30);
-      driver.swipe(x, start_y, x, end_y, 1000);
+  public static void scrollIOS_up() {
+    Dimension size = driver.manage().window().getSize();
+    int x = size.getWidth() / 2;
+    int start_y = (int) (size.getHeight() * 0.60);
+    int end_y = (int) (size.getHeight() * 0.30);
+    driver.swipe(x, start_y, x, end_y, 1000);
   }
 
-  public static void  scrollIOS_down() {
+  public static void scrollIOS_down() {
     Dimension size = driver.manage().window().getSize();
     int x = size.getWidth() / 2;
     int start_y = (int) (size.getHeight() * 0.30);
@@ -323,20 +337,19 @@ public class AppiumUtil {
     driver.swipe(x, start_y, x, end_y, 1000);
   }
 
-
   //ANDROID KEY EVENT FUNCTIONS
 
-  public static void pressAndroidHomeKeyEvent() {
+  public static void androidHomeKeyEvent() {
     ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.HOME);
     AppiumUtil.sleep(2);
   }
 
-  public static void pressAndroidBackKeyEvent() {
+  public static void androidBackKeyEvent() {
     ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.BACK);
     AppiumUtil.sleep(2);
   }
 
-  public static void pressAndroidMultiTaskingKeyEvent() {
+  public static void androidMultiTaskingKeyEvent() {
     ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.KEYCODE_APP_SWITCH);
     AppiumUtil.sleep(2);
   }
@@ -348,22 +361,20 @@ public class AppiumUtil {
     touch.press(element1).moveTo(element2).release().perform();
   }
 
-    public static void dragDrop(WebElement element1, WebElement element2) {
-        TouchAction touch = new TouchAction(driver);
-        touch.longPress(element1).moveTo(element2).release().perform();
-    }
+  public static void dragDrop(WebElement element1, WebElement element2) {
+    TouchAction touch = new TouchAction(driver);
+    touch.longPress(element1).moveTo(element2).release().perform();
+  }
 
+  public static void pressAndHold(WebElement element1, int time) {
+    TouchAction touch = new TouchAction(driver);
+    touch.press(element1).waitAction(time).release().perform();
+  }
 
-    public static void pressAndHold(WebElement element1, int time) {
-        TouchAction touch = new TouchAction(driver);
-        touch.press(element1).waitAction(time).release().perform();
-    }
-
-    public static void press_Hold_Moveto_NewElement(WebElement element1, WebElement element2) {
-        TouchAction touch = new TouchAction(driver);
-        touch.press(element1).waitAction(3000).moveTo(element2).release().perform();
-    }
-
+  public static void press_Hold_Moveto_NewElement(WebElement element1, WebElement element2) {
+    TouchAction touch = new TouchAction(driver);
+    touch.press(element1).waitAction(3000).moveTo(element2).release().perform();
+  }
 
   public static void tap(WebElement element) {
     TouchAction touch = new TouchAction(driver);
