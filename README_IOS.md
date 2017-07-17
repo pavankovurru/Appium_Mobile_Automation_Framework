@@ -40,21 +40,15 @@ NOTE : APPS BUILD FOR SIMULATOR WILL RUN ONLY ON SIMULATORS AND APPS BUILT FOR R
 ## 1. APPIUM INSPECTOR 
 
 ```
-USE APPIUM GUI TO CONFIGURE  IOS APP AND SIMULATOR NAME,MAKE SURE THAT APP BEING USED IS BUILT FOR A SIMULATOR.  
-RUN APPIUM FROM TERMINAL SO THAT 1.6 OR HIGHER VERSION WILL BE INVOKED.  
-CLICK ON APPIUM INSPECTOR PRESENT IN GUI WHICH WILL DISPLAY APPIUM INSPECTOR AS SHOWN BELOW.
+USE APPIUM DESKTOP --> START SERVER --> NEW SESSION --> GIVE DESIRED CAPABILITIES -->THIS WILL START THE APP AND APPIUM INSPECTOR
 ```
 
 ![alt tag](https://github.com/pavankovurru/Appium_Mobile_Automation_Framework/blob/master/src/main/resources/AppiumInspector.png)
 
 
-`driver.findElementById("");`  
-`driver.findElementByAccessibilityId("");`  
-`driver.findElementByName("");`  
+
+`driver.findElementByAccessibilityId("");`  -- AccessibilityId in inspector can be used here
 `driver.findElementByClassName("");`  -- type value in inspector can be used here
- 
- 
-` NAME` and `LABEL`  values in the APPIUM INSPECTOR can be used in the id and name methods to perform user actions.
  `XPATH` value in appium Inspector can be used in  `driver.findElementsByXPath("");`. 
   
   

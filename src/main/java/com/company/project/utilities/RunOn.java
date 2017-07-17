@@ -1,6 +1,5 @@
 package com.company.project.utilities;
 
-import com.company.project.constants.Global.GlobalConstants;
 import io.appium.java_client.AppiumDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,15 +10,14 @@ import org.apache.logging.log4j.Logger;
 public class RunOn {
 
     public static Logger log = LogManager.getLogger();
-    static PropertiesLoader pro = new PropertiesLoader(GlobalConstants.ENVIRONMENT_PROPERTY_PATH);
     static AppiumDriver driver = null;
 
 
-    public  static AppiumDriver run(){
-        //Creating driver object based on Environment.properties configuration
+    public  static AppiumDriver run(String runOn , String appName){
+        //Creating driver object based on testNGXML configuration
 
-        String run = pro.getProperty("RunOn");
-        String appname = System.getProperty("user.dir")+"/src/main/resources/"+pro.getProperty("AppName");
+        String run = runOn;
+        String appname = System.getProperty("user.dir")+"/src/main/resources/"+appName;
 
         switch (run) {
 
@@ -50,7 +48,7 @@ public class RunOn {
                 break;
 
             case "IosDeviceNativeApp":
-                driver=AppiumUtil.createLocalIOSDriver_For_NativeApp_In_IOSDEVICE(appname,"iPhone 7","TEST ORG ID");
+                driver=AppiumUtil.createLocalIOSDriver_For_NativeApp_In_IOSDEVICE(appname,"pavan Kovurru’s iPhone","84CK77G588","phunware.WebDriverAgentRunner","19251c9064c31b1a288ee8609a7eba334b8bddcd","10.3");
                 break;
 
             //IOS WEB APP
@@ -62,6 +60,9 @@ public class RunOn {
             case "IosDeviceWebApp":
                 driver=AppiumUtil.createLocalIOSDriver_For_WebApp_In_IOSDEVICE("Safari","iPhone 7","TEST ORG ID");
                 break;
+
+
+            //TODO RUN ON BROWSER STACK, SAUCE LABS ..
 
 
             default:

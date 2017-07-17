@@ -1,6 +1,5 @@
 package com.company.project.utilities;
 
-import com.company.project.constants.Global.GlobalConstants;
 import io.appium.java_client.*;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
@@ -13,6 +12,7 @@ import io.appium.java_client.remote.MobilePlatform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -51,8 +51,8 @@ import java.util.concurrent.TimeUnit;
 public class AppiumUtil {
 
   public static Logger log = LogManager.getLogger();
-  static PropertiesLoader environmentProperties =
-      new PropertiesLoader(GlobalConstants.ENVIRONMENT_PROPERTY_PATH);
+//  static PropertiesLoader environmentProperties =
+//      new PropertiesLoader(GlobalConstants.ENVIRONMENT_PROPERTY_PATH);
   static AppiumDriver driver;
   static String parentHandle;
   static Alert alert;
@@ -72,7 +72,7 @@ public class AppiumUtil {
     cap.setCapability(MobileCapabilityType.APP, appName);
 
     try {
-      AppiumDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+       driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
       log.info("Android Driver object created for emulator");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
@@ -91,7 +91,7 @@ public class AppiumUtil {
     cap.setCapability(MobileCapabilityType.APP, appName);
 
     try {
-      AppiumDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+       driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
       log.info("Android Driver object created for Real Android Device");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
@@ -111,7 +111,7 @@ public class AppiumUtil {
     cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
 
     try {
-      AppiumDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+       driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
       log.info("Android Driver object created for Web App in  Android Emulator");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
@@ -131,7 +131,7 @@ public class AppiumUtil {
     cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
 
     try {
-      AppiumDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+       driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
       log.info("Android Driver object created for Web App in  Android Device");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
@@ -156,7 +156,7 @@ public class AppiumUtil {
     cap.setCapability(MobileCapabilityType.APP, appName);
 
     try {
-      AppiumDriver driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+      driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
       log.info("IOS Driver object created for Simulator");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
@@ -167,21 +167,26 @@ public class AppiumUtil {
   }
 
   public static AppiumDriver createLocalIOSDriver_For_NativeApp_In_IOSDEVICE(
-      String appName, String deviceName, String orgID) {
+      String appName, String deviceName, String orgID , String bundleID , String udid ,  String platformVersion) {
 
     cap = new DesiredCapabilities();
-    cap.setCapability(MobileCapabilityType.BROWSER_NAME, "");
+    //cap.setCapability(MobileCapabilityType.BROWSER_NAME, "");
     cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
     cap.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
+    cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, platformVersion);
+
     cap.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
+    cap.setCapability(MobileCapabilityType.UDID, udid);
+
     cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
     cap.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
     cap.setCapability(MobileCapabilityType.APP, appName);
     cap.setCapability("xcodeOrgId", orgID);
     cap.setCapability("xcodeSigningId", "iPhone Developer");
+    cap.setCapability("updatedWDABundleId",bundleID);
 
     try {
-      AppiumDriver driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+      driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
       log.info("IOS Driver object created for Simulator");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
@@ -202,7 +207,7 @@ public class AppiumUtil {
     cap.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
 
     try {
-      AppiumDriver driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+       driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
       log.info("IOS Driver object created for Simulator");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
@@ -226,7 +231,7 @@ public class AppiumUtil {
     cap.setCapability("xcodeSigningId", "iPhone Developer");
 
     try {
-      AppiumDriver driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+       driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
       log.info("IOS Driver object created for Simulator");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
@@ -273,12 +278,49 @@ public class AppiumUtil {
   }
 
   public static MobileElement scrollIOS(String tabletext, String text) {
-    MobileElement table =
-        (MobileElement) driver.findElement(MobileBy.IosUIAutomation(".tableViews()[0]"));
-    MobileElement slider =
-        table.findElement(
-            MobileBy.IosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS 'Slider'\")"));
+
+    MobileElement table = (MobileElement) driver.findElement(MobileBy
+            .IosUIAutomation(".tableViews()[0]"));
+    MobileElement slider = (MobileElement) table.findElement(MobileBy
+            .IosUIAutomation(".scrollToElementWithPredicate(\"name CONTAINS 'Slider'\")"));
     return slider;
+  }
+
+
+  public static void  scrollIOS_Up_Using_accessibilityID(String  accessibilityID) {
+   Boolean cont=true;
+    while  (cont) {
+
+      try {
+        WebElement el = driver.findElementByAccessibilityId(accessibilityID);
+        if (el.isDisplayed()) {
+          log.info("element with accessibilityID "+accessibilityID+ " is Visible");
+          break;
+        } else scrollIOS_up();
+      }
+
+      catch (NoSuchElementException e){
+        scrollIOS_up();
+      }
+
+
+      }
+  }
+
+  public static void  scrollIOS_up() {
+      Dimension size = driver.manage().window().getSize();
+      int x = size.getWidth() / 2;
+      int start_y = (int) (size.getHeight() * 0.60);
+      int end_y = (int) (size.getHeight() * 0.30);
+      driver.swipe(x, start_y, x, end_y, 1000);
+  }
+
+  public static void  scrollIOS_down() {
+    Dimension size = driver.manage().window().getSize();
+    int x = size.getWidth() / 2;
+    int start_y = (int) (size.getHeight() * 0.30);
+    int end_y = (int) (size.getHeight() * 0.60);
+    driver.swipe(x, start_y, x, end_y, 1000);
   }
 
 
