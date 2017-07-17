@@ -38,6 +38,8 @@ Similar to selenium "resource-ID" value can be used in driver.findElementById() 
 
 Examples:  `android.widget.TextView` is the class name displayed in ui automator viewer. text, index and content-desc are attributes shown in ui automator viewer.
 
+`driver.findElementByXPath("//android.widget.LinearLayout/android.widget.TextView")`
+
 ```
 driver.findElementByXPath("//android.widget.TextView[@text='Views']").click();
 driver.findElementByXPath("//android.widget.TextView[@index='1']").click();
