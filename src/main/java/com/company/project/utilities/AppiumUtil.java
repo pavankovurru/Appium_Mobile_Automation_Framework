@@ -282,16 +282,6 @@ public class AppiumUtil {
     return el;
   }
 
-    public static MobileElement androidScrollUSingContentDesc(String contentDesc) {
-
-        MobileElement el =
-            (MobileElement)
-                driver.findElement(
-                    MobileBy.AndroidUIAutomator(
-                        "new UiScrollable(new UiSelector()).scrollIntoView(content-desc(\"" + contentDesc + "\"));"));
-        return el;
-    }
-
 
     public static MobileElement scrollIOS(String tabletext, String text) {
 
@@ -785,6 +775,8 @@ public class AppiumUtil {
   public static boolean verify_Element_NotPresent(WebDriver driver, By locator) {
     return driver.findElements(locator).size() == 0;
   }
+
+
 
   public static void wait_until_Element_is_Not_Present(WebDriver driver, By locator) {
     if (driver.findElements(locator).size() > 0) {

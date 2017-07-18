@@ -2,8 +2,11 @@ package com.company.project.Page;
 
 import com.company.project.utilities.AppiumUtil;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.List;
 
 /** Created by pavankovurru on 7/17/17. */
 public class AccessibilityPage {
@@ -36,10 +39,40 @@ public class AccessibilityPage {
     AppiumUtil.androidScrollToText("Accessibility Node Querying").click();
   }
 
+  public void checkAllUncheckedTextBoxesInAccessibilityNodeQuerying(){
+     List<MobileElement> checkboxes= driver.findElementsByClassName("android.widget.CheckBox");
+     log.info("found - "+checkboxes.size() + "checkboxes");
+     for (MobileElement mo:checkboxes){
+         if (mo.getAttribute("checked").matches("false")){
+             mo.click();
+         }
+     }
+  }
+
+    public void unCheckAllUncheckedTextBoxesInAccessibilityNodeQuerying(){
+        List<MobileElement> checkboxes= driver.findElementsByClassName("android.widget.CheckBox");
+        for (MobileElement mo:checkboxes){
+            if (mo.getAttribute("checked").matches("true")){
+                mo.click();
+            }
+        }
+    }
+
+    public boolean areAllCheckBoxesSelected(){
+        List<MobileElement> checkboxes= driver.findElementsByClassName("android.widget.CheckBox");
+        for (MobileElement mo:checkboxes){
+            if (mo.getAttribute("checked").matches("false")){
+               return false;
+            }
+        }
+        return true;
+    }
 
 
 
-  //Accessibility Service
+
+
+    //Accessibility Service
   public void clickAccessibilityService() {
     AppiumUtil.androidScrollToText("Accessibility Service").click();
   }
