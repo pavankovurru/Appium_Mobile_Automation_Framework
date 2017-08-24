@@ -80,6 +80,8 @@ make sure that `adb devices` will return you connected emulator or a mobile devi
 
 Navigate to an url in mobile browser, remote devices tab will display the web link, Click on the `Inspect` button which will open 'Remote Debugging In Android`, After this identifying elements and simulaying users actions is similar to selenium Web Driver.  
 
+```NOTE :WebView debugging should be enabled; developer must enable ‘setWebContentsDebuggingEnabled’ flag in the WebView class. This flag enables debugging of web contents (HTML / CSS / JavaScript) loaded into any WebViews of app.```
+
 
 ## HYBRID APPS - A NATIVE APP WHICH HAS WEB VIEW
 
