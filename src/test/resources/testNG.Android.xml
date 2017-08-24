@@ -4,7 +4,7 @@
 <suite name="TEST SUITE">
 
     <parameter name="runOn" value="AndroidEmulatorNativeApp" />
-    <parameter name="appName" value="ApiDemos-debug.apk" />
+    <parameter name="appName" value="apiDemos.apk" />
 
     <!--<listeners>-->
 		<!--<listener class-name="com.company.project.utilities.ReRunFailedTestsListener" />-->
@@ -18,7 +18,9 @@
         <!--</packages>-->
         <classes>
             <!--<class name="com.company.project.tests.Android.InvokeAndroidApp"/>-->
-            <class name="com.company.project.tests.Android.Accessibility"/>
+            <!--<class name="com.company.project.tests.Android.Accessibility"/>-->
+            <class name="com.company.project.tests.Android.Webview"/>
+
         </classes>
     </test>
 

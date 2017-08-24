@@ -1,0 +1,12 @@
+2017-08-24 16:55:50 | [createLocalAndroidDriver_For_Emulator] | (AppiumUtil.java:76) | Android Driver object created for emulator
+2017-08-24 16:55:50 | [run] | (RunOn.java:25) | NATIVE_APP
+2017-08-24 16:55:50 | [invokeApp] | (Webview.java:24) | --------------------------------------------------------------------------
+2017-08-24 16:55:50 | [invokeApp] | (Webview.java:25) | Appium driver created for - AndroidEmulatorNativeApp
+2017-08-24 16:55:50 | [invokeApp] | (Webview.java:26) | Targeting app - apiDemos.apk
+2017-08-24 16:55:50 | [invokeApp] | (Webview.java:27) | --------------------------------------------------------------------------
+2017-08-24 16:55:50 | [validateAccessibilityLink] | (Webview.java:40) | Testing a - NATIVE_APP
+2017-08-24 16:56:00 | [switchtoWebView] | (WebViewPage.java:41) | Trying to switch Context to - WEBVIEW_io.appium.android.apis
+2017-08-24 16:56:00 | [switchtoWebView] | (WebViewPage.java:43) | Current context - WEBVIEW_io.appium.android.apis
+2017-08-24 16:56:01 | [validateAccessibilityLink] | (Webview.java:44) | Hello World! - 1
+2017-08-24 16:56:01 | [switchToNative] | (WebViewPage.java:53) | Trying to switch Context to - NATIVE_APP
+2017-08-24 16:56:01 | [switchToNative] | (WebViewPage.java:55) | Current context - NATIVE_APP

@@ -47,8 +47,8 @@ USE APPIUM DESKTOP --> START SERVER --> NEW SESSION --> GIVE DESIRED CAPABILITIE
 
 
 
-`driver.findElementByAccessibilityId("");`  -- AccessibilityId in inspector can be used here
-`driver.findElementByClassName("");`  -- type value in inspector can be used here
+`driver.findElementByAccessibilityId("");`  -- `AccessibilityId` in inspector can be used here
+`driver.findElementByName("");`  -- `name` value in inspector can be used here
  `XPATH` value in appium Inspector can be used in  `driver.findElementsByXPath("");`. 
   
   
@@ -62,7 +62,7 @@ Usage is similar to appium inspector.
 
 
 ## IOS WEB APPS 
-One way to identify elements is to modify `UserAgent` as done in andoird.
+One way to identify elements is to modify `UserAgent` as done in andoird.Safari has built in `UserAgent` in `develop` tool bar options.
 
 
 ## SAFARI WEB INSPECTOR 

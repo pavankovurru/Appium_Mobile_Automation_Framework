@@ -22,6 +22,7 @@ public class RunOn {
 
       case "AndroidEmulatorNativeApp":
         driver = AppiumUtil.createLocalAndroidDriver_For_Emulator(appname);
+        log.info(driver.getContext());
         break;
 
       case "AndroidDeviceNativeApp":
@@ -48,11 +49,10 @@ public class RunOn {
         driver =
             AppiumUtil.createLocalIOSDriver_For_NativeApp_In_IOSDEVICE(
                 appname,
-                "pavan Kovurru’s iPhone",
+                "PWA iPhone 7 Plus 512022",
                 "84CK77G588",
-                "phunware.WebDriverAgentRunner",
-                "19251c9064c31b1a288ee8609a7eba334b8bddcd",
-                "10.3");
+                "14036976ffcc15f8c37288abe4c4b7855ba70295",
+                "10.3.1");
         break;
 
         //IOS WEB APP

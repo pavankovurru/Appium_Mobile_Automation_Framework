@@ -1,6 +1,6 @@
 package com.company.project.tests.Android;
 
-import com.company.project.Page.AccessibilityPage;
+import com.company.project.Page.Android.AccessibilityPage;
 import com.company.project.utilities.AppiumUtil;
 import com.company.project.utilities.RunOn;
 import io.appium.java_client.AppiumDriver;
@@ -73,7 +73,7 @@ public class Accessibility {
         accessibilitypage.clickAccessibilityNodeQuerying();
         accessibilitypage.checkAllUncheckedTextBoxesInAccessibilityNodeQuerying();
         Assert.assertTrue(accessibilitypage.areAllCheckBoxesSelected());
-        accessibilitypage.unCheckAllUncheckedTextBoxesInAccessibilityNodeQuerying();
+        accessibilitypage.unCheckAllcheckedTextBoxesInAccessibilityNodeQuerying();
         Assert.assertFalse(accessibilitypage.areAllCheckBoxesSelected());
     }
 
@@ -83,5 +83,5 @@ public class Accessibility {
         driver.findElementById("io.appium.android.apis:id/button").click();
         Assert.assertTrue(AppiumUtil.androidScrollToText("Accessibility").getText().equals("Accessibility"));
     }
-    
+
     }

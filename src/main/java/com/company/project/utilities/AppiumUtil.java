@@ -86,9 +86,11 @@ public class AppiumUtil {
 
     cap = new DesiredCapabilities();
     cap.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
-    cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Device");
+      cap.setCapability(MobileCapabilityType.BROWSER_NAME, "Chrome");
+      cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Device");
     cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
     cap.setCapability(MobileCapabilityType.APP, appName);
+    cap.setCapability(MobileCapabilityType.NO_RESET,true);
 
     try {
       driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
@@ -170,7 +172,6 @@ public class AppiumUtil {
       String appName,
       String deviceName,
       String orgID,
-      String bundleID,
       String udid,
       String platformVersion) {
 
@@ -188,11 +189,11 @@ public class AppiumUtil {
     cap.setCapability(MobileCapabilityType.APP, appName);
     cap.setCapability("xcodeOrgId", orgID);
     cap.setCapability("xcodeSigningId", "iPhone Developer");
-    cap.setCapability("updatedWDABundleId", bundleID);
+    //cap.setCapability("updatedWDABundleId", bundleID);
 
     try {
       driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
-      log.info("IOS Driver object created for Simulator");
+      log.info("IOS Driver object created for IOS DEVICE");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
     } catch (MalformedURLException ex) {
@@ -237,7 +238,7 @@ public class AppiumUtil {
 
     try {
       driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
-      log.info("IOS Driver object created for Simulator");
+      log.info("IOS Driver object created for IOS DEVICE");
       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
     } catch (MalformedURLException ex) {
@@ -283,7 +284,7 @@ public class AppiumUtil {
   }
 
 
-    public static MobileElement scrollIOS(String tabletext, String text) {
+    public static MobileElement scrollIOSUsingTable(String tabletext, String text) {
 
     MobileElement table =
         (MobileElement) driver.findElement(MobileBy.IosUIAutomation(".tableViews()[0]"));
@@ -291,30 +292,33 @@ public class AppiumUtil {
         (MobileElement)
             table.findElement(
                 MobileBy.IosUIAutomation(
-                    ".scrollToElementWithPredicate(\"name CONTAINS 'Slider'\")"));
+                    ".scrollToElementWithPredicate(\"name CONTAINS 'Search Bars'\")"));
     return slider;
   }
 
-  public static void scrollIOS_Up_Using_accessibilityID(String accessibilityID) {
-    Boolean cont = true;
-    while (cont) {
 
+  public static WebElement scrollIOS_Up_Using_accessibilityID(String accessibilityID) {
+    Boolean cont = true;
+    WebElement el = null;
+
+    while (cont) {
       try {
-        WebElement el = driver.findElementByAccessibilityId(accessibilityID);
+         el = driver.findElementByAccessibilityId(accessibilityID);
         if (el.isDisplayed()) {
           log.info("element with accessibilityID " + accessibilityID + " is Visible");
-          break;
+          return el;
         } else scrollIOS_up();
       } catch (NoSuchElementException e) {
         scrollIOS_up();
       }
     }
+    return el;
   }
 
   public static void scrollIOS_up() {
     Dimension size = driver.manage().window().getSize();
     int x = size.getWidth() / 2;
-    int start_y = (int) (size.getHeight() * 0.60);
+    int start_y = (int) (size.getHeight() * 0.75);
     int end_y = (int) (size.getHeight() * 0.30);
     driver.swipe(x, start_y, x, end_y, 1000);
   }
