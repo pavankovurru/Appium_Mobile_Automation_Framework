@@ -109,3 +109,11 @@ Passing `PACKAGE` and `ACTIVITY` as capabilities is required while creating an A
 4)`adb install “location of app file extracted in earlier step”` --> To install app on emulator.  
 
 
+## Appium 1.6 Issues 
+
+ Appium 1.6 may not open android app and create session if a splash screen or a sign in screen appears before the main activity (Launchable Activity)
+ 
+ solution :  
+  1) Pass the package it finds(check logs) in the `appWaitActivity` cpability, it accepts multiple activities seperated by a comma.  
+  2) Use `appActivity` and `appPackage` instead of `app` if the app is already installed
+
