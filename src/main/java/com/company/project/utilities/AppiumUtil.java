@@ -25,6 +25,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -67,8 +68,9 @@ public class AppiumUtil {
 
     cap = new DesiredCapabilities();
     cap.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+    cap.setCapability(MobileCapabilityType.AUTOMATION_NAME,"uiautomator2");
     cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-    cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
+    cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
     cap.setCapability(MobileCapabilityType.APP, appName);
 
     try {
@@ -86,8 +88,9 @@ public class AppiumUtil {
 
     cap = new DesiredCapabilities();
     cap.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
-      cap.setCapability(MobileCapabilityType.BROWSER_NAME, "Chrome");
-      cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Device");
+    cap.setCapability(MobileCapabilityType.AUTOMATION_NAME,"uiautomator2");
+    cap.setCapability(MobileCapabilityType.BROWSER_NAME, "Chrome");
+    cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Device");
     cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
     cap.setCapability(MobileCapabilityType.APP, appName);
     cap.setCapability(MobileCapabilityType.NO_RESET,true);
@@ -108,6 +111,7 @@ public class AppiumUtil {
 
     cap = new DesiredCapabilities();
     cap.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+    cap.setCapability(MobileCapabilityType.AUTOMATION_NAME,"uiautomator2");
     cap.setCapability(MobileCapabilityType.BROWSER_NAME, browserName);
     cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
     cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
@@ -128,6 +132,7 @@ public class AppiumUtil {
 
     cap = new DesiredCapabilities();
     cap.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+    cap.setCapability(MobileCapabilityType.AUTOMATION_NAME,"uiautomator2");
     cap.setCapability(MobileCapabilityType.BROWSER_NAME, browserName);
     cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Device");
     cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
@@ -169,11 +174,11 @@ public class AppiumUtil {
   }
 
   public static AppiumDriver createLocalIOSDriver_For_NativeApp_In_IOSDEVICE(
-      String appName,
-      String deviceName,
-      String orgID,
-      String udid,
-      String platformVersion) {
+          String appName,
+          String deviceName,
+          String orgID,
+          String udid,
+          String platformVersion) {
 
     cap = new DesiredCapabilities();
     //cap.setCapability(MobileCapabilityType.BROWSER_NAME, "");
@@ -224,7 +229,7 @@ public class AppiumUtil {
   }
 
   public static AppiumDriver createLocalIOSDriver_For_WebApp_In_IOSDEVICE(
-      String browserName, String deviceName, String orgID) {
+          String browserName, String deviceName, String orgID) {
 
     cap = new DesiredCapabilities();
     cap.setCapability(MobileCapabilityType.BROWSER_NAME, browserName);
@@ -253,6 +258,12 @@ public class AppiumUtil {
 
   //****************************  APPIUM FUNCTIONS *****************************//
 
+
+  //open notifications Android
+  public static void openNotificationsAndroid(){
+    ((AndroidDriver) driver).openNotifications();
+  }
+
   // SCROLL FUNCTIONS
 
   public static MobileElement scrollAndroid(String resourceID, String text) {
@@ -260,39 +271,52 @@ public class AppiumUtil {
     //make sure u give the resouce ID of the complete list of elements here as parameter
 
     MobileElement el =
-        (MobileElement)
-            driver.findElement(
-                MobileBy.AndroidUIAutomator(
-                    "new UiScrollable(new UiSelector()"
-                        + ".resourceId(\""
-                        + resourceID
-                        + "\")).scrollIntoView("
-                        + "new UiSelector().text(\""
-                        + text
-                        + "\"));"));
+            (MobileElement)
+                    driver.findElement(
+                            MobileBy.AndroidUIAutomator(
+                                    "new UiScrollable(new UiSelector()"
+                                            + ".resourceId(\""
+                                            + resourceID
+                                            + "\")).scrollIntoView("
+                                            + "new UiSelector().text(\""
+                                            + text
+                                            + "\"));"));
     return el;
   }
 
   public static MobileElement androidScrollToText(String text) {
 
     MobileElement el =
-        (MobileElement)
-            driver.findElement(
-                MobileBy.AndroidUIAutomator(
-                    "new UiScrollable(new UiSelector()).scrollIntoView(text(\"" + text + "\"));"));
+            (MobileElement)
+                    driver.findElement(
+                            MobileBy.AndroidUIAutomator(
+                                    "new UiScrollable(new UiSelector()).scrollIntoView(text(\"" + text + "\"));"));
     return el;
   }
 
 
-    public static MobileElement scrollIOSUsingTable(String tabletext, String text) {
+  public static MobileElement androidScrollToID(String id) {
+
+    MobileElement el =
+            (MobileElement)
+                    driver.findElement(
+                            MobileBy.AndroidUIAutomator(
+                                    "new UiScrollable(new UiSelector()).scrollIntoView(resourceId(\"" + id + "\"));"));
+    return el;
+  }
+
+
+
+
+  public static MobileElement scrollIOSUsingTable(String tabletext, String text) {
 
     MobileElement table =
-        (MobileElement) driver.findElement(MobileBy.IosUIAutomation(".tableViews()[0]"));
+            (MobileElement) driver.findElement(MobileBy.IosUIAutomation(".tableViews()[0]"));
     MobileElement slider =
-        (MobileElement)
-            table.findElement(
-                MobileBy.IosUIAutomation(
-                    ".scrollToElementWithPredicate(\"name CONTAINS 'Search Bars'\")"));
+            (MobileElement)
+                    table.findElement(
+                            MobileBy.IosUIAutomation(
+                                    ".scrollToElementWithPredicate(\"name CONTAINS 'Search Bars'\")"));
     return slider;
   }
 
@@ -303,7 +327,7 @@ public class AppiumUtil {
 
     while (cont) {
       try {
-         el = driver.findElementByAccessibilityId(accessibilityID);
+        el = driver.findElementByAccessibilityId(accessibilityID);
         if (el.isDisplayed()) {
           log.info("element with accessibilityID " + accessibilityID + " is Visible");
           return el;
@@ -320,7 +344,8 @@ public class AppiumUtil {
     int x = size.getWidth() / 2;
     int start_y = (int) (size.getHeight() * 0.75);
     int end_y = (int) (size.getHeight() * 0.30);
-    driver.swipe(x, start_y, x, end_y, 1000);
+    //driver.swipe(x, start_y, x, end_y, 1000);
+    //TODO - need to use touch Actions
   }
 
   public static void scrollIOS_down() {
@@ -328,7 +353,8 @@ public class AppiumUtil {
     int x = size.getWidth() / 2;
     int start_y = (int) (size.getHeight() * 0.30);
     int end_y = (int) (size.getHeight() * 0.60);
-    driver.swipe(x, start_y, x, end_y, 1000);
+    //driver.swipe(x, start_y, x, end_y, 1000);
+    //TODO - need to use touch Actions
   }
 
   //ANDROID KEY EVENT FUNCTIONS
@@ -360,14 +386,14 @@ public class AppiumUtil {
     touch.longPress(element1).moveTo(element2).release().perform();
   }
 
-  public static void pressAndHold(WebElement element1, int time) {
+  public static void pressAndHold(WebElement element1, int timeInSeconds) {
     TouchAction touch = new TouchAction(driver);
-    touch.press(element1).waitAction(time).release().perform();
+    touch.longPress(element1,Duration.ofSeconds(timeInSeconds)).release().perform();
   }
 
   public static void press_Hold_Moveto_NewElement(WebElement element1, WebElement element2) {
     TouchAction touch = new TouchAction(driver);
-    touch.press(element1).waitAction(3000).moveTo(element2).release().perform();
+    touch.press(element1).waitAction(Duration.ofSeconds(2)).moveTo(element2).release().perform();
   }
 
   public static void tap(WebElement element) {
@@ -383,11 +409,11 @@ public class AppiumUtil {
     Point location = mainContainer.getLocation();
     Point center = mainContainer.getCenter();
     TouchAction swipe =
-        new TouchAction(driver)
-            .press(images.get(2), -10, center.y - location.y)
-            .waitAction(2000)
-            .moveTo(mainContainer, 10, center.y - location.y)
-            .release();
+            new TouchAction(driver)
+                    .press(images.get(2), -10, center.y - location.y)
+                    .waitAction(Duration.ofSeconds(2))
+                    .moveTo(mainContainer, 10, center.y - location.y)
+                    .release();
     swipe.perform();
   }
 
@@ -437,8 +463,8 @@ public class AppiumUtil {
     TouchAction touch1 = new TouchAction(driver);
     TouchAction touch2 = new TouchAction(driver);
 
-    touch1.press(halfHeight, halfHeight).waitAction(1000).moveTo(0, 60).release();
-    touch2.press(halfHeight, halfHeight + 40).waitAction(1000).moveTo(0, 80).release();
+    touch1.press(halfHeight, halfHeight).waitAction(Duration.ofSeconds(1)).moveTo(0, 60).release();
+    touch2.press(halfHeight, halfHeight + 40).waitAction(Duration.ofSeconds(1)).moveTo(0, 80).release();
 
     multiTouch.add(touch1).add(touch2);
     multiTouch.perform();
@@ -459,9 +485,9 @@ public class AppiumUtil {
   public static void hover(WebDriver driver, By locator) {
     Actions action = new Actions(driver);
     action
-        .moveToElement(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
-        .build()
-        .perform();
+            .moveToElement(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
+            .build()
+            .perform();
     log.info("Hover action done on element -" + locator);
     AppiumUtil.waitForPageToLoad(driver);
   }
@@ -470,10 +496,10 @@ public class AppiumUtil {
   public static void hoverAndClick(WebDriver driver, By locator) {
     Actions action = new Actions(driver);
     action
-        .moveToElement(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
-        .click()
-        .build()
-        .perform();
+            .moveToElement(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
+            .click()
+            .build()
+            .perform();
     log.info("click action on -" + locator + " performed");
     AppiumUtil.waitForPageToLoad(driver);
   }
@@ -498,11 +524,11 @@ public class AppiumUtil {
   public static void hoverClickAndPressEnter(WebDriver driver, By locator) {
     Actions action = new Actions(driver);
     action
-        .moveToElement(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
-        .click()
-        .sendKeys(Keys.ENTER)
-        .build()
-        .perform();
+            .moveToElement(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
+            .click()
+            .sendKeys(Keys.ENTER)
+            .build()
+            .perform();
     AppiumUtil.waitForPageToLoad(driver);
   }
 
@@ -510,11 +536,11 @@ public class AppiumUtil {
   public static void hoverClickAndSendData(WebDriver driver, By locator, String data) {
     Actions action = new Actions(driver);
     action
-        .moveToElement(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
-        .click()
-        .sendKeys(data)
-        .build()
-        .perform();
+            .moveToElement(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
+            .click()
+            .sendKeys(data)
+            .build()
+            .perform();
     AppiumUtil.waitForPageToLoad(driver);
   }
 
@@ -522,12 +548,12 @@ public class AppiumUtil {
   public static void hoverClickSendDataAndPressEnter(WebDriver driver, By locator, String data) {
     Actions action = new Actions(driver);
     action
-        .moveToElement(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
-        .click()
-        .sendKeys(data)
-        .sendKeys(Keys.ENTER)
-        .build()
-        .perform();
+            .moveToElement(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
+            .click()
+            .sendKeys(data)
+            .sendKeys(Keys.ENTER)
+            .build()
+            .perform();
     AppiumUtil.waitForPageToLoad(driver);
   }
 
@@ -535,10 +561,10 @@ public class AppiumUtil {
   public static void hoverAndSendData(WebDriver driver, By locator, String data) {
     Actions action = new Actions(driver);
     action
-        .moveToElement(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
-        .sendKeys(data)
-        .build()
-        .perform();
+            .moveToElement(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
+            .sendKeys(data)
+            .build()
+            .perform();
     AppiumUtil.waitForPageToLoad(driver);
   }
 
@@ -553,9 +579,9 @@ public class AppiumUtil {
   public static void doubleClick(WebDriver driver, By locator) {
     Actions doubleClick = new Actions(driver);
     doubleClick
-        .doubleClick(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
-        .build()
-        .perform();
+            .doubleClick(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
+            .build()
+            .perform();
     AppiumUtil.waitForPageToLoad(driver);
   }
 
@@ -568,7 +594,7 @@ public class AppiumUtil {
 
   //Drag and drop Elements
   public static void dragAndDropToElementContainner(
-      WebDriver driver, WebElement source, WebElement target) {
+          WebDriver driver, WebElement source, WebElement target) {
     Actions builder = new Actions(driver);
     builder.dragAndDrop(source, target).build().perform();
     AppiumUtil.waitForPageToLoad(driver);
@@ -578,10 +604,10 @@ public class AppiumUtil {
 
   public static void jsClick(WebDriver driver, By locator) {
     String code =
-        "var fireOnThis = arguments[0];"
-            + "var evObj = document.createEvent('MouseEvents');"
-            + "evObj.initEvent( 'click', true, true );"
-            + "fireOnThis.dispatchEvent(evObj);";
+            "var fireOnThis = arguments[0];"
+                    + "var evObj = document.createEvent('MouseEvents');"
+                    + "evObj.initEvent( 'click', true, true );"
+                    + "fireOnThis.dispatchEvent(evObj);";
 
     WebElement el = wait_until_ElementIs_Visible(driver, locator);
     ((JavascriptExecutor) driver).executeScript(code, el);
@@ -636,14 +662,14 @@ public class AppiumUtil {
   }
 
   public static void switchToNewWindowHandle_After_ClickingOnGivenElement(
-      WebDriver driver, By locator) {
+          WebDriver driver, By locator) {
 
     parentHandle = driver.getWindowHandle();
     AppiumUtil.wait_until_ElementIs_Clickable(driver, locator).click();
     AppiumUtil.waitForPageToLoad(driver);
 
     if (driver.getWindowHandles().size()
-        >= 2) { //switch to a new window handle if there more than 1 window handles.
+            >= 2) { //switch to a new window handle if there more than 1 window handles.
       // Switch to new window opened
       for (String winHandle : driver.getWindowHandles()) {
         if (!winHandle.equals(parentHandle)) {
