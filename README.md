@@ -1,17 +1,17 @@
 # APPIUM MOBILE AUTOMATION FRAMEWORK
 
 ```
-Compatible With Android Nougat and IOS 10
+Compatible With Android Oreo and IOS 11
 Works With Native, Web & Hybrid Apps.
 Works on Emulators, Simulators & Real Devices.
 ```
 
 ##  FRAME WORK STACK 
 ```
-1. Appium Java Client 4.1.2  
-2. Selenium 3.0.1  
+1. Appium Java Client 5.0.4
+2. Selenium 3.6.0
 3. LOG4J 2  
-4. TestNG 6.9  
+4. TestNG 6.11
 5. Gradle
 ```
 
