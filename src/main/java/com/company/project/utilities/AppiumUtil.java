@@ -305,9 +305,28 @@ public class AppiumUtil {
     return el;
   }
 
+  public static MobileElement androidScrollToContentDesc(String contentDesc) {
+
+    MobileElement el =
+            (MobileElement)
+                    driver.findElement(
+                            MobileBy.AndroidUIAutomator(
+                                    "new UiScrollable(new UiSelector()).scrollIntoView(description(\"" + contentDesc + "\"));"));
+    return el;
+  }
 
 
+  //presence of mobile element
 
+  public static boolean isMobileElementPresent(String text) {
+    if (driver.findElements(MobileBy.AndroidUIAutomator("new UiSelector().text(\""+text+"\")")).size() >= 1)
+      return true;
+    else
+      return false;
+  }
+
+
+  
   public static MobileElement scrollIOSUsingTable(String tabletext, String text) {
 
     MobileElement table =
