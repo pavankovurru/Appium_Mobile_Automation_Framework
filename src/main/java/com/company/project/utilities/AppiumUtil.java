@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by pavankovurru on 1/29/17.
@@ -50,7 +51,7 @@ import java.util.List;
  */
 public class AppiumUtil {
 
-  public static Logger log = LogManager.getLogger();
+  public static final Logger LOG = LogManager.getLogger();
   //  static PropertiesLoader environmentProperties =
   //      new PropertiesLoader(GlobalConstants.ENVIRONMENT_PROPERTY_PATH);
   static AppiumDriver driver;
@@ -70,12 +71,12 @@ public class AppiumUtil {
     cap.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
     cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
     cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-    cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 60);
+    cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
     cap.setCapability(MobileCapabilityType.APP, appName);
 
     try {
       driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
-      log.info("Android Driver object created for emulator");
+      LOG.info("Android Driver object created for emulator");
       // driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
     } catch (MalformedURLException ex) {
@@ -89,7 +90,7 @@ public class AppiumUtil {
     cap = new DesiredCapabilities();
     cap.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
     cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
-    // cap.setCapability(MobileCapabilityType.BROWSER_NAME, "Chrome");
+    cap.setCapability(MobileCapabilityType.BROWSER_NAME, "Browser");
     cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Device");
     cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
     cap.setCapability(MobileCapabilityType.APP, appName);
@@ -97,7 +98,7 @@ public class AppiumUtil {
 
     try {
       driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
-      log.info("Android Driver object created for Real Android Device");
+      LOG.info("Android Driver object created for Real android Device");
       // driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
     } catch (MalformedURLException ex) {
@@ -118,7 +119,7 @@ public class AppiumUtil {
 
     try {
       driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
-      log.info("Android Driver object created for Web App in  Android Emulator");
+      LOG.info("Android Driver object created for Web App in  android Emulator");
       // driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
     } catch (MalformedURLException ex) {
@@ -139,7 +140,7 @@ public class AppiumUtil {
 
     try {
       driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
-      log.info("Android Driver object created for Web App in  Android Device");
+      LOG.info("Android Driver object created for Web App in  android Device");
       // driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
     } catch (MalformedURLException ex) {
@@ -164,7 +165,7 @@ public class AppiumUtil {
 
     try {
       driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
-      log.info("IOS Driver object created for Simulator");
+      LOG.info("IOS Driver object created for Simulator");
       // driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
     } catch (MalformedURLException ex) {
@@ -194,7 +195,7 @@ public class AppiumUtil {
 
     try {
       driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
-      log.info("IOS Driver object created for IOS DEVICE");
+      LOG.info("IOS Driver object created for IOS DEVICE");
       // driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
     } catch (MalformedURLException ex) {
@@ -215,7 +216,7 @@ public class AppiumUtil {
 
     try {
       driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
-      log.info("IOS Driver object created for Simulator");
+      LOG.info("IOS Driver object created for Simulator");
       // driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
     } catch (MalformedURLException ex) {
@@ -239,7 +240,7 @@ public class AppiumUtil {
 
     try {
       driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
-      log.info("IOS Driver object created for IOS DEVICE");
+      LOG.info("IOS Driver object created for IOS DEVICE");
       // driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
       return driver;
     } catch (MalformedURLException ex) {
@@ -261,6 +262,7 @@ public class AppiumUtil {
     } catch (MalformedURLException e) {
       e.printStackTrace();
     }
+    LOG.info("Android Driver created for AWS Device farm");
 
     driver = new AndroidDriver<MobileElement>(url, capabilities);
 
@@ -276,12 +278,14 @@ public class AppiumUtil {
 
   // open notifications Android
   public static void openNotificationsAndroid() {
+    LOG.info("Trying to open notifications");
     ((AndroidDriver) driver).openNotifications();
   }
 
   // presence of mobile element
 
   public static boolean isMobileElementPresentUsingText(String text) {
+    LOG.info("Trying to find element with text - "+ text);
     if (driver
             .findElements(MobileBy.AndroidUIAutomator("new UiSelector().text(\"" + text + "\")"))
             .size()
@@ -289,57 +293,60 @@ public class AppiumUtil {
     else return false;
   }
 
+  public static boolean isMobileElementPresentUsingID(String id) {
+    LOG.info("Trying to find element with ID - "+ id);
+
+    if (driver
+            .findElements(
+                    MobileBy.AndroidUIAutomator("new UiSelector().resourceId(\"" + id + "\")"))
+            .size()
+            >= 1) return true;
+    else return false;
+  }
+
   public static boolean isMobileElementPresentUsingContentDesc(String contentDesc) {
-    log.info("Trying to locate element using content-desc - " + contentDesc);
+    LOG.info("Trying to locate element using content-desc - " + contentDesc);
     if (driver
             .findElements(
                     MobileBy.AndroidUIAutomator(
                             "new UiSelector().description(\"" + contentDesc + "\")"))
             .size()
             >= 1) {
-      log.info("Found element having content desc -" + contentDesc);
+      LOG.info("Found element having content desc -" + contentDesc);
       return true;
     } else return false;
   }
 
-  // Swiping element
-
-  public static void swipeElementToTheLeft(WebElement el) {
-
-    log.info("Trying to swipe element to the left");
-    int x = el.getLocation().getX();
-    int y = el.getLocation().getY();
-    // elements x location is the beginning point of the element , multiplying with 4 to get to the
-    // middle part of the element
-    new TouchAction(driver)
-            .press(x * 4, y)
-            .waitAction(Duration.ofSeconds(2))
-            .moveTo(x, y)
-            .release()
-            .perform();
-    log.info("Element swipe to the left performed");
+  public static Set<String> switchToWebView() {
+    LOG.info("Trying to switch to webview");
+    Set<String> availableContexts = driver.getContextHandles();
+    LOG.info("No of Contexts Found  = " + availableContexts.size());
+    for (String context : availableContexts) {
+      LOG.info("Context - "+context);
+      if (context.matches(".*?WEBVIEW.*?")) {
+        LOG.info("Switching to context " + context);
+        driver.context(context);
+        LOG.info("Context switched to -"+ driver.getContext());
+        break;
+      }
+    }
+    return availableContexts;
   }
 
-  public static void swipeElementToTheRight(WebElement el) {
-
-    log.info("Trying to swipe element to the left");
-    int x = el.getLocation().getX();
-    int y = el.getLocation().getY();
-    // elements x location is the beginning point of the element , multiplying with 4 to get to the
-    // middle part of the element
-    new TouchAction(driver)
-            .press(x, y)
-            .waitAction(Duration.ofSeconds(2))
-            .moveTo(x * 4, y)
-            .release()
-            .perform();
-    log.info("Element flicked to the left");
+  public static void switchToNativeContext(Set<String> availableContexts) {
+    for (String context : availableContexts) {
+      if (context.contains("NATIVE")) {
+        LOG.info("Trying to switch to native context");
+        driver.context(context);
+        LOG.info("Switched to Context" + context);
+      }
+    }
   }
 
   // SCROLL FUNCTIONS
 
   public static MobileElement scrollAndroid(String resourceID, String text) {
-
+    LOG.info("Trying to scroll to android element with text - "+ text);
     // make sure u give the resouce ID of the complete list of elements here as parameter
 
     MobileElement el =
@@ -357,6 +364,8 @@ public class AppiumUtil {
   }
 
   public static MobileElement scrollAndroidUsingindex(String resourceID, int index) {
+    LOG.info("Trying to scroll to android element with index - "+ index);
+
 
     // make sure u give the resouce ID of the complete list of elements here as parameter
 
@@ -375,8 +384,7 @@ public class AppiumUtil {
   }
 
   public static MobileElement androidScrollToText(String text) {
-
-    log.info("Trying to scroll to element with text  - " + text);
+    LOG.info("Trying to scroll to element with text  - " + text);
 
     MobileElement el =
             (MobileElement)
@@ -387,8 +395,7 @@ public class AppiumUtil {
   }
 
   public static MobileElement androidScrollToContentDesc(String contentDesc) {
-
-    log.info("Trying to scroll to element with content desc - " + contentDesc);
+    LOG.info("Trying to scroll to element with content desc - " + contentDesc);
     MobileElement el =
             (MobileElement)
                     driver.findElement(
@@ -400,6 +407,8 @@ public class AppiumUtil {
   }
 
   public static MobileElement androidScrollToID(String id) {
+    LOG.info("Trying to scroll to android element with ID - "+ id);
+
     MobileElement el =
             (MobileElement)
                     driver.findElement(
@@ -430,7 +439,7 @@ public class AppiumUtil {
       try {
         el = driver.findElementByAccessibilityId(accessibilityID);
         if (el.isDisplayed()) {
-          log.info("element with accessibilityID " + accessibilityID + " is Visible");
+          LOG.info("element with accessibilityID " + accessibilityID + " is Visible");
           return el;
         } else scrollIOS_up();
       } catch (NoSuchElementException e) {
@@ -466,9 +475,25 @@ public class AppiumUtil {
   }
 
   public static void androidBackKeyEvent() {
+    LOG.info("android back event");
     ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.BACK);
     AppiumUtil.sleep(2);
   }
+
+  public static void androidEnter() {
+    LOG.info("android Enter event");
+    ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.ENTER);
+    AppiumUtil.sleep(2);
+  }
+
+  public static void androidtab() {
+    LOG.info("android Tab event");
+    //((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.KEYCODE_DPAD_DOWN);
+    ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.KEYCODE_TAB);
+
+    AppiumUtil.sleep(2);
+  }
+
 
   public static void androidMultiTaskingKeyEvent() {
     ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.KEYCODE_APP_SWITCH);
@@ -501,6 +526,40 @@ public class AppiumUtil {
   public static void tap(WebElement element) {
     TouchAction touch = new TouchAction(driver);
     touch.moveTo(element).tap(element).perform();
+  }
+
+  // Swiping element
+
+  public static void swipeElementToTheLeft(WebElement el) {
+
+    LOG.info("Trying to swipe element to the left");
+    int x = el.getLocation().getX();
+    int y = el.getLocation().getY();
+    // elements x location is the beginning point of the element , multiplying with 4 to get to the
+    // middle part of the element
+    new TouchAction(driver)
+            .press(x * 4, y)
+            .waitAction(Duration.ofSeconds(2))
+            .moveTo(x, y)
+            .release()
+            .perform();
+    LOG.info("Element swipe to the left performed");
+  }
+
+  public static void swipeElementToTheRight(WebElement el) {
+
+    LOG.info("Trying to swipe element to the left");
+    int x = el.getLocation().getX();
+    int y = el.getLocation().getY();
+    // elements x location is the beginning point of the element , multiplying with 4 to get to the
+    // middle part of the element
+    new TouchAction(driver)
+            .press(x, y)
+            .waitAction(Duration.ofSeconds(2))
+            .moveTo(x * 4, y)
+            .release()
+            .perform();
+    LOG.info("Element flicked to the left");
   }
 
   public static void horizontalSwipe(String mainContainerElement, String classNameOFSubElements) {
@@ -597,7 +656,7 @@ public class AppiumUtil {
             .moveToElement(AppiumUtil.wait_until_ElementIs_Visible(driver, locator))
             .build()
             .perform();
-    log.info("Hover action done on element -" + locator);
+    LOG.info("Hover action done on element -" + locator);
     AppiumUtil.waitForPageToLoad(driver);
   }
 
@@ -609,7 +668,7 @@ public class AppiumUtil {
             .click()
             .build()
             .perform();
-    log.info("click action on -" + locator + " performed");
+    LOG.info("click action on -" + locator + " performed");
     AppiumUtil.waitForPageToLoad(driver);
   }
 
@@ -617,7 +676,7 @@ public class AppiumUtil {
   public static void hoverAndClick(WebDriver driver, WebElement el) {
     Actions action = new Actions(driver);
     action.moveToElement(el).click().build().perform();
-    log.info("click action on -" + el + " performed");
+    LOG.info("click action on -" + el + " performed");
     AppiumUtil.waitForPageToLoad(driver);
   }
 
@@ -625,7 +684,7 @@ public class AppiumUtil {
     Actions action = new Actions(driver);
     action.moveToElement(el).click().build().perform();
     el.clear();
-    log.info("click and clear actions on -" + el + " performed");
+    LOG.info("click and clear actions on -" + el + " performed");
     AppiumUtil.waitForPageToLoad(driver);
   }
 
@@ -745,7 +804,7 @@ public class AppiumUtil {
     WebElement el = driver.findElement(By.cssSelector("body"));
     String code = "return document.readyState";
     String result = (String) ((JavascriptExecutor) driver).executeScript(code, el);
-    log.info("PageState-" + result);
+    LOG.info("PageState-" + result);
     return result;
   }
 
@@ -786,7 +845,7 @@ public class AppiumUtil {
       for (String winHandle : driver.getWindowHandles()) {
         if (!winHandle.equals(parentHandle)) {
           driver.switchTo().window(winHandle);
-          log.info("Switching to Child Window handle");
+          LOG.info("Switching to Child Window handle");
         }
         driver.manage().window().maximize();
       }

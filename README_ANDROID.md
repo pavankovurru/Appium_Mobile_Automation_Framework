@@ -87,6 +87,13 @@ Navigate to an url in mobile browser, remote devices tab will display the web li
 
 Appium Driver capabilities are similar to Native app except that user has to switch to web context when trying to simulate Web view user actions
 
+One feature of mobile platforms is the ability to embed a chromeless web browser inside of a `native` application these are called ‘webviews’.  
+Android developers use “android.webkit.WebView” class to implement webview inside an app.  
+
+WebView debugging should be enabled; developer must enable `setWebContentsDebuggingEnabled` flag in the WebView class.  
+This flag enables debugging of web contents (HTML / CSS / JavaScript) loaded into any WebViews of app.
+
+
 `driver.getConext()` —-> Will return the context of the app (WEB VIEW or NATIVE APP).  
 `driver.getContextHandles()` —-> Will return Set of Strings similar to Window Handles in selenium.  
 `driver.context(“give one of the String that was returned by previous getContextHandles() method”)` --> Used to Switch to Web view or Native view depending on the task.  
@@ -107,6 +114,7 @@ Passing `PACKAGE` and `ACTIVITY` as capabilities is required while creating an A
 2)`adb shell pm path "Package name"` --> Lists package path.      
 3)`adb pull "Package path" "local destination"` --> copy app in local destination.   
 4)`adb install “location of app file extracted in earlier step”` --> To install app on emulator.  
+
 
 
 ## Appium 1.6 Issues 
