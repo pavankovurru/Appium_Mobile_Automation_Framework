@@ -51,8 +51,11 @@ driver.findElementByXPath("//android.widget.TextView[@content-desc='App']").clic
 
 3) `AndroidUIAutomator.`
 
-Example : `driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().text(\"Text-To-Speech\")")).click();`
-text() above can be replaced by any of the attributes present in uiautomatorviewer
+Examples :   
+`driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().text(\"Text goes here\")")).click();`
+`driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().resourceId(\"id goes here")")).click();`
+`driver.findElement(MobileBy.AndroidUIAutomator("new UiSelector().description(\"content-desc\")")).click();`
+
 
 
 ## ANDROID KEY EVENTS HOME,BACK,MULTITASKING..etc..
@@ -115,7 +118,26 @@ Passing `PACKAGE` and `ACTIVITY` as capabilities is required while creating an A
 3)`adb pull "Package path" "local destination"` --> copy app in local destination.   
 4)`adb install “location of app file extracted in earlier step”` --> To install app on emulator.  
 
+## Unlock Android Device
 
+unlocking the devices with UIAutomation by adding new capabilities that would let you press on pins, draw patterns or send a password depending on which lock you defined for your device.  
+Using the unlock with UIAutomation capabilities:  
+
+```
+{
+  "unlockType": "pin",
+  "unlockKey": "1111"
+}
+```
+
+In case the unlockType capability is not defined, Appium will continue working as it is using the Unlock Helper App, this new capabilities are optionals.
+
+Options:
+
+`unlockType: ['pin', 'password', 'pattern', 'fingerprint']`
+
+pattern pins as treated the numbers of a phone dial.  
+fingerprint unlock only works for Android 6+ emulators
 
 ## Appium 1.6 Issues 
 
