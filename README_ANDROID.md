@@ -118,6 +118,22 @@ Passing `PACKAGE` and `ACTIVITY` as capabilities is required while creating an A
 3)`adb pull "Package path" "local destination"` --> copy app in local destination.   
 4)`adb install “location of app file extracted in earlier step”` --> To install app on emulator.  
 
+
+## Faking location
+
+`using appium`
+1) Make sure no fake GPS apps are present in the device 
+2) Set `Settings/developerOptions/Select mock location app` to  `appium settings` (note : android 6 and higher versions support this)
+3) call setLocation on AppiumDriver instance:  
+   
+   Location location = new Location(latitude, longitude, altitude);  
+   driver.setLocation(location);  
+   for location you need to import org.openqa.selenium.html5.Location;  
+   
+   By default it will work only on Android & iOS simulators, but if you select Appium Settings as mocked location app in Developer options, it will work for Android real device as well.   
+   
+
+
 ## Unlock Android Device
 
 unlocking the devices with UIAutomation by adding new capabilities that would let you press on pins, draw patterns or send a password depending on which lock you defined for your device.  
