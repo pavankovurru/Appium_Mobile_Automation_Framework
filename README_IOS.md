@@ -7,7 +7,7 @@
 1. Install `XCODE`.  
 2. Install  appium desktop or `APPIUM 1.6 or higher` using `npm install -g appium`.   
 3. `brew install ideviceinstaller`
-4. `brew install carthage`
+4. `brew install carthage`  `brew install node`
 5. `npm install -g ios-deploy`
 6. `npm install -g deviceconsole`
 7. `gem install xcpretty`
