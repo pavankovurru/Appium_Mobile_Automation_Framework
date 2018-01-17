@@ -14,8 +14,10 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -27,41 +29,26 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 /**
  * Created by pavankovurru on 1/29/17.
- *
- * <p>//NOTE --> EXTRA DESIRED CAPABILITIES --> INTRODUCE IN THE PROJECT AS PER REQUIREMENTS
- *
- * <p>1) Appium comes with a default capability to accept, dismiss alerts
- * cap.SetCapability("autoAcceptAlerts", true); cap.SetCapability("autoDismissAlerts", true);
- *
- * <p>2) Appium will auto-switch to web-view in case of native apps cap.SetCapability("autoWebview",
- * true);
- *
- * <p>3) UI AUTOMATOR 2 cap.setCapability(MobileCapabilityType.AUTOMATION_NAME,
- * AutomationName.ANDROID_UIAUTOMATOR2);
- *
- * <p>4) capabilities.setCapability("xcodeOrgId", "7Y5J2RJXYV");
- * capabilities.setCapability("xcodeSigningId", "iPhone Developer");
- *
- * <p>to run apps on real IOS DEVICE
  */
+
 public class AppiumUtil {
 
   public static final Logger LOG = LogManager.getLogger();
   //  static PropertiesLoader environmentProperties =
   //      new PropertiesLoader(GlobalConstants.ENVIRONMENT_PROPERTY_PATH);
-  static AppiumDriver driver;
+  public static AppiumDriver driver;
   static String parentHandle;
   static Alert alert;
   static WebDriverWait wait;
   static DesiredCapabilities cap;
 
-  // ************************************************************* LOCAL RUN
-  // ****************************************************************//
+  // ******** LOCAL RUN ********//
 
   // Android
 
@@ -90,11 +77,36 @@ public class AppiumUtil {
     cap = new DesiredCapabilities();
     cap.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
     cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
-    cap.setCapability(MobileCapabilityType.BROWSER_NAME, "Browser");
     cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Device");
     cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
     cap.setCapability(MobileCapabilityType.APP, appName);
-    // cap.setCapability(MobileCapabilityType.NO_RESET,true);
+
+    try {
+      driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+      LOG.info("Android Driver object created for Real android Device");
+      // driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+      return driver;
+    } catch (MalformedURLException ex) {
+      ex.printStackTrace();
+    }
+
+    return driver;
+  }
+
+  public static AppiumDriver createLocalAndroidDriver_For_RealDeviceUsing_AppPackageActivity(
+          String appName, String appPackage, String appActivity, String udid) {
+
+    cap = new DesiredCapabilities();
+    cap.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+    cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
+    cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Device");
+    cap.setCapability(MobileCapabilityType.UDID,udid);
+//    cap.setCapability("systemPort", port);
+    cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
+    cap.setCapability("appPackage", appPackage);
+    cap.setCapability("appActivity", appActivity);
+    //cap.setCapability("app", appName);
+
 
     try {
       driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
@@ -150,7 +162,7 @@ public class AppiumUtil {
     return driver;
   }
 
-  // IOS
+  // ******** IOS **********//
 
   public static AppiumDriver createLocalIOSDriver_For_NativeApp_In_Simulator(String appName) {
 
@@ -175,23 +187,18 @@ public class AppiumUtil {
   }
 
   public static AppiumDriver createLocalIOSDriver_For_NativeApp_In_IOSDEVICE(
-          String appName, String deviceName, String orgID, String udid, String platformVersion) {
+          String appName, String deviceName, String udid, String bundleID) {
 
     cap = new DesiredCapabilities();
     // cap.setCapability(MobileCapabilityType.BROWSER_NAME, "");
     cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
     cap.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
-    cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, platformVersion);
-
+    cap.setCapability(MobileCapabilityType.APP, appName);
+    cap.setCapability("xcodeOrgId", "84CK77G588");
+    cap.setCapability("xcodeSigningId", "iPhone Developer");
     cap.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
     cap.setCapability(MobileCapabilityType.UDID, udid);
-
-    cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "60");
-    cap.setCapability(IOSMobileCapabilityType.LAUNCH_TIMEOUT, 500000);
-    cap.setCapability(MobileCapabilityType.APP, appName);
-    cap.setCapability("xcodeOrgId", orgID);
-    cap.setCapability("xcodeSigningId", "iPhone Developer");
-    // cap.setCapability("updatedWDABundleId", bundleID);
+    cap.setCapability("updatedWDABundleId", bundleID);
 
     try {
       driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), cap);
@@ -249,10 +256,8 @@ public class AppiumUtil {
     return driver;
   }
 
-  // ************************************************************* REMOTE RUN (BROWSER-STACK ,
-  // SAUCE-LABS , AWS ...ETC ) ****************************************************************//
-
-  // AWS DEVICE FARM RUN
+  // **** REMOTE RUN (BROWSER-STACK ,SAUCE-LABS , AWS ...ETC ) ****//
+  // *** AWS DEVICE FARM RUN ***//
 
   public static AppiumDriver createAndroidDriver_AWS_Device_Farm() {
     DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -272,9 +277,8 @@ public class AppiumUtil {
     return driver;
   }
 
-  // ******************* UTILITIES FUNCTIONS ***********************************//
-
-  // ****************************  APPIUM FUNCTIONS *****************************//
+  // ******* UTILITIES FUNCTIONS *********//
+  // ****** APPIUM FUNCTIONS ************//
 
   // open notifications Android
   public static void openNotificationsAndroid() {
@@ -282,29 +286,65 @@ public class AppiumUtil {
     ((AndroidDriver) driver).openNotifications();
   }
 
+  // clear notifications
+  public static void clearNotificationsAndroid() {
+
+    // google pixel related
+    if (isMobileElementPresentUsingContentDescAndroid("Clear all notifications.")) {
+      driver
+              .findElement(
+                      MobileBy.AndroidUIAutomator(
+                              "new UiSelector().description(\"Clear all notifications.\")"))
+              .click();
+      LOG.info("Existing notifications Cleared");
+
+    } else {
+      LOG.info("Could not find clear existing notifications option in the notifications page");
+    }
+
+    // TODO update clear notifications present
+  }
+
+  // Set location Android
+  public static void setLocationAndroid(double latitude, double longitude) {
+    LOG.info("Trying to mock location --> Lat:" + latitude + " Long: " + longitude);
+    Location loc = new Location(latitude, longitude, 1000); // latitude, longitude, altitude
+    driver.setLocation(loc);
+    LOG.info("Location set to --> Latitude: " + latitude + " Longitude: " + longitude);
+  }
+
   // presence of mobile element
 
-  public static boolean isMobileElementPresentUsingText(String text) {
-    LOG.info("Trying to find element with text - "+ text);
+  public static boolean isMobileElementPresentUsingTextAndroid(String text) {
+    LOG.info("Trying to find element with text - " + text);
     if (driver
             .findElements(MobileBy.AndroidUIAutomator("new UiSelector().text(\"" + text + "\")"))
             .size()
-            >= 1) return true;
-    else return false;
+            >= 1) {
+      LOG.info("element found");
+      return true;
+    }
+    else {
+      LOG.info("element not found");
+      return false;
+    }
   }
 
-  public static boolean isMobileElementPresentUsingID(String id) {
-    LOG.info("Trying to find element with ID - "+ id);
+  public static boolean isMobileElementPresentUsingIDAndroid(String id) {
+    LOG.info("Trying to find element with ID - " + id);
 
     if (driver
             .findElements(
                     MobileBy.AndroidUIAutomator("new UiSelector().resourceId(\"" + id + "\")"))
             .size()
-            >= 1) return true;
+            >= 1) {
+      LOG.info("Found element having id -" + id);
+      return true;
+    }
     else return false;
   }
 
-  public static boolean isMobileElementPresentUsingContentDesc(String contentDesc) {
+  public static boolean isMobileElementPresentUsingContentDescAndroid(String contentDesc) {
     LOG.info("Trying to locate element using content-desc - " + contentDesc);
     if (driver
             .findElements(
@@ -317,16 +357,50 @@ public class AppiumUtil {
     } else return false;
   }
 
+  public static boolean isMobileElementPresentUsingText_ScrollAndroid(String text) {
+    LOG.info("Trying to find element with text - " + text);
+    if (driver
+            .findElements(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"" + text + "\"));"))
+            .size()
+            >= 1) {
+      LOG.info("element found");
+      return true;
+    }
+    else {
+      LOG.info("element not found");
+      return false;
+    }
+  }
+
+  public static boolean isMobileElementPresentUsingID_ScrollAndroid(String id) {
+    LOG.info("Trying to find element with ID - " + id);
+    if (driver
+            .findElements(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(resourceId(\"" + id + "\"));"))
+            .size()
+            >= 1) return true;
+    else return false;
+  }
+
+  public static boolean isMobileElementPresentUsingContentDesc_ScrollAndroid(String contentDesc) {
+    LOG.info("Trying to locate element using content-desc - " + contentDesc);
+    if (driver.findElements(MobileBy.AndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(description(\"" + contentDesc + "\"));"))
+            .size()
+            >= 1) {
+      LOG.info("Found element having content desc -" + contentDesc);
+      return true;
+    } else return false;
+  }
+
   public static Set<String> switchToWebView() {
     LOG.info("Trying to switch to webview");
     Set<String> availableContexts = driver.getContextHandles();
     LOG.info("No of Contexts Found  = " + availableContexts.size());
     for (String context : availableContexts) {
-      LOG.info("Context - "+context);
+      LOG.info("Context - " + context);
       if (context.matches(".*?WEBVIEW.*?")) {
         LOG.info("Switching to context " + context);
         driver.context(context);
-        LOG.info("Context switched to -"+ driver.getContext());
+        LOG.info("Context switched to -" + driver.getContext());
         break;
       }
     }
@@ -343,10 +417,10 @@ public class AppiumUtil {
     }
   }
 
-  // SCROLL FUNCTIONS
+  // **** SCROLL FUNCTIONS *****//
 
   public static MobileElement scrollAndroid(String resourceID, String text) {
-    LOG.info("Trying to scroll to android element with text - "+ text);
+    LOG.info("Trying to scroll to android element with text - " + text);
     // make sure u give the resouce ID of the complete list of elements here as parameter
 
     MobileElement el =
@@ -364,8 +438,7 @@ public class AppiumUtil {
   }
 
   public static MobileElement scrollAndroidUsingindex(String resourceID, int index) {
-    LOG.info("Trying to scroll to android element with index - "+ index);
-
+    LOG.info("Trying to scroll to android element with index - " + index);
 
     // make sure u give the resouce ID of the complete list of elements here as parameter
 
@@ -407,7 +480,7 @@ public class AppiumUtil {
   }
 
   public static MobileElement androidScrollToID(String id) {
-    LOG.info("Trying to scroll to android element with ID - "+ id);
+    LOG.info("Trying to scroll to android element with ID - " + id);
 
     MobileElement el =
             (MobileElement)
@@ -419,53 +492,7 @@ public class AppiumUtil {
     return el;
   }
 
-  public static MobileElement scrollIOSUsingTable(String tabletext, String text) {
 
-    MobileElement table =
-            (MobileElement) driver.findElement(MobileBy.IosUIAutomation(".tableViews()[0]"));
-    MobileElement slider =
-            (MobileElement)
-                    table.findElement(
-                            MobileBy.IosUIAutomation(
-                                    ".scrollToElementWithPredicate(\"name CONTAINS 'Search Bars'\")"));
-    return slider;
-  }
-
-  public static WebElement scrollIOS_Up_Using_accessibilityID(String accessibilityID) {
-    Boolean cont = true;
-    WebElement el = null;
-
-    while (cont) {
-      try {
-        el = driver.findElementByAccessibilityId(accessibilityID);
-        if (el.isDisplayed()) {
-          LOG.info("element with accessibilityID " + accessibilityID + " is Visible");
-          return el;
-        } else scrollIOS_up();
-      } catch (NoSuchElementException e) {
-        scrollIOS_up();
-      }
-    }
-    return el;
-  }
-
-  public static void scrollIOS_up() {
-    Dimension size = driver.manage().window().getSize();
-    int x = size.getWidth() / 2;
-    int start_y = (int) (size.getHeight() * 0.75);
-    int end_y = (int) (size.getHeight() * 0.30);
-    // driver.swipe(x, start_y, x, end_y, 1000);
-    // TODO - need to use touch Actions
-  }
-
-  public static void scrollIOS_down() {
-    Dimension size = driver.manage().window().getSize();
-    int x = size.getWidth() / 2;
-    int start_y = (int) (size.getHeight() * 0.30);
-    int end_y = (int) (size.getHeight() * 0.60);
-    // driver.swipe(x, start_y, x, end_y, 1000);
-    // TODO - need to use touch Actions
-  }
 
   // ANDROID KEY EVENT FUNCTIONS
 
@@ -488,20 +515,18 @@ public class AppiumUtil {
 
   public static void androidtab() {
     LOG.info("android Tab event");
-    //((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.KEYCODE_DPAD_DOWN);
+    // ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.KEYCODE_DPAD_DOWN);
     ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.KEYCODE_TAB);
 
     AppiumUtil.sleep(2);
   }
-
 
   public static void androidMultiTaskingKeyEvent() {
     ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.KEYCODE_APP_SWITCH);
     AppiumUtil.sleep(2);
   }
 
-  // ************************************************************* TOUCH ACTIONS
-  // ****************************************************************//
+  // ********** TOUCH ACTIONS **************//
 
   public static void basicSwipe(WebElement element1, WebElement element2) {
     TouchAction touch = new TouchAction(driver);
@@ -527,6 +552,111 @@ public class AppiumUtil {
     TouchAction touch = new TouchAction(driver);
     touch.moveTo(element).tap(element).perform();
   }
+
+  // ***** IOS FUNCTIONS ****** //
+
+  public static boolean isElementPresentUsingAccessibilityId(String id){
+    return driver.findElementsByAccessibilityId(id).size()>=1;
+  }
+
+  public static boolean isElementPresentUsingName(String name){
+    return driver.findElementsByName(name).size()>=1;
+  }
+
+  public static boolean isElementPresentUsingXPath(String xpath){
+    return driver.findElementsByXPath(xpath).size()>=1;
+  }
+
+
+
+  public static void scrollDown_InIosUsingLabel( String label) {
+    JavascriptExecutor js = (JavascriptExecutor) driver;
+    HashMap scrollObject = new HashMap();
+    scrollObject.put("direction", "down");
+    scrollObject.put("predicateString", "label == '"+label+"'");
+    js.executeScript("mobile: scroll", scrollObject);
+  }
+
+  public static void scrollUp_InIosUsingLabel( String label) {
+    JavascriptExecutor js = (JavascriptExecutor) driver;
+    HashMap scrollObject = new HashMap();
+    scrollObject.put("direction", "up");
+    scrollObject.put("predicateString", "label == '"+label+"'");
+    js.executeScript("mobile: scroll", scrollObject);
+  }
+
+  public static void scrollDown_InIosUsingElement(  RemoteWebElement element) {
+    String elementID = element.getId();
+    JavascriptExecutor js = (JavascriptExecutor) driver;
+    HashMap scrollObject = new HashMap();
+    scrollObject.put("element", elementID); // Only for ‘scroll in element’
+    scrollObject.put("direction", "down");
+    js.executeScript("mobile: scroll", scrollObject);
+  }
+
+  public static void scrollUp_InIosUsingElement(  RemoteWebElement element) {
+    String elementID = element.getId();
+    JavascriptExecutor js = (JavascriptExecutor) driver;
+    HashMap scrollObject = new HashMap();
+    scrollObject.put("element", elementID); // Only for ‘scroll in element’
+    scrollObject.put("direction", "up");
+    js.executeScript("mobile: scroll", scrollObject);
+  }
+
+
+  public static WebElement scroll_Ios_Up_UntilElementWithAccessibilityIDIsFound(String accessibilityID) {
+    Boolean cont = true;
+    WebElement el = null;
+
+    while (cont) {
+      try {
+        el = driver.findElementByAccessibilityId(accessibilityID);
+        if (el.isDisplayed()) {
+          LOG.info("element with accessibilityID " + accessibilityID + " is Visible");
+          return el;
+        } else scrollIOS_up();
+      } catch (NoSuchElementException e) {
+        scrollIOS_up();
+      }
+    }
+    return el;
+  }
+
+  public static WebElement scroll_Ios_Down_UntilElementWithAccessibilityIDIsFound(String accessibilityID) {
+    Boolean cont = true;
+    WebElement el = null;
+
+    while (cont) {
+      try {
+        el = driver.findElementByAccessibilityId(accessibilityID);
+        if (el.isDisplayed()) {
+          LOG.info("element with accessibilityID " + accessibilityID + " is Visible");
+          return el;
+        } else scrollIOS_down();
+      } catch (NoSuchElementException e) {
+        scrollIOS_up();
+      }
+    }
+    return el;
+  }
+
+
+  public static void scrollIOS_up() {
+    Dimension size = driver.manage().window().getSize();
+    int x = size.getWidth() / 2;
+    int start_y = (int) (size.getHeight() * 0.60);
+    int end_y = (int) (size.getHeight() * 0.30);
+    new TouchAction(driver).press(x,start_y).moveTo(x,end_y).release().perform();
+  }
+
+  public static void scrollIOS_down() {
+    Dimension size = driver.manage().window().getSize();
+    int x = size.getWidth() / 2;
+    int start_y = (int) (size.getHeight() * 0.30);
+    int end_y = (int) (size.getHeight() * 0.60);
+    new TouchAction(driver).press(x,start_y).moveTo(x,end_y).release().perform();
+  }
+
 
   // Swiping element
 

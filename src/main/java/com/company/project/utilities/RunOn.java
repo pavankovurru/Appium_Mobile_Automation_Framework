@@ -11,6 +11,7 @@ public class RunOn {
   static AppiumDriver driver = null;
 
   public static AppiumDriver run(String runOn, String appName) {
+
     //Creating driver object based on testNGXML configuration
 
     String run = runOn;
@@ -49,10 +50,8 @@ public class RunOn {
         driver =
             AppiumUtil.createLocalIOSDriver_For_NativeApp_In_IOSDEVICE(
                 appname,
-                "PWA iPhone 7 Plus 512022",
-                "84CK77G588",
-                "14036976ffcc15f8c37288abe4c4b7855ba70295",
-                "10.3.1");
+                "iPhone 7",
+                "udid","bundleID");
         break;
 
         //IOS WEB APP
