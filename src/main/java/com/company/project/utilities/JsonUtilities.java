@@ -10,91 +10,86 @@ import java.io.IOException;
 
 public class JsonUtilities {
 
-    public static String jsonToString(String filepath) {
-        JSONParser parser = new JSONParser();
-        JSONObject jsonObject = null;
+  public static String jsonToString(String filepath) {
+    JSONParser parser = new JSONParser();
+    JSONObject jsonObject = null;
 
-        try {
-            Object obj = parser.parse(new FileReader(filepath));
-            jsonObject = (JSONObject) obj;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return jsonObject.toString();
+    try {
+      Object obj = parser.parse(new FileReader(filepath));
+      jsonObject = (JSONObject) obj;
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (ParseException e) {
+      e.printStackTrace();
     }
+    return jsonObject.toString();
+  }
 
+  //  ************   READ FROM JSON EXAMPLES - JSON SIMPLE   ************  //
 
+  //    {
+  //        "age":29,
+  //            "name":"test",
+  //            "messages":["msg 1","msg 2","msg 3"]
+  //    }
 
-    //  ************   READ FROM JSON EXAMPLES - JSON SIMPLE   ************  //
+  //    JSONParser parser = new JSONParser();
+  //    Object obj = parser.parse(new FileReader("JSON FILE PATH"));
+  //    JSONObject jsonObject = (JSONObject) obj;
 
-    //    {
-    //        "age":29,
-    //            "name":"test",
-    //            "messages":["msg 1","msg 2","msg 3"]
-    //    }
+  //    String name = (String) jsonObject.get("name");
+  //    long age = (Long) jsonObject.get("age");
 
-    //    JSONParser parser = new JSONParser();
-    //    Object obj = parser.parse(new FileReader("JSON FILE PATH"));
-    //    JSONObject jsonObject = (JSONObject) obj;
+  //    JSONArray msg = (JSONArray) jsonObject.get("messages");
+  //    Iterator<String> iterator = msg.iterator();
+  //            while (iterator.hasNext()) {
+  //        System.out.println(iterator.next());
+  //    }
 
-    //    String name = (String) jsonObject.get("name");
-    //    long age = (Long) jsonObject.get("age");
+  //  ************  WRITE TO JSON EXAMPLES -- JSON SIMPLE   ************  //
 
-    //    JSONArray msg = (JSONArray) jsonObject.get("messages");
-    //    Iterator<String> iterator = msg.iterator();
-    //            while (iterator.hasNext()) {
-    //        System.out.println(iterator.next());
-    //    }
+  // import org.json.simple.JSONArray;
+  // import org.json.simple.JSONObject;
+  // import java.io.FileWriter;
+  // import java.io.IOException;
 
-    //  ************  WRITE TO JSON EXAMPLES -- JSON SIMPLE   ************  //
+  //    JSONObject obj = new JSONObject();
+  //        obj.put("name", "mkyong.com");
+  //        obj.put("age", new Integer(100));
 
-    //import org.json.simple.JSONArray;
-    //import org.json.simple.JSONObject;
-    //import java.io.FileWriter;
-    //import java.io.IOException;
+  //    JSONArray list = new JSONArray();
+  //        list.add("msg 1");
+  //        list.add("msg 2");
+  //        list.add("msg 3");
+  //        obj.put("messages", list);
 
-    //    JSONObject obj = new JSONObject();
-    //        obj.put("name", "mkyong.com");
-    //        obj.put("age", new Integer(100));
+  //      FileWriter file = new FileWriter("f:\\test.json")
+  //        file.write(obj.toJSONString());
+  //        file.flush();
+  //        System.out.print(obj);
 
-    //    JSONArray list = new JSONArray();
-    //        list.add("msg 1");
-    //        list.add("msg 2");
-    //        list.add("msg 3");
-    //        obj.put("messages", list);
+  //    Output
+  //
+  //    f:\\test.json
+  //    {
+  //        "age":100,
+  //            "name":"mkyong.com",
+  //            "messages":["msg 1","msg 2","msg 3"]
+  //    }
 
-    //      FileWriter file = new FileWriter("f:\\test.json")
-    //        file.write(obj.toJSONString());
-    //        file.flush();
-    //        System.out.print(obj);
+  //  ************  UPDATE EXISTING JSON  -- JSON SIMPLE   ************  //
 
-
-    //    Output
-    //
-    //    f:\\test.json
-    //    {
-    //        "age":100,
-    //            "name":"mkyong.com",
-    //            "messages":["msg 1","msg 2","msg 3"]
-    //    }
-
-
-    //  ************  UPDATE EXISTING JSON  -- JSON SIMPLE   ************  //
-
-
-    //    JSONParser parser = new JSONParser();
-    //    Object obj = parser.parse(new FileReader("JSON FILE PATH"));
-    //    JSONObject json = (JSONObject) obj;
-    //
-    //
-    //        json.put("startDate", ""+date);
-    //        json.put("endDate", date);
-    //        json.put("campaignName", "campaign"+random);
-    //        json.put("notificationTitle", "title"+random);
-    //        json.put("notificationMessage", "message"+random);
+  //    JSONParser parser = new JSONParser();
+  //    Object obj = parser.parse(new FileReader("JSON FILE PATH"));
+  //    JSONObject json = (JSONObject) obj;
+  //
+  //
+  //        json.put("startDate", ""+date);
+  //        json.put("endDate", date);
+  //        json.put("campaignName", "campaign"+random);
+  //        json.put("notificationTitle", "title"+random);
+  //        json.put("notificationMessage", "message"+random);
 
 }

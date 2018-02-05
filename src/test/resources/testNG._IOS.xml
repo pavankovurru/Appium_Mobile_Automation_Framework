@@ -1,18 +1,17 @@
-
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="TEST SUITE">
 
-    <parameter name="runOn" value="IosDeviceNativeApp" />
-    <parameter name="appName" value="UICatalogDevice.ipa" />
+    <parameter name="runOn" value="IosDeviceNativeApp"/>
+    <parameter name="appName" value="UICatalogDevice.ipa"/>
 
     <!--<listeners>-->
-		<!--<listener class-name="com.company.project.utilities.ReRunFailedTestsListener" />-->
-        <!--<listener class-name="com.company.project.utilities.TestCountResetterAfterReRun" />-->
-        <!--<listener class-name="com.company.project.utilities.TestListener" />-->
+    <!--<listener class-name="com.company.project.utilities.ReRunFailedTestsListener" />-->
+    <!--<listener class-name="com.company.project.utilities.TestCountResetterAfterReRun" />-->
+    <!--<listener class-name="com.company.project.utilities.TestListener" />-->
     <!--</listeners>-->
 
-    <test name=" UI TESTS" >
+    <test name=" UI TESTS">
         <!--<packages>-->
         <!--<package name="com.company.project.tests.IOS.*"/>-->
         <!--</packages>-->
@@ -35,7 +34,6 @@
     <!--# 6.IosSimulatorWebApp-->
     <!--# 7.IosDeviceNativeApp-->
     <!--# 8.IosDeviceWebApp-->
-
 
 
 </suite>

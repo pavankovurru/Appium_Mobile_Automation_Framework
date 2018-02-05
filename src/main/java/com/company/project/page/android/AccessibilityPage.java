@@ -22,63 +22,57 @@ public class AccessibilityPage {
     AppiumUtil.androidScrollToText("Accessibility").click();
   }
 
-
-  //Accessibility Node Provider
+  // Accessibility Node Provider
   public void clickAccessibilityNodeProvider() {
     AppiumUtil.androidScrollToText("Accessibility Node Provider").click();
   }
 
   public String getAccessibilityNodeProviderText() {
-     return  driver.findElementByXPath("//android.widget.LinearLayout/android.widget.TextView").getText();
+    return driver
+        .findElementByXPath("//android.widget.LinearLayout/android.widget.TextView")
+        .getText();
   }
 
-
-
-  //Accessibility Node Querying
+  // Accessibility Node Querying
   public void clickAccessibilityNodeQuerying() {
     AppiumUtil.androidScrollToText("Accessibility Node Querying").click();
   }
 
-  public void checkAllUncheckedTextBoxesInAccessibilityNodeQuerying(){
-     List<MobileElement> checkboxes= driver.findElementsByClassName("android.widget.CheckBox");
-     log.info("found - "+checkboxes.size() + "checkboxes");
-     for (MobileElement mo:checkboxes){
-         if (mo.getAttribute("checked").matches("false")){
-             mo.click();
-         }
-     }
+  public void checkAllUncheckedTextBoxesInAccessibilityNodeQuerying() {
+    List<MobileElement> checkboxes = driver.findElementsByClassName("android.widget.CheckBox");
+    log.info("found - " + checkboxes.size() + "checkboxes");
+    for (MobileElement mo : checkboxes) {
+      if (mo.getAttribute("checked").matches("false")) {
+        mo.click();
+      }
+    }
   }
 
-    public void unCheckAllcheckedTextBoxesInAccessibilityNodeQuerying(){
-        List<MobileElement> checkboxes= driver.findElementsByClassName("android.widget.CheckBox");
-        for (MobileElement mo:checkboxes){
-            if (mo.getAttribute("checked").matches("true")){
-                mo.click();
-            }
-        }
+  public void unCheckAllcheckedTextBoxesInAccessibilityNodeQuerying() {
+    List<MobileElement> checkboxes = driver.findElementsByClassName("android.widget.CheckBox");
+    for (MobileElement mo : checkboxes) {
+      if (mo.getAttribute("checked").matches("true")) {
+        mo.click();
+      }
     }
+  }
 
-    public boolean areAllCheckBoxesSelected(){
-        List<MobileElement> checkboxes= driver.findElementsByClassName("android.widget.CheckBox");
-        for (MobileElement mo:checkboxes){
-            if (mo.getAttribute("checked").matches("false")){
-               return false;
-            }
-        }
-        return true;
+  public boolean areAllCheckBoxesSelected() {
+    List<MobileElement> checkboxes = driver.findElementsByClassName("android.widget.CheckBox");
+    for (MobileElement mo : checkboxes) {
+      if (mo.getAttribute("checked").matches("false")) {
+        return false;
+      }
     }
+    return true;
+  }
 
-
-
-
-
-    //Accessibility Service
+  // Accessibility Service
   public void clickAccessibilityService() {
     AppiumUtil.androidScrollToText("Accessibility Service").click();
   }
 
-
-  //Custom View
+  // Custom View
   public void clickCustomView() {
     AppiumUtil.androidScrollToText("Custom View").click();
   }

@@ -12,14 +12,14 @@ public class RunOn {
 
   public static AppiumDriver run(String runOn, String appName) {
 
-    //Creating driver object based on testNGXML configuration
+    // Creating driver object based on testNGXML configuration
 
     String run = runOn;
     String appname = System.getProperty("user.dir") + "/src/main/resources/" + appName;
 
     switch (run) {
 
-        //ANDROID NATIVE APP
+        // ANDROID NATIVE APP
 
       case "AndroidEmulatorNativeApp":
         driver = AppiumUtil.createLocalAndroidDriver_For_Emulator(appname);
@@ -30,7 +30,7 @@ public class RunOn {
         driver = AppiumUtil.createLocalAndroidDriver_For_RealDevice(appname);
         break;
 
-        //ANDROID WEB APP
+        // ANDROID WEB APP
 
       case "AndroidEmulatorWebApp":
         driver = AppiumUtil.createLocalAndroidDriver_For_WebApp_In_Emulator("Chrome");
@@ -49,12 +49,10 @@ public class RunOn {
       case "IosDeviceNativeApp":
         driver =
             AppiumUtil.createLocalIOSDriver_For_NativeApp_In_IOSDEVICE(
-                appname,
-                "iPhone 7",
-                "udid","bundleID");
+                appname, "iPhone 7", "udid", "bundleID");
         break;
 
-        //IOS WEB APP
+        // IOS WEB APP
 
       case "IosSimulatorWebApp":
         driver = AppiumUtil.createLocalIOSDriver_For_WebApp_In_Simulator("Safari");
@@ -66,7 +64,7 @@ public class RunOn {
                 "Safari", "iPhone 7", "TEST ORG ID");
         break;
 
-        //TODO RUN ON BROWSER STACK, SAUCE LABS ..
+        // TODO RUN ON BROWSER STACK, SAUCE LABS ..
 
       default:
         throw new IllegalArgumentException(

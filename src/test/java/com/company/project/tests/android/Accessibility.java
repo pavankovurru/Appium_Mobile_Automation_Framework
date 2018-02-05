@@ -63,25 +63,26 @@ public class Accessibility {
         accessibilitypage.getAccessibilityNodeProviderText(),
         "Enable TalkBack and Explore-by-touch from accessibility settings. Then touch the colored squares.");
 
-    //TODO validate background color of this element --> driver.findElementsByXPath("//android.widget.LinearLayout/android.view.View");
-      // APPIUM DOES NOT ALLOW YOU TO DO THIS - 'java-client', version: '4.1.2'
+    // TODO validate background color of this element -->
+    // driver.findElementsByXPath("//android.widget.LinearLayout/android.view.View");
+    // APPIUM DOES NOT ALLOW YOU TO DO THIS - 'java-client', version: '4.1.2'
 
   }
 
-    @Test(priority = 4)
-    public void validateAccessibilityNodeQuerying() {
-        accessibilitypage.clickAccessibilityNodeQuerying();
-        accessibilitypage.checkAllUncheckedTextBoxesInAccessibilityNodeQuerying();
-        Assert.assertTrue(accessibilitypage.areAllCheckBoxesSelected());
-        accessibilitypage.unCheckAllcheckedTextBoxesInAccessibilityNodeQuerying();
-        Assert.assertFalse(accessibilitypage.areAllCheckBoxesSelected());
-    }
+  @Test(priority = 4)
+  public void validateAccessibilityNodeQuerying() {
+    accessibilitypage.clickAccessibilityNodeQuerying();
+    accessibilitypage.checkAllUncheckedTextBoxesInAccessibilityNodeQuerying();
+    Assert.assertTrue(accessibilitypage.areAllCheckBoxesSelected());
+    accessibilitypage.unCheckAllcheckedTextBoxesInAccessibilityNodeQuerying();
+    Assert.assertFalse(accessibilitypage.areAllCheckBoxesSelected());
+  }
 
-    @Test(priority = 5)
-    public void validateAccessibilityService() {
-        accessibilitypage.clickAccessibilityService();
-        driver.findElementById("io.appium.android.apis:id/button").click();
-        Assert.assertTrue(AppiumUtil.androidScrollToText("Accessibility").getText().equals("Accessibility"));
-    }
-
-    }
+  @Test(priority = 5)
+  public void validateAccessibilityService() {
+    accessibilitypage.clickAccessibilityService();
+    driver.findElementById("io.appium.android.apis:id/button").click();
+    Assert.assertTrue(
+        AppiumUtil.androidScrollToText("Accessibility").getText().equals("Accessibility"));
+  }
+}

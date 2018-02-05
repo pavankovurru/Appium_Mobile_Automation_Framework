@@ -14,49 +14,45 @@ import org.testng.annotations.Test;
 
 public class ActionSheets {
 
-    public static Logger log = LogManager.getLogger();
-    static AppiumDriver driver = null;
-    ActionSheetPage actionsheetpage = null;
+  public static Logger log = LogManager.getLogger();
+  static AppiumDriver driver = null;
+  ActionSheetPage actionsheetpage = null;
 
-    @BeforeClass(alwaysRun = true)
-    @Parameters({"runOn", "appName"})
-    public void invokeApp(String runOn, String appName) {
-        driver = RunOn.run(runOn, appName);
-        log.info("--------------------------------------------------------------------------");
-        log.info("Appium driver created for - " + runOn);
-        log.info("Targeting app - " + appName);
-        log.info("--------------------------------------------------------------------------");
-        actionsheetpage = new ActionSheetPage(driver);
+  @BeforeClass(alwaysRun = true)
+  @Parameters({"runOn", "appName"})
+  public void invokeApp(String runOn, String appName) {
+    driver = RunOn.run(runOn, appName);
+    log.info("--------------------------------------------------------------------------");
+    log.info("Appium driver created for - " + runOn);
+    log.info("Targeting app - " + appName);
+    log.info("--------------------------------------------------------------------------");
+    actionsheetpage = new ActionSheetPage(driver);
+  }
+
+  @AfterClass
+  public void tearDown() {
+    if (driver != null) {
+      driver.quit();
     }
+  }
 
-    @AfterClass
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
-    }
+  @Test(priority = 1)
+  public void validateActionSheetsLink() {
+    log.info("Testing a - " + driver.getContext());
+    actionsheetpage.clickOnActionSheets();
+    actionsheetpage.clickOKCancelButton();
+    actionsheetpage.clickOK();
+    actionsheetpage.clickOKCancelButton();
+    actionsheetpage.clickCancel();
+    actionsheetpage.clickBackButton();
+    Assert.assertTrue(actionsheetpage.validatePageLanding("UICatalog"));
+  }
 
-
-    @Test(priority = 1)
-    public void validateActionSheetsLink() {
-        log.info("Testing a - " + driver.getContext());
-        actionsheetpage.clickOnActionSheets();
-        actionsheetpage.clickOKCancelButton();
-        actionsheetpage.clickOK();
-        actionsheetpage.clickOKCancelButton();
-        actionsheetpage.clickCancel();
-        actionsheetpage.clickBackButton();
-        Assert.assertTrue(actionsheetpage.validatePageLanding("UICatalog"));
-    }
-
-
-    @Test(priority = 2)
-    public void validateScrollUsingAccessibilityID() {
-        AppiumUtil.scrollIOS_Up_Using_accessibilityID("Search Bars").click();
-        Assert.assertTrue(actionsheetpage.validatePageLanding("Search Bars"));
-        actionsheetpage.clickBackButton();
-        Assert.assertTrue(actionsheetpage.validatePageLanding("UICatalog"));
-    }
-
-
+  @Test(priority = 2)
+  public void validateScrollUsingAccessibilityID() {
+    AppiumUtil.scroll_Ios_Up_UntilElementWithAccessibilityIDIsFound("Search Bars").click();
+    Assert.assertTrue(actionsheetpage.validatePageLanding("Search Bars"));
+    actionsheetpage.clickBackButton();
+    Assert.assertTrue(actionsheetpage.validatePageLanding("UICatalog"));
+  }
 }

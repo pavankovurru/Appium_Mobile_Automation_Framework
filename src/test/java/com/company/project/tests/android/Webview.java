@@ -25,7 +25,7 @@ public class Webview {
     log.info("Appium driver created for - " + runOn);
     log.info("Targeting app - " + appName);
     log.info("--------------------------------------------------------------------------");
-      webviewpage = new WebViewPage(driver);
+    webviewpage = new WebViewPage(driver);
   }
 
   @AfterClass
@@ -44,5 +44,4 @@ public class Webview {
     log.info(webviewpage.gettext());
     webviewpage.switchToNative();
   }
-
 }
