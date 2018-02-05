@@ -1,6 +1,6 @@
-package com.company.project.tests.Android;
+package com.company.project.tests.android;
 
-import com.company.project.Page.Android.WebViewPage;
+import com.company.project.page.android.WebViewPage;
 import com.company.project.utilities.RunOn;
 import io.appium.java_client.AppiumDriver;
 import org.apache.logging.log4j.LogManager;

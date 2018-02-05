@@ -1,4 +1,4 @@
-package com.company.project.constants.Android;
+package com.company.project.constants.android;
 
 /** Created by pavankovurru on 12/1/16. */
 public class AccessibilityConstants {

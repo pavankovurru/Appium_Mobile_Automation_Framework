@@ -1,4 +1,4 @@
-package com.company.project.Page.Android;
+package com.company.project.page.android;
 
 import com.company.project.utilities.AppiumUtil;
 import io.appium.java_client.AppiumDriver;

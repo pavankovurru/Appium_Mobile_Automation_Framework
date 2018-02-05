@@ -1,4 +1,4 @@
-package com.company.project.tests.Android;
+package com.company.project.tests.android;
 
 import com.company.project.utilities.RunOn;
 import io.appium.java_client.AppiumDriver;

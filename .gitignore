@@ -3,12 +3,8 @@
 # Files to be ignored for IntelliJ IDEA Project
 .idea/
 .gradle/
-gradle/
 build/
 *.iml
 *.iws
 
-# Ignore Gradle GUI config
-gradle-app.setting
-gradlew
-gradlew.bat
+

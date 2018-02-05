@@ -1,4 +1,4 @@
-package com.company.project.Page.IOS;
+package com.company.project.page.ios;
 
 import io.appium.java_client.AppiumDriver;
 import org.apache.logging.log4j.LogManager;

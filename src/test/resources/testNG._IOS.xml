@@ -17,7 +17,7 @@
         <!--<package name="com.company.project.tests.IOS.*"/>-->
         <!--</packages>-->
         <classes>
-            <class name="com.company.project.tests.IOS.ActionSheets"/>
+            <class name="com.company.project.tests.ios.ActionSheets"/>
         </classes>
     </test>
 

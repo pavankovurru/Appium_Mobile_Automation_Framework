@@ -1,6 +1,6 @@
-package com.company.project.tests.Android;
+package com.company.project.tests.android;
 
-import com.company.project.Page.Android.AccessibilityPage;
+import com.company.project.page.android.AccessibilityPage;
 import com.company.project.utilities.AppiumUtil;
 import com.company.project.utilities.RunOn;
 import io.appium.java_client.AppiumDriver;

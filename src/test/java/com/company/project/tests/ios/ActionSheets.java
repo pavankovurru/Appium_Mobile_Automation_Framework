@@ -1,6 +1,6 @@
-package com.company.project.tests.IOS;
+package com.company.project.tests.ios;
 
-import com.company.project.Page.IOS.ActionSheetPage;
+import com.company.project.page.ios.ActionSheetPage;
 import com.company.project.utilities.AppiumUtil;
 import com.company.project.utilities.RunOn;
 import io.appium.java_client.AppiumDriver;
