@@ -133,6 +133,48 @@ Passing `PACKAGE` and `ACTIVITY` as capabilities is required while creating an A
    By default it will work only on Android & iOS simulators, but if you select Appium Settings as mocked location app in Developer options, it will work for Android real device as well.   
    
 
+## Testing Performance data 
+
+Building on the wealth of information that comes via adb dumpsys, Appium provides a succinct overview of all aspects of your app's performance via the getPerformanceData command.  
+The client call is simple:
+
+`driver.getPerformanceData("<package>", "<perf type>", <timeout>);`
+
+Here, `<package>` is the package of your AUT (or any other app you wish to profile). <perf type> is what kind of performance data you want.  
+There is another handy driver command (getSupportedPerformanceDataTypes) which tells you which types are valid.  
+For the time being, they are: `cpuinfo, memoryinfo, batteryinfo, and networkinfo`. Finally, `<timeout>` is an integer denoting the number of seconds Appium will poll for performance data  
+if it is not immediately available.
+
+Assuming we're using the good old ApiDemos app, our call now looks like:
+
+```
+List<List<Object>> data = driver.getPerformanceData("io.appium.android.apis", "memoryinfo", 10);
+
+What is returned is a set of two lists; one list is the keys and the other is the values. We can bundle up the call above along with some helper code that makes it easier to query the specific kind of memory info we're looking for (of course, in the real world we might make a class to hold the data):
+
+private HashMap<String, Integer> getMemoryInfo(AndroidDriver driver) throws Exception {
+    List<List<Object>> data = driver.getPerformanceData("io.appium.android.apis", "memoryinfo", 10);
+    HashMap<String, Integer> readableData = new HashMap<>();
+    for (int i = 0; i < data.get(0).size(); i++) {
+        int val;
+        if (data.get(1).get(i) == null) {
+            val = 0;
+        } else {
+            val = Integer.parseInt((String) data.get(1).get(i));
+        }
+        readableData.put((String) data.get(0).get(i), val);
+    }
+    return readableData;
+}
+
+Essentially, we now have a HashMap we can use to query the particular kinds of memory info we retrieved. In our case, we're going to look for the totalPss value:
+
+HashMap<String, Integer> memoryInfo = getMemoryInfo(driver);
+int setSize = memoryInfo.get("totalPss");
+
+```
+
+
 
 ## Unlock Android Device
 
