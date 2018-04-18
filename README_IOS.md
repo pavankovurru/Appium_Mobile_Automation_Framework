@@ -113,6 +113,23 @@ Appium Driver capabilities are similar to Native app except that user has to swi
 
 ## IOS EXTRAS
 
+## SWITCHING BETWEEN IOS APPS DURING TEST
+
+This is all possible to encode into your Appium scripts using two handy commands: `mobile: launchApp` and `mobile: activateApp.` activateApp merely brings app back to the foreground. Here are examples of how we'd use these commands, by incorporating the Bundle IDs of the apps we're dealing with (having these Bundle IDs available is a pre-requisite):
+
+```
+// launch the photos app (with the special bundle id seen below)
+HashMap<String, Object> args = new HashMap<>();
+args.put("bundleId", "com.apple.mobileslideshow");
+driver.executeScript("mobile: launchApp", args);
+
+// re-activate that AUT (in this case The App)
+args.put("bundleId", "io.cloudgrey.the-app");
+driver.executeScript("mobile: activateApp", args);
+```
+
+
+
 ## RUN IOS APP ON IOS SIMULATOR
 
 ```
