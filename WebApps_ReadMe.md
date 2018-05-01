@@ -74,7 +74,7 @@ If you dont include the startIWDP capability, you must run IWDP on your own and 
 If you dont include the startIWDP capability,  
 you must run IWDP on your own and Appium will just assume it's there listening for proxy requests.  
 
-##Special notes for Android
+## Special notes for Android
 
 Thankfully, things are simpler in the Android world because for both emulators and real devices Appium can take advantage of Chromedriver.  
 When you want to automate any Chrome-based browser or webview, Appium simply manages a new Chromedriver process under the hood, so you get the full power of a first-class WebDriver server without having to set anything up yourself.  
