@@ -44,7 +44,24 @@ Thankfully, the good folks at Google have created a tool that enables this trans
 
    
 For running Safari tests on a real device, or hybrid tests on a real device, IWDP must be installed on your system.  
-For more info on how to do that, you can check out the Appium IWDP doc.  
+
+ 
+ ```
+ verify you have Homebew installed:
+
+$ brew -v
+When you're certain you have Homebrew, do the following 
+
+ cd  ~
+ sudo apt-get install autoconf automake libusb-dev libusb-1.0-0-dev libplist-dev libplist++-dev usbmuxd libtool  libimobiledevice-dev
+ git clone https://github.com/google/ios-webkit-debug-proxy.git
+ cd ios-webkit-debug-proxy
+ ./autogen.sh
+ make
+ sudo make install
+
+```
+
 Once you've got IWDP installed, you simply need to add one two more capabilities to the set for iOS above, udid and startIWDP:
 
 ```
