@@ -55,6 +55,21 @@ USE APPIUM DESKTOP --> START SERVER --> NEW SESSION --> GIVE DESIRED CAPABILITIE
 
 Predicate Format Strings are a typical Apple dev thing, and they also work in iOS. Predicate format strings enable basic comparisons and matching. In our case, they allow basic matching of elements according to simple criteria. What's really useful about predicate strings is that you can combine simple criteria to form more complex matches. In the XCUITest driver, predicate strings can be used to match various element attributes, including name, value, label, type, visible, etc...
 
+```
+Examples:
+label CONTAINS 'your label string'
+label BEGINSWITH 'your label string'
+name BEGINSWITH 'your name string'
+label ENDSWITH 'your label string'
+label == 'your label string'
+
+
+driver.findElementByIosNsPredicate('type == "XCUIElementTypeTable" AND name == "table"');
+driver.findElementByIosNsPredicate('type == "XCUIElementTypeTable" AND (name == "table" OR label == "tableLabel")');
+driver.findElementByIosNsPredicate('type == "XCUIElementTypeTable" AND name IN {"table2","table1"}');
+
+```
+
 One example from the WebDriverAgent predicate string guide shows a fun compound predicate:
 
 `type == 'XCUIElementTypeButton' AND value BEGINSWITH[c] 'bla' AND visible == 1`
