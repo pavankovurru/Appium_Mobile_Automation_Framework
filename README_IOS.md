@@ -124,7 +124,56 @@ Appium Driver capabilities are similar to Native app except that user has to swi
 `driver.getContextHandles()` —-> Will return Set of Strings similar to Window Handles in selenium.  
 `driver.context(“give one of the String that was returned by previous getContextHandles() method”)` --> Used to Switch to Web view or Native view depending on the task.  
 
+## Testing Push notifications IOS
 
+```
+driver.terminateApp(BUNDLE_ID);
+showNotifications();
+driver.findElement(By.xpath("//XCUIElementTypeCell[contains(@label, 'notification text')]"));
+hideNotifications();
+driver.activateApp(BUNDLE_ID);
+
+The terminateApp and activateApp commands are self-explanatory, and simply require the bundle ID of your app.  
+The only mystery here is in the showNotifications and hideNotifications methods.   
+These are not driver methods, but rather helper methods I've implemented to take care of swiping the notifications shade down (to open) and up (to close).  
+The implementation currently uses the TouchAction interface to set up the swipe.   
+Assuming we have a field called screenSize in our test class which has previously queried the screen dimensions from Appium,  
+then our notifications helpers look like:
+
+
+private void showNotifications() {
+    manageNotifications(true);
+}
+
+private void hideNotifications() {
+    manageNotifications(false);
+}
+
+private void manageNotifications(Boolean show) {
+
+    private Dimension screenSize = driver.manage().window().getSize();
+
+    int yMargin = 5;
+    int xMid = screenSize.width / 2;
+    PointOption top = PointOption.point(xMid, yMargin);
+    PointOption bottom = PointOption.point(xMid, screenSize.height - yMargin);
+
+    TouchAction action = new TouchAction(driver);
+    if (show) {
+        action.press(top);
+    } else {
+        action.press(bottom);
+    }
+    action.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)));
+    if (show) {
+        action.moveTo(bottom);
+    } else {
+        action.moveTo(top);
+    }
+    action.perform();
+}
+
+```
 
 ## IOS EXTRAS
 
@@ -142,8 +191,6 @@ driver.executeScript("mobile: launchApp", args);
 args.put("bundleId", "io.cloudgrey.the-app");
 driver.executeScript("mobile: activateApp", args);
 ```
-
-
 
 ## RUN IOS APP ON IOS SIMULATOR
 
