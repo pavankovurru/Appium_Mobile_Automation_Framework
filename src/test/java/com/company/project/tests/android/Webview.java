@@ -15,12 +15,13 @@ public class Webview {
 
   public static Logger log = LogManager.getLogger();
   static AppiumDriver driver = null;
+  RunOn run_on = new RunOn();
   WebViewPage webviewpage = null;
 
   @BeforeClass(alwaysRun = true)
   @Parameters({"runOn", "appName"})
   public void invokeApp(String runOn, String appName) {
-    driver = RunOn.run(runOn, appName);
+    driver = run_on.run(runOn, appName);
     log.info("--------------------------------------------------------------------------");
     log.info("Appium driver created for - " + runOn);
     log.info("Targeting app - " + appName);

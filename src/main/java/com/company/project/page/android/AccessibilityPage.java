@@ -12,6 +12,7 @@ import java.util.List;
 public class AccessibilityPage {
 
   private static final Logger log = LogManager.getLogger();
+  AppiumUtil appium = new AppiumUtil();
   AppiumDriver driver;
 
   public AccessibilityPage(AppiumDriver driver) {
@@ -19,12 +20,12 @@ public class AccessibilityPage {
   }
 
   public void clickAccessibility() {
-    AppiumUtil.androidScrollToText("Accessibility").click();
+    appium.androidScrollToText("Accessibility").click();
   }
 
   // Accessibility Node Provider
   public void clickAccessibilityNodeProvider() {
-    AppiumUtil.androidScrollToText("Accessibility Node Provider").click();
+    appium.androidScrollToText("Accessibility Node Provider").click();
   }
 
   public String getAccessibilityNodeProviderText() {
@@ -35,7 +36,7 @@ public class AccessibilityPage {
 
   // Accessibility Node Querying
   public void clickAccessibilityNodeQuerying() {
-    AppiumUtil.androidScrollToText("Accessibility Node Querying").click();
+    appium.androidScrollToText("Accessibility Node Querying").click();
   }
 
   public void checkAllUncheckedTextBoxesInAccessibilityNodeQuerying() {
@@ -69,11 +70,11 @@ public class AccessibilityPage {
 
   // Accessibility Service
   public void clickAccessibilityService() {
-    AppiumUtil.androidScrollToText("Accessibility Service").click();
+    appium.androidScrollToText("Accessibility Service").click();
   }
 
   // Custom View
   public void clickCustomView() {
-    AppiumUtil.androidScrollToText("Custom View").click();
+    appium.androidScrollToText("Custom View").click();
   }
 }

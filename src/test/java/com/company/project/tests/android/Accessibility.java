@@ -16,13 +16,15 @@ import org.testng.annotations.Test;
 public class Accessibility {
 
   public static Logger log = LogManager.getLogger();
+  AppiumUtil appium = new AppiumUtil();
+  RunOn run_on = new RunOn();
   static AppiumDriver driver = null;
   AccessibilityPage accessibilitypage = null;
 
   @BeforeClass(alwaysRun = true)
   @Parameters({"runOn", "appName"})
   public void invokeApp(String runOn, String appName) {
-    driver = RunOn.run(runOn, appName);
+    driver = run_on.run(runOn, appName);
     log.info("--------------------------------------------------------------------------");
     log.info("Appium driver created for - " + runOn);
     log.info("Targeting app - " + appName);
@@ -46,13 +48,13 @@ public class Accessibility {
   @Test(priority = 2)
   public void validateAccessibilitySubLinks() {
     accessibilitypage.clickAccessibilityNodeProvider();
-    AppiumUtil.androidBackKeyEvent();
+    appium.androidBackKeyEvent();
     accessibilitypage.clickAccessibilityNodeQuerying();
-    AppiumUtil.androidBackKeyEvent();
+    appium.androidBackKeyEvent();
     accessibilitypage.clickAccessibilityService();
-    AppiumUtil.androidBackKeyEvent();
+    appium.androidBackKeyEvent();
     accessibilitypage.clickCustomView();
-    AppiumUtil.androidBackKeyEvent();
+    appium.androidBackKeyEvent();
   }
 
   @Test(priority = 3)
@@ -83,6 +85,6 @@ public class Accessibility {
     accessibilitypage.clickAccessibilityService();
     driver.findElementById("io.appium.android.apis:id/button").click();
     Assert.assertTrue(
-        AppiumUtil.androidScrollToText("Accessibility").getText().equals("Accessibility"));
+        appium.androidScrollToText("Accessibility").getText().equals("Accessibility"));
   }
 }

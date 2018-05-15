@@ -13,12 +13,13 @@ import org.testng.annotations.Test;
 public class InvokeAndroidApp {
 
   public static Logger log = LogManager.getLogger();
+  RunOn run_on = new RunOn();
   static AppiumDriver driver = null;
 
   @BeforeClass(alwaysRun = true)
   @Parameters({"runOn", "appName"})
   public void invokeApp(String runOn, String appName) {
-    driver = RunOn.run(runOn, appName);
+    driver = run_on.run(runOn, appName);
     log.info("--------------------------------------------------------------------------");
     log.info("Appium driver created for - " + runOn);
     log.info("Targeting app - " + appName);

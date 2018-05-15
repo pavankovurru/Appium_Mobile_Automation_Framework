@@ -12,6 +12,7 @@ import java.util.Set;
 public class WebViewPage {
 
   private static final Logger log = LogManager.getLogger();
+  AppiumUtil appium = new AppiumUtil();
   AppiumDriver driver;
 
   public WebViewPage(AppiumDriver driver) {
@@ -19,12 +20,12 @@ public class WebViewPage {
   }
 
   public void clickViews() {
-    AppiumUtil.androidScrollToText("Views").click();
+    appium.androidScrollToText("Views").click();
   }
 
   public void clickWebView() {
-    AppiumUtil.androidScrollToText("WebView").click();
-    AppiumUtil.sleep(2);
+    appium.androidScrollToText("WebView").click();
+    appium.sleep(2);
     // clicking on web view part of the app
     // driver.findElementByClassName("android.webkit.WebView").click();
 

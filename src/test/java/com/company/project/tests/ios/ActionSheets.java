@@ -16,12 +16,14 @@ public class ActionSheets {
 
   public static Logger log = LogManager.getLogger();
   static AppiumDriver driver = null;
+  AppiumUtil appium = new AppiumUtil();
+  RunOn run_on = new RunOn();
   ActionSheetPage actionsheetpage = null;
 
   @BeforeClass(alwaysRun = true)
   @Parameters({"runOn", "appName"})
   public void invokeApp(String runOn, String appName) {
-    driver = RunOn.run(runOn, appName);
+    driver = run_on.run(runOn, appName);
     log.info("--------------------------------------------------------------------------");
     log.info("Appium driver created for - " + runOn);
     log.info("Targeting app - " + appName);
@@ -50,7 +52,7 @@ public class ActionSheets {
 
   @Test(priority = 2)
   public void validateScrollUsingAccessibilityID() {
-    AppiumUtil.scroll_Ios_Up_UntilElementWithAccessibilityIDIsFound("Search Bars").click();
+    appium.scroll_Ios_Up_UntilElementWithAccessibilityIDIsFound("Search Bars").click();
     Assert.assertTrue(actionsheetpage.validatePageLanding("Search Bars"));
     actionsheetpage.clickBackButton();
     Assert.assertTrue(actionsheetpage.validatePageLanding("UICatalog"));
