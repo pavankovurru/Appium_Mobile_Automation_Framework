@@ -35,7 +35,7 @@ public class TestListener implements ITestListener {
             // the filename is the folder name on test.screenshot.path property plus the completeTestName
             FileUtils.copyFile(file,
                     new File(System.getProperty("user.dir")
-                            + "/Screenshots" + "/" + fileName(iTestResult) + ".png"));
+                            + "/screenshots" + "/" + fileName(iTestResult) + ".png"));
 
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
