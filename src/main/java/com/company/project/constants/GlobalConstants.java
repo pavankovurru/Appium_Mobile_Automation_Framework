@@ -8,11 +8,11 @@ public class GlobalConstants {
 
   // Windows Chrome driver location
   public static final String WINDOWS_CHROME_DRIVER_PATH =
-          System.getProperty("user.dir") + "/src/main/resources/chromedriver.exe";
+          System.getProperty("user.dir") + "/src/main/resources/chromedriver_old.exe";
 
   // Mac Chrome driver location
   public static final String MAC_CHROME_DRIVER_PATH =
-          System.getProperty("user.dir") + "/src/main/resources/chromedriver";
+          System.getProperty("user.dir") + "/src/main/resources/chromedriver_old";
 
   // ****** FIREFOX ******
 

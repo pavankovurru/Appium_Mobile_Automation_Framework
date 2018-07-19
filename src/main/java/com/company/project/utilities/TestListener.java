@@ -1,76 +1,83 @@
 package com.company.project.utilities;
 
-import java.io.File;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import io.appium.java_client.AppiumDriver;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.Augmenter;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.ITestContext;
+import org.testng.ITestListener;
 import org.testng.ITestResult;
-import org.testng.TestListenerAdapter;
 
-public class TestListener extends TestListenerAdapter {
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
 
-  WebDriver driver;
-  public static Logger log = LogManager.getLogger();
+public class TestListener implements ITestListener {
 
-  @Override
-  public void onTestFailure(ITestResult result) {
-    log.error(result.getName() + " ***** TEST FAILED *****");
-    driver = AppiumUtil.driver;
-    String testClassName = getTestClassName(result.getInstanceName()).trim();
-    String testMethodName = result.getName().toString().trim();
-    String screenShotName = testMethodName + ".png";
-
-    if (driver != null) {
-      String imagePath =
-          System.getProperty("user.dir")
-              + "/Screenshots"
-              + "/"
-              + testClassName
-              + "/"
-              + takeScreenShot(driver, screenShotName, testClassName);
-      log.info("Screenshot is placed at : " + imagePath);
+    @Override
+    public void onTestStart(ITestResult iTestResult) {
     }
-  }
 
-  @Override
-  public void onTestSkipped(ITestResult result) {
-    result.setStatus(2);
-  }
-
-  public static String takeScreenShot(WebDriver driver, String screenShotName, String testName) {
-    try {
-      File file = new File("Screenshots");
-      if (!file.exists()) {
-        log.info("Directory created " + file);
-        file.mkdir();
-      }
-
-      driver =
-          (RemoteWebDriver)
-              new Augmenter().augment(driver); // remote web driver screenshot configuration.
-      File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-      File targetFile = new File("Screenshots/" + testName, screenShotName);
-      FileUtils.copyFile(screenshotFile, targetFile);
-      return screenShotName;
-
-    } catch (Exception e) {
-      log.error("An exception occured while taking screenshot " + e.getCause());
-      return null;
+    @Override
+    public void onTestSuccess(ITestResult iTestResult) {
     }
-  }
 
-  public String getTestClassName(String testName) {
-    Matcher m = Pattern.compile(".*\\.(.+?)$").matcher(testName);
-    if (m.find()) {
-      return m.group(1);
+    @Override
+    public void onTestFailure(ITestResult iTestResult) {
+        Class c = iTestResult.getTestClass().getRealClass();
+        try {
+            Field field = c.getDeclaredField("driver");
+            field.setAccessible(true);
+
+            AppiumDriver<?> driver = (AppiumDriver<?>) field.get(iTestResult.getInstance());
+
+            File file = driver.getScreenshotAs(OutputType.FILE);
+
+            // the filename is the folder name on test.screenshot.path property plus the completeTestName
+            FileUtils.copyFile(file,
+                    new File(System.getProperty("user.dir")
+                            + "/Screenshots" + "/" + fileName(iTestResult) + ".png"));
+
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    return testName;
-  }
+
+    @Override
+    public void onTestSkipped(ITestResult iTestResult) {
+    }
+
+    @Override
+    public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
+    }
+
+    @Override
+    public void onStart(ITestContext iTestContext) {
+    }
+
+    @Override
+    public void onFinish(ITestContext iTestContext) {
+    }
+
+
+    private String fileName(ITestResult iTestResult) {
+        StringBuffer completeFileName = new StringBuffer();
+
+        completeFileName.append(iTestResult.getTestClass().getRealClass().getSimpleName()); // simplified class name
+        completeFileName.append("_TestCase_");
+        completeFileName.append(iTestResult.getName()); // method name
+
+        // all the parameters information
+        Object[] parameters = iTestResult.getParameters();
+        for (Object parameter : parameters) {
+            completeFileName.append("_");
+            completeFileName.append(parameter);
+        }
+
+        // return the complete name and replace : by - (in the case the emulator have port as device name)
+        return completeFileName.toString().replace(":", "-");
+    }
 }

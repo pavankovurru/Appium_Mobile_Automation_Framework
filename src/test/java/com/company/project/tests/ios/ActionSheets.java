@@ -14,9 +14,9 @@ import org.testng.annotations.Test;
 
 public class ActionSheets {
 
-  public static Logger log = LogManager.getLogger();
-  static AppiumDriver driver = null;
-  AppiumUtil appium = new AppiumUtil();
+  private Logger log = LogManager.getLogger();
+  AppiumDriver driver = null;
+  AppiumUtil appium = null;
   RunOn run_on = new RunOn();
   ActionSheetPage actionsheetpage = null;
 
@@ -28,6 +28,7 @@ public class ActionSheets {
     log.info("Appium driver created for - " + runOn);
     log.info("Targeting app - " + appName);
     log.info("--------------------------------------------------------------------------");
+    appium = new AppiumUtil(driver);
     actionsheetpage = new ActionSheetPage(driver);
   }
 

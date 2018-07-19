@@ -22,18 +22,18 @@ Works on Emulators, Simulators & Real Devices.
  
 2. `src/main/java/com/company/project/utilities/AppiumUtil.java` -- Has Utility functions that can be used in appium tests including Appium driver Creation on Simulators, Emulators and Real Devices.
 
-3. `src/test/resources` --  This folder contains testNG xml's which are parameterized with `AppName` and `TargetDevice` details so that these XML's can be modified to target different apps, environments and target devices instead of making changes to test files.
+3. `src/test/resources` --  This folder contains testNG xml's which are parameterized with `AppName` and `runOn` details so that these XML's can be modified to target different apps, environments and target devices instead of making changes to test files.
 
 
 
 ## TIPS AND TRICKS
 
-* [ ANDROID READ ME ](README_ANDROID.md)
+* [ ANDROID READ ME ](documents/README_ANDROID.md)
 
-* [ IOS  READ ME ](README_IOS.md)
+* [ IOS  READ ME ](documents/README_IOS.md)
 
-* [ WEB APPS  READ ME ](WebApps_ReadMe.md)
+* [ WEB APPS  READ ME ](documents/WebApps_ReadMe.md)
 
-* [ MOCKING LOCATION ](MockLocation.md)
+* [ MOCKING LOCATION ](documents/MockLocation.md)
 
 

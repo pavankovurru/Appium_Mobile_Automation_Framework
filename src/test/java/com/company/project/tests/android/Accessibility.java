@@ -7,84 +7,77 @@ import io.appium.java_client.AppiumDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-/** Created by pavankovurru on 7/14/17. */
+/**
+ * Created by pavankovurru on 7/14/17.
+ */
 public class Accessibility {
 
-  public static Logger log = LogManager.getLogger();
-  AppiumUtil appium = new AppiumUtil();
-  RunOn run_on = new RunOn();
-  static AppiumDriver driver = null;
-  AccessibilityPage accessibilitypage = null;
+    private Logger log = LogManager.getLogger();
+    AppiumUtil appium = null;
+    RunOn run_on = new RunOn();
+    AppiumDriver driver = null;
+    AccessibilityPage accessibilitypage = null;
 
-  @BeforeClass(alwaysRun = true)
-  @Parameters({"runOn", "appName"})
-  public void invokeApp(String runOn, String appName) {
-    driver = run_on.run(runOn, appName);
-    log.info("--------------------------------------------------------------------------");
-    log.info("Appium driver created for - " + runOn);
-    log.info("Targeting app - " + appName);
-    log.info("--------------------------------------------------------------------------");
-    accessibilitypage = new AccessibilityPage(driver);
-  }
-
-  @AfterClass
-  public void tearDown() {
-    if (driver != null) {
-      driver.quit();
+    @BeforeMethod(alwaysRun = true)
+    @Parameters({"runOn", "appName"})
+    public void invokeApp(String runOn, String appName) {
+        driver = run_on.run(runOn, appName);
+        log.info("--------------------------------------------------------------------------");
+        log.info("Appium driver created for - " + runOn);
+        log.info("Targeting app - " + appName);
+        log.info("--------------------------------------------------------------------------");
+        appium = new AppiumUtil(driver);
+        accessibilitypage = new AccessibilityPage(driver);
+        accessibilitypage.clickAccessibility();
     }
-  }
 
-  @Test(priority = 1)
-  public void validateAccessibilityLink() {
-    log.info("Testing a - " + driver.getContext());
-    accessibilitypage.clickAccessibility();
-  }
+    @AfterMethod(alwaysRun = true)
+    public void tearDown() {
+        log.info("Tearing down driver");
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 
-  @Test(priority = 2)
-  public void validateAccessibilitySubLinks() {
-    accessibilitypage.clickAccessibilityNodeProvider();
-    appium.androidBackKeyEvent();
-    accessibilitypage.clickAccessibilityNodeQuerying();
-    appium.androidBackKeyEvent();
-    accessibilitypage.clickAccessibilityService();
-    appium.androidBackKeyEvent();
-    accessibilitypage.clickCustomView();
-    appium.androidBackKeyEvent();
-  }
 
-  @Test(priority = 3)
-  public void validateAccessibilityNodeProvider() {
-    accessibilitypage.clickAccessibilityNodeProvider();
+    @Test (groups = { "funtional", "positive" })
+    public void validateAccessibilitySubLinks() {
+        accessibilitypage.clickAccessibilityNodeProvider();
+        appium.androidBackKeyEvent();
+        accessibilitypage.clickAccessibilityNodeQuerying();
+        appium.androidBackKeyEvent();
+        accessibilitypage.clickAccessibilityService();
+        appium.androidBackKeyEvent();
+        accessibilitypage.clickCustomView();
+    }
 
-    Assert.assertEquals(
-        accessibilitypage.getAccessibilityNodeProviderText(),
-        "Enable TalkBack and Explore-by-touch from accessibility settings. Then touch the colored squares.");
+    @Test (groups = { "funtional", "positive" })
+    public void validatePresenceOfAccessibilityNodeProvider() {
+        accessibilitypage.clickAccessibilityNodeProvider();
+        Assert.assertEquals(
+                accessibilitypage.getAccessibilityNodeProviderText(),
+                "Enable TalkBack and Explore-by-touch from accessibility settings. Then touch the colored squares.");
+    }
 
-    // TODO validate background color of this element -->
-    // driver.findElementsByXPath("//android.widget.LinearLayout/android.view.View");
-    // APPIUM DOES NOT ALLOW YOU TO DO THIS - 'java-client', version: '4.1.2'
+    @Test (groups = { "funtional", "positive" })
+    public void validateAccessibilityNodeQueryingCheckBoxes() {
+        accessibilitypage.clickAccessibilityNodeQuerying();
+        accessibilitypage.checkAllUncheckedTextBoxesInAccessibilityNodeQuerying();
+        Assert.assertTrue(accessibilitypage.areAllCheckBoxesSelected(),"All Checkboxes in Accesibility node querying page are not selected");
+        accessibilitypage.unCheckAllcheckedTextBoxesInAccessibilityNodeQuerying();
+        Assert.assertFalse(accessibilitypage.areAllCheckBoxesSelected(),"All Checkboxes in Accesibility node querying page are selected");
+        appium.androidBackKeyEvent();
+    }
 
-  }
+    @Test (groups = { "funtional", "positive" })
+    public void validateAccessibilityService() {
+        accessibilitypage.clickAccessibilityService();
+        driver.findElementById("io.appium.android.apis:id/button").click();
+        Assert.assertTrue(
+                appium.androidScrollToText("Accessibility").getText().equals("Accessibility"));
+    }
 
-  @Test(priority = 4)
-  public void validateAccessibilityNodeQuerying() {
-    accessibilitypage.clickAccessibilityNodeQuerying();
-    accessibilitypage.checkAllUncheckedTextBoxesInAccessibilityNodeQuerying();
-    Assert.assertTrue(accessibilitypage.areAllCheckBoxesSelected());
-    accessibilitypage.unCheckAllcheckedTextBoxesInAccessibilityNodeQuerying();
-    Assert.assertFalse(accessibilitypage.areAllCheckBoxesSelected());
-  }
 
-  @Test(priority = 5)
-  public void validateAccessibilityService() {
-    accessibilitypage.clickAccessibilityService();
-    driver.findElementById("io.appium.android.apis:id/button").click();
-    Assert.assertTrue(
-        appium.androidScrollToText("Accessibility").getText().equals("Accessibility"));
-  }
 }
