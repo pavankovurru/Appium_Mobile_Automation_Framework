@@ -3,7 +3,10 @@
 <suite name="TEST SUITE">
 
     <parameter name="runOn" value="IosDeviceNativeApp"/>
-    <parameter name="appName" value="UICatalogDevice.ipa"/>
+    <parameter name="appName" value="UICatalog.app"/>
+    <parameter name="deviceName" value="iPhone 7 plus"/>
+    <parameter name="udid" value="b3b672660d55b619cc0d63df6956da6d780ed37b"/>
+    <parameter name="bundleId" value="io.pavan.WebDriverAgentRunner"/>
 
     <listeners>
         <listener class-name="com.company.project.utilities.TestListener"/>

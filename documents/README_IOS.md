@@ -8,13 +8,35 @@
 2. Install  appium desktop or `APPIUM 1.6 or higher` using `npm install -g appium`.   
 3. `brew install ideviceinstaller`
 4. `brew install carthage`  `brew install node`
-5. `npm install -g ios-deploy`
+5. `npm install -g ios-deploy` -  [ install issue ](documents/ios-deploy.md)  or `brew install ios-deploy`
 6. `npm install -g deviceconsole`
 7. `gem install xcpretty`
 8. `brew install --HEAD libimobiledevice`
 9. `npm install -g appium-doctor`
 
-run `appium-doctor` command in terminal to make sure that all the dependancies are installed properly.  
+run `appium-doctor` command in terminal to make sure that all the dependancies are installed properly. 
+
+## Necessary to be installed software
+
+Two pieces of software are currently necessary to run iOS tests on real devices:
+
+`libimobiledevice` - install using brew install libimobiledevice --HEAD  
+`ios-deploy` - install using npm install -g ios-deploy   
+
+
+## ISSUES
+
+1)Original error: Could not determine Xcode version: Could not get Xcode version. /Library/Developer/Info.plist does not exist on disk.  
+
+```
+Solution:
+sudo xcode-select --reset
+sudo xcode-select --switch /Applications/Xcode.app
+Restart Appium Server
+
+```
+ 
+  
 
 ## IOS DEVICE SET UP
 

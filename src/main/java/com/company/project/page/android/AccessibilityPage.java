@@ -23,12 +23,12 @@ public class AccessibilityPage {
     }
 
     public void clickAccessibility() {
-        appium.androidScrollToText("Accessibility").click();
+        appium.scrollToTextAndroid("Accessibility").click();
     }
 
     // Accessibility Node Provider
     public void clickAccessibilityNodeProvider() {
-        appium.androidScrollToText("Accessibility Node Provider").click();
+        appium.scrollToTextAndroid("Accessibility Node Provider").click();
     }
 
     public String getAccessibilityNodeProviderText() {
@@ -39,7 +39,7 @@ public class AccessibilityPage {
 
     // Accessibility Node Querying
     public void clickAccessibilityNodeQuerying() {
-        appium.androidScrollToText("Accessibility Node Querying").click();
+        appium.scrollToTextAndroid("Accessibility Node Querying").click();
     }
 
     public void checkAllUncheckedTextBoxesInAccessibilityNodeQuerying() {
@@ -73,11 +73,11 @@ public class AccessibilityPage {
 
     // Accessibility Service
     public void clickAccessibilityService() {
-        appium.androidScrollToText("Accessibility Service").click();
+        appium.scrollToTextAndroid("Accessibility Service").click();
     }
 
     // Custom View
     public void clickCustomView() {
-        appium.androidScrollToText("Custom View").click();
+        appium.scrollToTextAndroid("Custom View").click();
     }
 }

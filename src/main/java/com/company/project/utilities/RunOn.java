@@ -23,17 +23,19 @@ public class RunOn {
     private static Logger log = LogManager.getLogger();
     private AppiumDriver driver;
     private DesiredCapabilities cap;
+    private String deviceName;
+    private String udid;
+    private String bundleId;
 
     public AppiumDriver run(String runOn, String appName) {
 
-        // Creating driver object based on parameters provided
+        // Creating Android driver object based on parameters provided
         String run = runOn;
         String appname = System.getProperty("user.dir") + "/src/main/resources/" + appName;
 
         switch (run) {
 
             // ANDROID NATIVE APP
-
             case "AndroidEmulatorNativeApp":
                 driver = createLocalAndroidDriver_For_Emulator(appname);
                 log.info(driver.getContext());
@@ -44,7 +46,6 @@ public class RunOn {
                 break;
 
             // ANDROID WEB APP
-
             case "AndroidEmulatorWebApp":
                 driver = createLocalAndroidDriver_For_WebApp_In_Emulator("Chrome");
                 break;
@@ -53,32 +54,7 @@ public class RunOn {
                 driver = createLocalAndroidDriver_For_WebApp_In_RealDevice("Chrome");
                 break;
 
-            // IOS NATIVE APP
-
-            case "IosSimulatorNativeApp":
-                driver = createLocalIOSDriver_For_NativeApp_In_Simulator(appname);
-                break;
-
-            case "IosDeviceNativeApp":
-                driver =
-                        createLocalIOSDriver_For_NativeApp_In_IOSDEVICE(
-                                appname, "iPhone 7", "udid", "bundleID");
-                break;
-
-            // IOS WEB APP
-
-            case "IosSimulatorWebApp":
-                driver = createLocalIOSDriver_For_WebApp_In_Simulator("Safari");
-                break;
-
-            case "IosDeviceWebApp":
-                driver =
-                        createLocalIOSDriver_For_WebApp_In_IOSDEVICE(
-                                "Safari", "iPhone 7", "TEST ORG ID");
-                break;
-
             // TODO RUN ON BROWSER STACK, SAUCE LABS ..
-
             default:
                 throw new IllegalArgumentException(
                         "Invalid parameter used in Environment.properties file : " + run);
@@ -86,6 +62,44 @@ public class RunOn {
         return driver;
     }
 
+
+    public AppiumDriver run(String runOn, String appName, String deviceName, String udid, String bundleId) {
+
+        // Creating IOS driver object based on parameters provided
+        String run = runOn;
+        String appname = System.getProperty("user.dir") + "/src/main/resources/" + appName;
+
+        switch (run) {
+
+            // IOS NATIVE APP
+            case "IosSimulatorNativeApp":
+                driver = createLocalIOSDriver_For_NativeApp_In_Simulator(appname);
+                break;
+
+            case "IosDeviceNativeApp":
+                driver =
+                        createLocalIOSDriver_For_NativeApp_In_IOSDEVICE(
+                                appname, deviceName, udid, bundleId);
+                break;
+
+            // IOS WEB APP
+            case "IosSimulatorWebApp":
+                driver = createLocalIOSDriver_For_WebApp_In_Simulator("Safari");
+                break;
+
+            case "IosDeviceWebApp":
+                driver =
+                        createLocalIOSDriver_For_WebApp_In_IOSDEVICE(
+                                "Safari", deviceName, "TEST ORG ID");
+                break;
+
+            // TODO RUN ON BROWSER STACK, SAUCE LABS ..
+            default:
+                throw new IllegalArgumentException(
+                        "Invalid parameter used in Environment.properties file : " + run);
+        }
+        return driver;
+    }
 
     // *********************    LOCAL RUN METHODS     ************************//
 
@@ -222,11 +236,10 @@ public class RunOn {
             String appName, String deviceName, String udid, String bundleID) {
 
         cap = new DesiredCapabilities();
-        // cap.setCapability(MobileCapabilityType.BROWSER_NAME, "");
         cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
         cap.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS);
         cap.setCapability(MobileCapabilityType.APP, appName);
-        cap.setCapability("noReset", "true");
+        cap.setCapability("noReset", true);
         cap.setCapability("xcodeOrgId", "84CK77G588");
         cap.setCapability("xcodeSigningId", "iPhone Developer");
         cap.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);

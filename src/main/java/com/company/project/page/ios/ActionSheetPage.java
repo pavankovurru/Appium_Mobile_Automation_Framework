@@ -4,6 +4,7 @@ import com.company.project.utilities.AppiumUtil;
 import io.appium.java_client.AppiumDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 
 public class ActionSheetPage {
 
@@ -16,30 +17,39 @@ public class ActionSheetPage {
         appium = new AppiumUtil(driver);
     }
 
-    public void clickBackButton() {
-        driver.findElementByAccessibilityId("Back").click();
+    public void navigateToUICatalogHomePage() {
+        appium.returnMobileElementUsingAccessibilityId("UICatalog").click();
+        log.info("click action on back button");
     }
 
     public void clickOnActionSheets() {
-        driver.findElementByAccessibilityId("Action Sheets").click();
+        appium.returnMobileElementUsingAccessibilityId("Action Sheets").click();
+        log.info("click action on Action Sheets");
     }
 
+    public void clickOnSearchBars() {
+        appium.returnMobileElementUsingAccessibilityId("Search Bars").click();
+        log.info("click action on Search Bars Sheets");
+    }
+
+
     public void clickOKCancelButton() {
-        driver.findElementByAccessibilityId("Okay / Cancel").click();
+        appium.returnMobileElementUsingAccessibilityId("Okay / Cancel").click();
+        log.info("click action on Okay / Cancel");
     }
 
     public void clickOK() {
-        driver.findElementByName("OK").click();
+        appium.returnMobileElementUsingName("OK").click();
+        log.info("click action on OK button");
     }
 
     public void clickCancel() {
-        driver.findElementByName("Cancel").click();
+        appium.returnMobileElementUsingName("Cancel").click();
+        log.info("click action on Cancel button");
+
     }
 
-    public boolean validatePageLanding(String label) {
-        if (driver.findElementByAccessibilityId(label).getText().matches(label)) {
-            return true;
-        }
-        return false;
+    public boolean validateHomePageLanding() {
+        return appium.isElementPresentUsingXpath("//XCUIElementTypeApplication[@name=\"UICatalog\"]");
     }
 }

@@ -26,11 +26,11 @@ public class WebViewPage {
     }
 
     public void clickViews() {
-        appium.androidScrollToText("Views").click();
+        appium.scrollToTextAndroid("Views").click();
     }
 
     public void clickWebView() {
-        appium.androidScrollToText("WebView").click();
+        appium.scrollToTextAndroid("WebView").click();
         appium.sleep(2);
         // clicking on web view part of the app
         // driver.findElementByClassName("android.webkit.WebView").click();

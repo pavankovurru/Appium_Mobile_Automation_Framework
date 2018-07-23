@@ -55,32 +55,37 @@ public class AppiumUtil {
 
     // WAIT FOR MAX TIME 15 SECS TILL THE ELEMENT IS CLICKABLE - DISPLAYED AND ENABLED
     public WebElement wait_until_MobileElementIs_Clickable(WebDriver driver, By locator) {
+        log.info("15 secs - Waiting for element using -"+locator);
         wait = new WebDriverWait(driver, 15);
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
     // WAIT FOR MAX TIME 15 SECS TILL THE ELEMENT IS VISIBLE
     public WebElement wait_until_MobileElementIs_Visible(WebDriver driver, By locator) {
+        log.info("15 secs - Waiting for element using -"+locator);
         wait = new WebDriverWait(driver, 15);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     // WAIT FOR MAX TIME 15 SECS TILL THE ELEMENT IS PRESENT
     public WebElement wait_until_MobileElementIs_Present(WebDriver driver, By locator) {
+        log.info("15 secs - Waiting for element using -"+locator);
         wait = new WebDriverWait(driver, 15);
         return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
     // ************* EXPLICIT WAITS ON MULTIPLE ELEMENTS ***************//
 
-    // WAIT FOR MAX TIME 15 SECS TILL THE ELEMENT IS PRESENT
+    // WAIT FOR MAX TIME 5 SECS TILL THE ELEMENT IS PRESENT
     public List<WebElement> wait_until_MobileElementsAre_Present(WebDriver driver, By locator) {
+        log.info("5 secs - Waiting for elements using -"+locator);
         wait = new WebDriverWait(driver, 5);
         return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
     }
 
-    // WAIT FOR MAX TIME 15 SECS TILL THE ELEMENT IS VISIBLE
+    // WAIT FOR MAX TIME 5 SECS TILL THE ELEMENT IS VISIBLE
     public List<WebElement> wait_until_MobileElementsAre_Visible(WebDriver driver, By locator) {
+        log.info("5 secs - Waiting for elements using -"+locator);
         wait = new WebDriverWait(driver, 5);
         return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
@@ -88,6 +93,7 @@ public class AppiumUtil {
     // ******** EXPLICIT WAITS ON PAGE TITLE,URL AND ELEMENT_NOT_PRESENT ************//
 
     public boolean IS_MobileElement_NotPresent(WebDriver driver, By locator) {
+        log.info("5 secs - checking for element presence using -"+locator);
         wait = new WebDriverWait(driver, 5);
         return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
@@ -156,7 +162,6 @@ public class AppiumUtil {
         driver.setLocation(loc);
         log.info("Location set to --> Latitude: " + latitude + " Longitude: " + longitude);
     }
-
 
 
     // **** CONTEXT SWITCHING *****//
@@ -267,6 +272,7 @@ public class AppiumUtil {
     // **** ANDOID KEY EVENT FUNCTIONS *****//
 
     public void androidHomeKeyEvent() {
+        log.info("android Home event");
         ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.HOME);
         sleep(2);
     }
@@ -283,11 +289,9 @@ public class AppiumUtil {
         sleep(2);
     }
 
-    public void androidtab() {
+    public void androidTab() {
         log.info("android Tab event");
-        // ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.KEYCODE_DPAD_DOWN);
         ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.KEYCODE_TAB);
-
         sleep(2);
     }
 
@@ -301,26 +305,31 @@ public class AppiumUtil {
     public void basicSwipe(WebElement element1, WebElement element2) {
         TouchAction touch = new TouchAction(driver);
         touch.press(element1).moveTo(element2).release().perform();
+        log.info("Swipe Action performed");
     }
 
     public void dragDrop(WebElement element1, WebElement element2) {
         TouchAction touch = new TouchAction(driver);
         touch.longPress(element1).moveTo(element2).release().perform();
+        log.info("Drag and drop Action performed");
     }
 
     public void pressAndHold(WebElement element1, int timeInSeconds) {
         TouchAction touch = new TouchAction(driver);
         touch.longPress(element1, Duration.ofSeconds(timeInSeconds)).release().perform();
+        log.info("Press and Hold Action performed");
     }
 
     public void pressAndHold_Moveto_NewElement(WebElement element1, WebElement element2) {
         TouchAction touch = new TouchAction(driver);
         touch.press(element1).waitAction(Duration.ofSeconds(2)).moveTo(element2).release().perform();
+        log.info("Press/hold , move to element Action performed");
     }
 
     public void tap(WebElement element) {
         TouchAction touch = new TouchAction(driver);
         touch.moveTo(element).tap(element).perform();
+        log.info("Tap Action performed");
     }
 
 
@@ -409,56 +418,163 @@ public class AppiumUtil {
     }
 
 
-    // ***** IOS FUNCTIONS ****** //
+    // ******************************     IOS FUNCTIONS      ******************************* //
 
-    public boolean isElementPresentUsingAccessibilityId(String id) {
-        return driver.findElementsByAccessibilityId(id).size() >= 1;
+    // ***** RETURN MOBILE ELEMENT ****** //
+
+    public WebElement returnMobileElementUsingAccessibilityId(String accessibilityId) {
+        log.info("Trying to find element with id - " + accessibilityId);
+        return wait_until_MobileElementIs_Visible(driver,
+                MobileBy.AccessibilityId(accessibilityId));
+    }
+
+    public WebElement returnMobileElementUsingName(String name) {
+        log.info("Trying to find element with name - " + name);
+        return wait_until_MobileElementIs_Visible(driver,
+                MobileBy.name(name));
+    }
+
+    public WebElement returnMobileElementUsingXpath(String xPath) {
+        log.info("Trying to find element with xPath - " + xPath);
+        return wait_until_MobileElementIs_Visible(driver,
+                MobileBy.xpath(xPath));
+    }
+
+    public WebElement returnMobileElementUsingPredicateString(String predicateString) {
+        log.info("Trying to find element with predicateString - " + predicateString);
+        return wait_until_MobileElementIs_Visible(driver,
+                MobileBy.iOSNsPredicateString(predicateString));
+    }
+
+    public WebElement returnMobileElementUsingClassChain(String classChain) {
+        log.info("Trying to find element with classChain - " + classChain);
+        return wait_until_MobileElementIs_Visible(driver,
+                MobileBy.iOSClassChain(classChain));
+    }
+
+
+    // ***** PRESENCE OF MOBILE ELEMENT ****** //
+
+    public boolean isElementPresentUsingAccessibilityId(String acessibilityId) {
+
+        log.info("Trying to find element with AcessibilityId - " + acessibilityId);
+        if (wait_until_MobileElementsAre_Present(driver, (MobileBy.AccessibilityId(acessibilityId)))
+                .size()
+                >= 1) {
+            log.info("element found");
+            return true;
+        } else {
+            log.info("element not found");
+            return false;
+        }
     }
 
     public boolean isElementPresentUsingName(String name) {
-        return driver.findElementsByName(name).size() >= 1;
+
+        log.info("Trying to find element with name - " + name);
+        if (wait_until_MobileElementsAre_Present(driver, (MobileBy.name(name)))
+                .size()
+                >= 1) {
+            log.info("element found");
+            return true;
+        } else {
+            log.info("element not found");
+            return false;
+        }
     }
 
-    public boolean isElementPresentUsingXPath(String xpath) {
-        return driver.findElementsByXPath(xpath).size() >= 1;
+
+    public boolean isElementPresentUsingXpath(String xPath) {
+
+        log.info("Trying to find element with xPath - " + xPath);
+        if (wait_until_MobileElementsAre_Present(driver, (MobileBy.xpath(xPath)))
+                .size()
+                >= 1) {
+            log.info("element found");
+            return true;
+        } else {
+            log.info("element not found");
+            return false;
+        }
     }
 
+    public boolean isElementPresentUsingPredicateString(String predicateString) {
+
+        log.info("Trying to find element with predicateString - " + predicateString);
+        if (wait_until_MobileElementsAre_Present(driver, (MobileBy.iOSNsPredicateString(predicateString)))
+                .size()
+                >= 1) {
+            log.info("element found");
+            return true;
+        } else {
+            log.info("element not found");
+            return false;
+        }
+    }
+
+    public boolean isElementPresentUsingClassChain(String classChain) {
+
+        log.info("Trying to find element with classChain - " + classChain);
+        if (wait_until_MobileElementsAre_Present(driver, (MobileBy.iOSClassChain(classChain)))
+                .size()
+                >= 1) {
+            log.info("element found");
+            return true;
+        } else {
+            log.info("element not found");
+            return false;
+        }
+    }
+
+
+    // ***** IOS SCROLL FUNCTIONS ****** //
 
     public void scrollDown_InIosUsingLabel(String label) {
+        log.info("Trying to scroll down to element with label -"+label);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         HashMap scrollObject = new HashMap();
         scrollObject.put("direction", "down");
         scrollObject.put("predicateString", "label == '" + label + "'");
         js.executeScript("mobile: scroll", scrollObject);
+        log.info("scrolled to element with label -"+label);
+
     }
 
     public void scrollUp_InIosUsingLabel(String label) {
+        log.info("Trying to scroll down to element with label -"+label);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         HashMap scrollObject = new HashMap();
         scrollObject.put("direction", "up");
         scrollObject.put("predicateString", "label == '" + label + "'");
         js.executeScript("mobile: scroll", scrollObject);
+        log.info("scrolled to element with label -"+label);
     }
 
     public void scrollDown_InIosUsingElement(RemoteWebElement element) {
+        log.info("Trying to scroll down to element");
         String elementID = element.getId();
         JavascriptExecutor js = (JavascriptExecutor) driver;
         HashMap scrollObject = new HashMap();
         scrollObject.put("element", elementID); // Only for ‘scroll in element’
         scrollObject.put("direction", "down");
         js.executeScript("mobile: scroll", scrollObject);
+        log.info("scrolled to element");
     }
 
     public void scrollUp_InIosUsingElement(RemoteWebElement element) {
+        log.info("Trying to scroll up to element");
         String elementID = element.getId();
         JavascriptExecutor js = (JavascriptExecutor) driver;
         HashMap scrollObject = new HashMap();
         scrollObject.put("element", elementID); // Only for ‘scroll in element’
         scrollObject.put("direction", "up");
         js.executeScript("mobile: scroll", scrollObject);
+        log.info("scrolled to element");
     }
 
+    // Manual check and scroll functions
     public WebElement scroll_Ios_Up_UntilElementWithAccessibilityIDIsFound(String accessibilityID) {
+        log.info("Trying to scroll up to element With Accessibility ID-"+accessibilityID);
         Boolean cont = true;
         WebElement el = null;
 
@@ -467,16 +583,20 @@ public class AppiumUtil {
                 el = driver.findElementByAccessibilityId(accessibilityID);
                 if (el.isDisplayed()) {
                     log.info("element with accessibilityID " + accessibilityID + " is Visible");
+                    log.info("scrolled to element");
                     return el;
                 } else scrollIOS_up();
             } catch (NoSuchElementException e) {
                 scrollIOS_up();
             }
         }
+        log.info("scrolled to element");
         return el;
     }
 
     public WebElement scroll_Ios_Down_UntilElementWithAccessibilityIDIsFound(String accessibilityID) {
+        log.info("Trying to scroll down to element With Accessibility ID-"+accessibilityID);
+
         Boolean cont = true;
         WebElement el = null;
 
@@ -485,29 +605,35 @@ public class AppiumUtil {
                 el = driver.findElementByAccessibilityId(accessibilityID);
                 if (el.isDisplayed()) {
                     log.info("element with accessibilityID " + accessibilityID + " is Visible");
+                    log.info("scrolled to element");
                     return el;
                 } else scrollIOS_down();
             } catch (NoSuchElementException e) {
                 scrollIOS_up();
             }
         }
+        log.info("scrolled to element");
         return el;
     }
 
     public void scrollIOS_up() {
+        log.info("Trying to scroll up using screen height");
         Dimension size = driver.manage().window().getSize();
         int x = size.getWidth() / 2;
         int start_y = (int) (size.getHeight() * 0.60);
         int end_y = (int) (size.getHeight() * 0.30);
         new TouchAction(driver).press(x, start_y).moveTo(x, end_y).release().perform();
+        log.info("scroll done");
     }
 
     public void scrollIOS_down() {
+        log.info("Trying to scroll up using screen height");
         Dimension size = driver.manage().window().getSize();
         int x = size.getWidth() / 2;
         int start_y = (int) (size.getHeight() * 0.30);
         int end_y = (int) (size.getHeight() * 0.60);
         new TouchAction(driver).press(x, start_y).moveTo(x, end_y).release().perform();
+        log.info("scroll done");
     }
 
     // Swiping element
@@ -542,22 +668,6 @@ public class AppiumUtil {
                 .release()
                 .perform();
         log.info("Element flicked to the left");
-    }
-
-    public void horizontalSwipe(String mainContainerElement, String classNameOFSubElements) {
-
-        AndroidElement mainContainer = (AndroidElement) driver.findElementById(mainContainerElement);
-        List<MobileElement> images = mainContainer.findElementsByClassName(classNameOFSubElements);
-        int originalImageCount = images.size();
-        Point location = mainContainer.getLocation();
-        Point center = mainContainer.getCenter();
-        TouchAction swipe =
-                new TouchAction(driver)
-                        .press(images.get(2), -10, center.y - location.y)
-                        .waitAction(Duration.ofSeconds(2))
-                        .moveTo(mainContainer, 10, center.y - location.y)
-                        .release();
-        swipe.perform();
     }
 
     public void horizontalSwipeLeft(WebElement el) {
