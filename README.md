@@ -1,24 +1,25 @@
 # APPIUM MOBILE AUTOMATION FRAMEWORK
 
 ```
-- Compatible With Android Oreo and IOS 11
-- Uses Explicit waits internally in all of the `src/main/java/com/company/project/utilities/AppiumUtil.java` functions that return mobile elements.    
-- Supports Parallel runs via testNG xml configuration  
+Compatible With Android Oreo and IOS 11
+Uses explicit waits internally in all of the `src/main/java/com/company/project/utilities/AppiumUtil.java` functions that return mobile elements.  
+  
+Supports Parallel runs via testNG xml configuration  
 Note : an appium server supports onl one device, make sure multiple appium server instances are run to support parallel execution
 `open -n /Applications/Appium.app` - should do the trick on a mac to initialize a new instance of appium server
-- Works With Native, Web & Hybrid Apps.
-- Works on Emulators, Simulators & Real Devices.
 
+Works With Native, Web & Hybrid Apps.
+Works on Emulators, Simulators & Real Devices.
 ```
 
 ##  FRAME WORK STACK 
 ```
 1. Appium Java Client 5.0.4
 2. Appium Desktop 1.6.2
-2. Selenium 3.6.0
-3. LOG4J 2  
-4. TestNG 6.11
-5. Gradle
+3. Selenium 3.6.0
+4. LOG4J 2  
+5. TestNG 6.11
+6. Gradle
 ```
 
 
