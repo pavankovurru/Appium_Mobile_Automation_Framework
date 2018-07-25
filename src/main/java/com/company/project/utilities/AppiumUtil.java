@@ -95,7 +95,7 @@ public class AppiumUtil {
 
   // ******** EXPLICIT WAITS ON PAGE TITLE,URL AND ELEMENT_NOT_PRESENT ************//
 
-  public boolean IS_MobileElement_NotPresent(WebDriver driver, By locator) {
+  public boolean is_MobileElement_NotPresent(WebDriver driver, By locator) {
     log.info("5 secs - checking for element presence using -" + locator);
     wait = new WebDriverWait(driver, 5);
     return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
@@ -120,6 +120,28 @@ public class AppiumUtil {
     return wait_until_MobileElementIs_Visible(
         driver,
         MobileBy.AndroidUIAutomator("new UiSelector().description(\"" + contentDesc + "\")"));
+  }
+
+  public WebElement returnMobileElementPresentUsingXPathAndroid(String xpath) {
+    log.info("Trying to locate element using x-path - " + xpath);
+    return wait_until_MobileElementIs_Visible(driver, MobileBy.xpath(xpath));
+  }
+
+  public WebElement returnMobileElementPresentUsingClassNameAndroid(String className) {
+    log.info("Trying to locate elements using className - " + className);
+    return wait_until_MobileElementIs_Visible(driver, MobileBy.className(className));
+  }
+
+  // **** RETURNING MOBILE ELEMENTS ANDROID *****//
+
+  public List<WebElement> returnMobileElementsPresentUsingXPathAndroid(String xpath) {
+    log.info("Trying to locate elements using x-path - " + xpath);
+    return wait_until_MobileElementsAre_Visible(driver, MobileBy.xpath(xpath));
+  }
+
+  public List<WebElement> returnMobileElementsPresentUsingClassNameAndroid(String className) {
+    log.info("Trying to locate elements using className - " + className);
+    return wait_until_MobileElementsAre_Visible(driver, MobileBy.className(className));
   }
 
   // open notifications Android

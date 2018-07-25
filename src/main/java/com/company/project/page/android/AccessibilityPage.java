@@ -5,6 +5,9 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -30,8 +33,9 @@ public class AccessibilityPage {
   }
 
   public String getAccessibilityNodeProviderText() {
-    return driver
-        .findElementByXPath("//android.widget.LinearLayout/android.widget.TextView")
+    return appium
+        .returnMobileElementPresentUsingXPathAndroid(
+            "//android.widget.LinearLayout/android.widget.TextView")
         .getText();
   }
 
@@ -41,9 +45,11 @@ public class AccessibilityPage {
   }
 
   public void checkAllUncheckedTextBoxesInAccessibilityNodeQuerying() {
-    List<MobileElement> checkboxes = driver.findElementsByClassName("android.widget.CheckBox");
+
+    List<WebElement> checkboxes =
+        appium.returnMobileElementsPresentUsingClassNameAndroid("android.widget.CheckBox");
     log.info("found - " + checkboxes.size() + "checkboxes");
-    for (MobileElement mo : checkboxes) {
+    for (WebElement mo : checkboxes) {
       if (mo.getAttribute("checked").matches("false")) {
         mo.click();
       }
@@ -51,8 +57,9 @@ public class AccessibilityPage {
   }
 
   public void unCheckAllcheckedTextBoxesInAccessibilityNodeQuerying() {
-    List<MobileElement> checkboxes = driver.findElementsByClassName("android.widget.CheckBox");
-    for (MobileElement mo : checkboxes) {
+    List<WebElement> checkboxes =
+        appium.returnMobileElementsPresentUsingClassNameAndroid("android.widget.CheckBox");
+    for (WebElement mo : checkboxes) {
       if (mo.getAttribute("checked").matches("true")) {
         mo.click();
       }
@@ -60,8 +67,9 @@ public class AccessibilityPage {
   }
 
   public boolean areAllCheckBoxesSelected() {
-    List<MobileElement> checkboxes = driver.findElementsByClassName("android.widget.CheckBox");
-    for (MobileElement mo : checkboxes) {
+    List<WebElement> checkboxes =
+        appium.returnMobileElementsPresentUsingClassNameAndroid("android.widget.CheckBox");
+    for (WebElement mo : checkboxes) {
       if (mo.getAttribute("checked").matches("false")) {
         return false;
       }

@@ -30,9 +30,6 @@ public class WebViewPage {
   public void clickWebView() {
     appium.scrollToTextAndroid("WebView").click();
     appium.sleep(2);
-    // clicking on web view part of the app
-    // driver.findElementByClassName("android.webkit.WebView").click();
-
   }
 
   public void switchToWebView() {

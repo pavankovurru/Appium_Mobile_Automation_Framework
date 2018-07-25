@@ -69,13 +69,14 @@ USE APPIUM DESKTOP --> START SERVER --> NEW SESSION --> GIVE DESIRED CAPABILITIE
 
 
 
-`driver.findElementByAccessibilityId("");`  -- `AccessibilityId` in inspector can be used here
-`driver.findElementByName("");`  -- `name` value in inspector can be used here
- `XPATH` value in appium Inspector can be used in  `driver.findElementsByXPath("");`. 
+`driver.findElement(MobileBy.AccessibilityId(accessibilityId));`  -- `AccessibilityId` in inspector can be used here
+`driver.findElement(MobileBy.name(name));`  -- `name` value in inspector can be used here
+ `XPATH` value in appium Inspector can be used in  `driver.findElement(MobileBy.xpath(xPath));`. 
   
 ### iOS Predicate String Strategy
 
-Predicate Format Strings are a typical Apple dev thing, and they also work in iOS. Predicate format strings enable basic comparisons and matching. In our case, they allow basic matching of elements according to simple criteria. What's really useful about predicate strings is that you can combine simple criteria to form more complex matches. In the XCUITest driver, predicate strings can be used to match various element attributes, including name, value, label, type, visible, etc...
+Predicate Format Strings are a typical Apple dev thing, and they also work in iOS. Predicate format strings enable basic comparisons and matching. In our case, they allow basic matching of elements according to simple criteria. What's really useful about predicate strings is that you can combine simple criteria to form more complex matches. In the XCUITest driver, predicate strings can be used to match various element attributes, including name, value, label, type, visible, etc...  
+
 
 ```
 Examples:
@@ -100,7 +101,9 @@ This predicate string would match any visible button whose value begins with 'bl
 
 ```
 String selector = "type == 'XCUIElementTypeButton' AND value BEGINSWITH[c] 'bla' AND visible == 1";
+
 driver.findElement(MobileBy.iOSNsPredicateString(selector));
+
 ```
 Because predicate matching is built into XCUITest, it has the potential to be much faster than Appium's XPath strategy.
 
