@@ -29,7 +29,8 @@ Works on Emulators, Simulators & Real Devices.
  
 2. `src/main/java/com/company/project/utilities/AppiumUtil.java` -- Has Utility functions that can be used to simulate mobile actions.  
 
-3. `src/test/resources` --  This folder contains testNG xml's which are parameterized with `AppName` and `runOn` details so that these XML's   
+3. `src/test/resources` --  This folder contains testNG xml's which are parameterized with `AppName` and `runOn` details so that these XML's.
+
 can be modified to target different apps, environments and target devices instead of making changes to test files.
 
 4. A screen shot gets saved in screenshots folder with test class & test case name when there is a failure. 
