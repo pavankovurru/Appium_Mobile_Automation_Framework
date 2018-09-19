@@ -4,6 +4,7 @@ import io.appium.java_client.*;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.android.AndroidKeyCode;
+import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
@@ -298,30 +299,35 @@ public class AppiumUtil {
 
   public void androidHomeKeyEvent() {
     log.info("android Home event");
-    ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.HOME);
+    ((AndroidDriver) driver)
+        .pressKey(new io.appium.java_client.android.nativekey.KeyEvent(AndroidKey.HOME));
     sleep(2);
   }
 
   public void androidBackKeyEvent() {
     log.info("android back event");
-    ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.BACK);
+    ((AndroidDriver) driver)
+        .pressKey(new io.appium.java_client.android.nativekey.KeyEvent(AndroidKey.BACK));
     sleep(2);
   }
 
   public void androidEnter() {
     log.info("android Enter event");
-    ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.ENTER);
+    ((AndroidDriver) driver)
+        .pressKey(new io.appium.java_client.android.nativekey.KeyEvent(AndroidKey.ENTER));
     sleep(2);
   }
 
   public void androidTab() {
     log.info("android Tab event");
-    ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.KEYCODE_TAB);
+    ((AndroidDriver) driver)
+        .pressKey(new io.appium.java_client.android.nativekey.KeyEvent(AndroidKey.TAB));
     sleep(2);
   }
 
   public void androidMultiTaskingKeyEvent() {
-    ((AndroidDriver) driver).pressKeyCode(AndroidKeyCode.KEYCODE_APP_SWITCH);
+    ((AndroidDriver) driver)
+        .pressKey(new io.appium.java_client.android.nativekey.KeyEvent(AndroidKey.APP_SWITCH));
     sleep(2);
   }
 

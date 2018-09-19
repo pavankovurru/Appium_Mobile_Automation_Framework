@@ -61,11 +61,13 @@ Examples :
 ## ANDROID KEY EVENTS HOME,BACK,MULTITASKING..etc..
 
 ```
-((AndroidDriver)driver).pressKeyCode(AndroidKeyCode.BACK);
-   
-((AndroidDriver)driver).pressKeyCode(AndroidKeyCode.KEYCODE_APP_SWITCH);
-     
-((AndroidDriver)driver).pressKeyCode(AndroidKeyCode.HOME);
+((AndroidDriver)driver).pressKey(new KeyEvent(AndroidKey.BACK));  
+
+((AndroidDriver)driver).pressKey(new KeyEvent(KEYCODE_APP_SWITCH));  
+
+((AndroidDriver)driver).pressKey(new KeyEvent(AndroidKey.HOME));  
+
+driver.longPressKey(new KeyEvent(AndroidKey.POWER));   -- > To power Off Device (notice `longPressKey` method)  
   ```
   
 
