@@ -56,6 +56,7 @@ public class AppiumUtil {
   }
 
   // ******* EXPLICIT WAITS ON SINGLE ELEMENT ******************//
+  //************************************************************
 
   // WAIT FOR MAX TIME 15 SECS TILL THE ELEMENT IS CLICKABLE - DISPLAYED AND ENABLED
   public WebElement wait_until_MobileElementIs_Clickable(WebDriver driver, By locator) {
@@ -79,6 +80,8 @@ public class AppiumUtil {
   }
 
   // ************* EXPLICIT WAITS ON MULTIPLE ELEMENTS ***************//
+  //************************************************************
+
 
   // WAIT FOR MAX TIME 5 SECS TILL THE ELEMENT IS PRESENT
   public List<WebElement> wait_until_MobileElementsAre_Present(WebDriver driver, By locator) {
@@ -103,6 +106,7 @@ public class AppiumUtil {
   }
 
   // **** RETURNING MOBILE ELEMENT ANDROID *****//
+  //************************************************************
 
   public WebElement returnMobileElementPresentUsingTextAndroid(String text) {
     log.info("Trying to find element with text - " + text);
@@ -134,6 +138,8 @@ public class AppiumUtil {
   }
 
   // **** RETURNING MOBILE ELEMENTS ANDROID *****//
+  //************************************************************
+
 
   public List<WebElement> returnMobileElementsPresentUsingXPathAndroid(String xpath) {
     log.info("Trying to locate elements using x-path - " + xpath);
@@ -146,12 +152,16 @@ public class AppiumUtil {
   }
 
   // open notifications Android
+  //************************************************************
+
   public void openNotificationsAndroid() {
     log.info("Opening notifications page");
     ((AndroidDriver) driver).openNotifications();
   }
 
   // rotate screen
+  //************************************************************
+
   public void rotateScreenPotrait() {
     log.info("rotating screen -  PORTRAIT mode");
     driver.rotate(ScreenOrientation.PORTRAIT);
@@ -163,6 +173,8 @@ public class AppiumUtil {
   }
 
   // clear notifications
+  //************************************************************
+
   public void clearNotificationsAndroid() {
 
     // google pixel related
@@ -180,6 +192,8 @@ public class AppiumUtil {
   }
 
   // Set location Android
+  //************************************************************
+
   public void setLocationAndroid(double latitude, double longitude) {
     log.info("Trying to mock location --> Lat:" + latitude + " Long: " + longitude);
     Location loc = new Location(latitude, longitude, 10); // latitude, longitude, altitude
@@ -188,6 +202,8 @@ public class AppiumUtil {
   }
 
   // **** CONTEXT SWITCHING *****//
+  //************************************************************
+
 
   public Set<String> switchToWebViewAndReturnAllContextHandles() {
     log.info("Trying to switch to webview");
@@ -215,7 +231,9 @@ public class AppiumUtil {
     }
   }
 
-  // **** SCROLL FUNCTIONS *****//
+  // **** SCROLL FUNCTIONS (SCROLL'S ON ENTIRE PAGE) *****//
+  //************************************************************
+
 
   public MobileElement scrollToTextAndroid(String text) {
     log.info("Trying to scroll to element with text  - " + text);
@@ -256,7 +274,11 @@ public class AppiumUtil {
     return el;
   }
 
-  public MobileElement scrollToTextUsingResourceIDAndroid(String resourceID, String text) {
+  // **** SCROLL FUNCTIONS (SCROLL'S INSIDE PARTICULAR ELEMENT) *****//
+  //************************************************************
+  // Other Supported Functions available here - https://developer.android.com/reference/android/support/test/uiautomator/UiSelector
+
+  public MobileElement scrollToTextInsideElementWithResourceIDAndroid(String resourceID, String text) {
     log.info("Trying to scroll to android element with text - " + text);
     // make sure u give the resouce ID of the complete list of elements here as parameter
 
@@ -275,27 +297,48 @@ public class AppiumUtil {
     return el;
   }
 
-  public MobileElement scrollToIndexUsingResourceIDAndroid(String resourceID, int index) {
-    log.info("Trying to scroll to android element with index - " + index);
-
+  public MobileElement scrollToTextInsideElementWithContentDescAndroid(String contentDesc, String text) {
+    log.info("Trying to scroll to android element with contentDesc - " + contentDesc);
     // make sure u give the resouce ID of the complete list of elements here as parameter
 
     MobileElement el =
-        (MobileElement)
-            wait_until_MobileElementIs_Visible(
-                driver,
-                MobileBy.AndroidUIAutomator(
-                    "new UiScrollable(new UiSelector()"
-                        + ".resourceId(\""
-                        + resourceID
-                        + "\")).scrollIntoView("
-                        + "new UiSelector().index(\""
-                        + index
-                        + "\"));"));
+            (MobileElement)
+                    wait_until_MobileElementIs_Visible(
+                            driver,
+                            MobileBy.AndroidUIAutomator(
+                                    "new UiScrollable(new UiSelector()"
+                                            + ".description(\""
+                                            + contentDesc
+                                            + "\")).scrollIntoView("
+                                            + "new UiSelector().text(\""
+                                            + text
+                                            + "\"));"));
     return el;
   }
 
-  // **** ANDOID KEY EVENT FUNCTIONS *****//
+  public MobileElement scrollToTextInsideElementWithIDAndroid(String id, String text) {
+    log.info("Trying to scroll to android element with ID - " + id);
+    // make sure u give the resouce ID of the complete list of elements here as parameter
+
+    MobileElement el =
+            (MobileElement)
+                    wait_until_MobileElementIs_Visible(
+                            driver,
+                            MobileBy.AndroidUIAutomator(
+                                    "new UiScrollable(new UiSelector()"
+                                            + ".resourceId(\""
+                                            + id
+                                            + "\")).scrollIntoView("
+                                            + "new UiSelector().text(\""
+                                            + text
+                                            + "\"));"));
+    return el;
+  }
+
+
+  // **** ANDROID KEY EVENT FUNCTIONS *****//
+  //************************************************************
+
 
   public void androidHomeKeyEvent() {
     log.info("android Home event");
@@ -332,6 +375,8 @@ public class AppiumUtil {
   }
 
   // ********** TOUCH ACTIONS **************//
+  //************************************************************
+
 
   public void basicSwipe(WebElement element1, WebElement element2) {
     Rectangle rect1 = element1.getRect();
@@ -394,6 +439,8 @@ public class AppiumUtil {
   }
 
   // ********** CHECK FOR PRESENCE OF MOBILE ELEMENT ANDROID **************//
+  //************************************************************
+
 
   public boolean isMobileElementPresentUsingTextAndroid(String text) {
 
@@ -436,7 +483,22 @@ public class AppiumUtil {
     } else return false;
   }
 
+  public boolean isMobileElementPresentUsingXpathAndroid(String xPath) {
+    log.info("Trying to locate element using content-desc - " + xPath);
+    if (wait_until_MobileElementsAre_Present(
+            driver,
+            (MobileBy.xpath(xPath)))
+            .size()
+            >= 1) {
+      log.info("Found element having content desc - " + xPath);
+      return true;
+    } else return false;
+  }
+
+
   // ********** SCROLL AND CHECK FOR PRESENCE OF MOBILE ELEMENT ANDROID **************//
+  //************************************************************
+
 
   public boolean isMobileElementPresentUsingText_ScrollAndroid(String text) {
     log.info("Trying to find element with text - " + text);
@@ -483,6 +545,8 @@ public class AppiumUtil {
   }
 
   // ******************************     IOS FUNCTIONS      ******************************* //
+  //************************************************************
+
 
   // ***** RETURN MOBILE ELEMENT ****** //
 

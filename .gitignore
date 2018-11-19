@@ -6,5 +6,6 @@
 build/
 *.iml
 *.iws
+*.class
 
 
