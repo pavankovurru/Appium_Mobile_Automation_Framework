@@ -4,39 +4,24 @@
 
 ## IOS CONFIGURATIONS AND DEPENDANCIES
 
-1. Install `XCODE`.  
-2. Install  appium desktop or `APPIUM 1.6 or higher` using `npm install -g appium`.   
-3. `brew install ideviceinstaller`
-4. `brew install carthage`  `brew install node`
-5. `npm install -g ios-deploy` -  [ install issue ](documents/ios-deploy.md)  or `brew install ios-deploy`
-6. `npm install -g deviceconsole`
-7. `gem install xcpretty`
-8. `brew install --HEAD libimobiledevice`
-9. `npm install -g appium-doctor`
+1. Create [apple developer account](https://developer.apple.com/)
+2. Install `XCODE`. 
+2. Install  appium desktop or `APPIUM 1.6 or higher` using `npm install -g appium`.
+3. Install [home brew] (https://brew.sh/)
+4. `brew install libimobiledevice` - open source package which is able to communicate with iOS devices.
+5. `brew install ios-deploy` - for transferring iOS apps onto your device.
+6. `brew install carthage` - WDA itself requires an iOS dependency manager called Carthage.
+Since Appium will be automatically building the WDA app, we need to install Carthage so it is available to the WDA bootstrap process.
+7. Turn on IOS device, Plug it into mac, Unlock Device, `Trust` the mac, select Display & Brightness, select Auto-Lock,
+and set it to never, to ensure that the screen never locks on us mid-test.
+8. Open Xcode and create a new xcode project, make sure that you give a unique bundle ID and sign the project with apple account created in step1.  
+make note of the `Bundle ID`, This will be the `updatedWDABundleId` value that will be used in desired capabilities.
 
-run `appium-doctor` command in terminal to make sure that all the dependancies are installed properly. 
+![alt tag](https://github.com/pavankovurru/Appium_Mobile_Automation_Framework/blob/master/src/main/resources/WebDriverAgentRunner.png)
 
-## Necessary to be installed software
+9.open `Keychain Access` mac app, click on my certificates, Double click on certificate and make note of the `Organization unit`  
+This will be the `xcodeOrgId` value that will be used in desired capabilities.
 
-Two pieces of software are currently necessary to run iOS tests on real devices:
-
-`libimobiledevice` - install using brew install libimobiledevice --HEAD  
-`ios-deploy` - install using npm install -g ios-deploy   
-
-
-## ISSUES
-
-1)Original error: Could not determine Xcode version: Could not get Xcode version. /Library/Developer/Info.plist does not exist on disk.  
-
-```
-Solution:
-sudo xcode-select --reset
-sudo xcode-select --switch /Applications/Xcode.app
-Restart Appium Server
-
-```
- 
-  
 
 ## IOS DEVICE SET UP
 
@@ -55,6 +40,19 @@ Use the link below if basic configuration does not work, This will happen if a f
 
 
 NOTE : APPS BUILD FOR SIMULATOR WILL RUN ONLY ON SIMULATORS AND APPS BUILT FOR REAL DEVICES WILL RUN ONLY ON REAL DEVICES.
+
+
+## ISSUES
+
+1)Original error: Could not determine Xcode version: Could not get Xcode version. /Library/Developer/Info.plist does not exist on disk.
+
+```
+Solution:
+sudo xcode-select --reset
+sudo xcode-select --switch /Applications/Xcode.app
+Restart Appium Server
+
+```
 
 
 ## IOS ELEMENT LOCATOR TOOLS

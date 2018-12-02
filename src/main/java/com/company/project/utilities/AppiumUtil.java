@@ -80,20 +80,26 @@ public class AppiumUtil {
   }
 
   // ************* EXPLICIT WAITS ON MULTIPLE ELEMENTS ***************//
-  //************************************************************
-
+  // ************************************************************
 
   // WAIT FOR MAX TIME 5 SECS TILL THE ELEMENT IS PRESENT
   public List<WebElement> wait_until_MobileElementsAre_Present(WebDriver driver, By locator) {
     log.info("5 secs - Waiting for elements using -" + locator);
-    wait = new WebDriverWait(driver, 5);
+    wait = new WebDriverWait(driver, 15);
     return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
   }
 
   // WAIT FOR MAX TIME 5 SECS TILL THE ELEMENT IS VISIBLE
   public List<WebElement> wait_until_MobileElementsAre_Visible(WebDriver driver, By locator) {
     log.info("5 secs - Waiting for elements using -" + locator);
-    wait = new WebDriverWait(driver, 5);
+    wait = new WebDriverWait(driver, 15);
+    return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+  }
+
+  public List<WebElement> wait_until_MobileElementsAre_Visible(
+      WebDriver driver, By locator, int timeInSeconds) {
+    log.info("5 secs - Waiting for elements using -" + locator);
+    wait = new WebDriverWait(driver, timeInSeconds);
     return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
   }
 
@@ -101,7 +107,7 @@ public class AppiumUtil {
 
   public boolean is_MobileElement_NotPresent(WebDriver driver, By locator) {
     log.info("5 secs - checking for element presence using -" + locator);
-    wait = new WebDriverWait(driver, 5);
+    wait = new WebDriverWait(driver, 15);
     return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
   }
 
@@ -438,65 +444,80 @@ public class AppiumUtil {
     log.info("Tap Action performed");
   }
 
-  // ********** CHECK FOR PRESENCE OF MOBILE ELEMENT ANDROID **************//
-  //************************************************************
+    // ********** CHECK FOR PRESENCE OF MOBILE ELEMENT ANDROID **************//
+    // ************************************************************
 
+    public boolean isMobileElementPresentUsingTextAndroid(String text) {
 
-  public boolean isMobileElementPresentUsingTextAndroid(String text) {
-
-    log.info("Trying to find element with text - " + text);
-    if (wait_until_MobileElementsAre_Present(
-                driver, (MobileBy.AndroidUIAutomator("new UiSelector().text(\"" + text + "\")")))
-            .size()
-        >= 1) {
-      log.info("element found");
-      return true;
-    } else {
-      log.info("element not found");
-      return false;
+        try {
+            log.info("Trying to find element with text - " + text);
+            if (wait_until_MobileElementsAre_Visible(
+                    driver,
+                    (MobileBy.AndroidUIAutomator("new UiSelector().text(\"" + text + "\")")),
+                    5)
+                    .size()
+                    >= 1) {
+                log.info("element found");
+            }
+        } catch (Exception e) {
+            log.info("element not found");
+            return false;
+        }
+        return true;
     }
-  }
 
-  public boolean isMobileElementPresentUsingIDAndroid(String id) {
-    log.info("Trying to find element with ID - " + id);
+    public boolean isMobileElementPresentUsingIDAndroid(String id) {
+        log.info("Trying to find element with ID - " + id);
 
-    if (wait_until_MobileElementsAre_Present(
-                driver,
-                (MobileBy.AndroidUIAutomator("new UiSelector().resourceId(\"" + id + "\")")))
-            .size()
-        >= 1) {
-      log.info("Found element having id -" + id);
-      return true;
-    } else return false;
-  }
+        try {
+            if (wait_until_MobileElementsAre_Visible(
+                    driver,
+                    (MobileBy.AndroidUIAutomator("new UiSelector().resourceId(\"" + id + "\")")),
+                    5)
+                    .size()
+                    >= 1) {
+                log.info("Found element having id -" + id);
+            }
+        } catch (Exception e) {
+            log.info("element not found");
+            return false;
+        }
+        return true;
+    }
 
-  public boolean isMobileElementPresentUsingContentDescAndroid(String contentDesc) {
-    log.info("Trying to locate element using content-desc - " + contentDesc);
-    if (wait_until_MobileElementsAre_Present(
-                driver,
-                (MobileBy.AndroidUIAutomator(
-                    "new UiSelector().description(\"" + contentDesc + "\")")))
-            .size()
-        >= 1) {
-      log.info("Found element having content desc - " + contentDesc);
-      return true;
-    } else return false;
-  }
+    public boolean isMobileElementPresentUsingContentDescAndroid(String contentDesc) {
+        try {
+            log.info("Trying to locate element using content-desc - " + contentDesc);
+            if (wait_until_MobileElementsAre_Visible(
+                    driver,
+                    (MobileBy.AndroidUIAutomator(
+                            "new UiSelector().description(\"" + contentDesc + "\")")),
+                    5)
+                    .size()
+                    >= 1) {
+                log.info("Found element having content desc - " + contentDesc);
+            }
+        } catch (Exception e) {
+            log.info("element not found");
+            return false;
+        }
+        return true;
+    }
 
-  public boolean isMobileElementPresentUsingXpathAndroid(String xPath) {
-    log.info("Trying to locate element using content-desc - " + xPath);
-    if (wait_until_MobileElementsAre_Present(
-            driver,
-            (MobileBy.xpath(xPath)))
-            .size()
-            >= 1) {
-      log.info("Found element having content desc - " + xPath);
-      return true;
-    } else return false;
-  }
+    public boolean isMobileElementPresentUsingXpathAndroid(String xPath) {
+        try {
+            log.info("Trying to locate element using content-desc - " + xPath);
+            if (wait_until_MobileElementsAre_Visible(driver, (MobileBy.xpath(xPath)), 5).size() >= 1) {
+                log.info("Found element having content desc - " + xPath);
+            }
+        } catch (Exception e) {
+            log.info("element not found");
+            return false;
+        }
+        return false;
+    }
 
-
-  // ********** SCROLL AND CHECK FOR PRESENCE OF MOBILE ELEMENT ANDROID **************//
+    // ********** SCROLL AND CHECK FOR PRESENCE OF MOBILE ELEMENT ANDROID **************//
   //************************************************************
 
 
