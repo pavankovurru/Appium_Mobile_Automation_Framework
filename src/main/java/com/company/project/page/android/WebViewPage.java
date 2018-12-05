@@ -5,9 +5,6 @@ import io.appium.java_client.AppiumDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Set;
 
@@ -24,11 +21,11 @@ public class WebViewPage {
   }
 
   public void clickViews() {
-    appium.scrollToTextAndroid("Views").click();
+    appium.android_ScrollToText("Views").click();
   }
 
   public void clickWebView() {
-    appium.scrollToTextAndroid("WebView").click();
+    appium.android_ScrollToText("WebView").click();
     appium.sleep(2);
   }
 

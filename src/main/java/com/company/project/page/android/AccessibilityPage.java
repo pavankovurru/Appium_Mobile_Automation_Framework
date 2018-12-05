@@ -2,12 +2,9 @@ package com.company.project.page.android;
 
 import com.company.project.utilities.AppiumUtil;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -24,12 +21,12 @@ public class AccessibilityPage {
   }
 
   public void clickAccessibility() {
-    appium.scrollToTextAndroid("Accessibility").click();
+    appium.android_ScrollToText("Accessibility").click();
   }
 
   // Accessibility Node Provider
   public void clickAccessibilityNodeProvider() {
-    appium.scrollToTextAndroid("Accessibility Node Provider").click();
+    appium.android_ScrollToText("Accessibility Node Provider").click();
   }
 
   public String getAccessibilityNodeProviderText() {
@@ -41,7 +38,7 @@ public class AccessibilityPage {
 
   // Accessibility Node Querying
   public void clickAccessibilityNodeQuerying() {
-    appium.scrollToTextAndroid("Accessibility Node Querying").click();
+    appium.android_ScrollToText("Accessibility Node Querying").click();
   }
 
   public void checkAllUncheckedTextBoxesInAccessibilityNodeQuerying() {
@@ -79,11 +76,11 @@ public class AccessibilityPage {
 
   // Accessibility Service
   public void clickAccessibilityService() {
-    appium.scrollToTextAndroid("Accessibility Service").click();
+    appium.android_ScrollToText("Accessibility Service").click();
   }
 
   // Custom View
   public void clickCustomView() {
-    appium.scrollToTextAndroid("Custom View").click();
+    appium.android_ScrollToText("Custom View").click();
   }
 }

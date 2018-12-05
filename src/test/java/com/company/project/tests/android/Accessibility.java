@@ -77,6 +77,6 @@ public class Accessibility {
     accessibilitypage.clickAccessibilityService();
     driver.findElementById("io.appium.android.apis:id/button").click();
     Assert.assertTrue(
-        appium.scrollToTextAndroid("Accessibility").getText().equals("Accessibility"));
+        appium.android_ScrollToText("Accessibility").getText().equals("Accessibility"));
   }
 }

@@ -57,7 +57,7 @@ public class ActionSheets {
    */
   @Test(priority = 2)
   public void validateScrollcAction() {
-    appium.scrollDown_InIosUsingLabel("scrollDown_InIosUsingLabel");
+    appium.ios_scrollUntilLabelIsFound("Search Bars",70,30,10);
     actionsheetpage.clickOnSearchBars();
     actionsheetpage.navigateToUICatalogHomePage();
     Assert.assertTrue(actionsheetpage.validateHomePageLanding());
