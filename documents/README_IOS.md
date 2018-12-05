@@ -17,7 +17,7 @@ and set it to never, to ensure that the screen never locks on us mid-test.
 8. Open Xcode and create a new xcode project, make sure that you give a unique bundle ID and sign the project with apple account created in step1.  
 make note of the `Bundle ID`, This will be the `updatedWDABundleId` value that will be used in desired capabilities.
 
-! [alt tag](https://github.com/pavankovurru/Appium_Mobile_Automation_Framework/blob/master/src/main/resources/WebDriverAgentRunner.png)
+![alt tag](https://github.com/pavankovurru/Appium_Mobile_Automation_Framework/blob/master/src/main/resources/WebDriverAgentRunner.png)
 
 9.open `Keychain Access` mac app, click on my certificates, Double click on certificate and make note of the `Organization unit`  
 This will be the `xcodeOrgId` value that will be used in desired capabilities.
@@ -63,7 +63,7 @@ Restart Appium Server
 USE APPIUM DESKTOP --> START SERVER --> NEW SESSION --> GIVE DESIRED CAPABILITIES -->THIS WILL START THE APP AND APPIUM INSPECTOR
 ```
 
-! [alt tag](https://github.com/pavankovurru/Appium_Mobile_Automation_Framework/blob/master/src/main/resources/AppiumInspector.png)
+![alt tag](https://github.com/pavankovurru/Appium_Mobile_Automation_Framework/blob/master/src/main/resources/AppiumInspector.png)
 
 
 
