@@ -17,7 +17,7 @@ and set it to never, to ensure that the screen never locks on us mid-test.
 8. Open Xcode and create a new xcode project, make sure that you give a unique bundle ID and sign the project with apple account created in step1.  
 make note of the `Bundle ID`, This will be the `updatedWDABundleId` value that will be used in desired capabilities.
 
-![alt tag](https://github.com/pavankovurru/Appium_Mobile_Automation_Framework/blob/master/src/main/resources/WebDriverAgentRunner.png)
+[alt tag](https://github.com/pavankovurru/Appium_Mobile_Automation_Framework/blob/master/src/main/resources/WebDriverAgentRunner.png)
 
 9.open `Keychain Access` mac app, click on my certificates, Double click on certificate and make note of the `Organization unit`  
 This will be the `xcodeOrgId` value that will be used in desired capabilities.
@@ -36,7 +36,7 @@ Sign in to developer.apple.com/account, and click Membership in the sidebar. You
 
 Use the link below if basic configuration does not work, This will happen if a free apple developer account `xcodeOrgId` is used in the desired capabilities above.
 
-![IOS REAL DEVICE SETUP -- READ ME](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/real-device-config.md)
+[IOS REAL DEVICE SETUP -- READ ME](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/real-device-config.md)
 
 
 NOTE : APPS BUILD FOR SIMULATOR WILL RUN ONLY ON SIMULATORS AND APPS BUILT FOR REAL DEVICES WILL RUN ONLY ON REAL DEVICES.
@@ -63,7 +63,7 @@ Restart Appium Server
 USE APPIUM DESKTOP --> START SERVER --> NEW SESSION --> GIVE DESIRED CAPABILITIES -->THIS WILL START THE APP AND APPIUM INSPECTOR
 ```
 
-![alt tag](https://github.com/pavankovurru/Appium_Mobile_Automation_Framework/blob/master/src/main/resources/AppiumInspector.png)
+[alt tag](https://github.com/pavankovurru/Appium_Mobile_Automation_Framework/blob/master/src/main/resources/AppiumInspector.png)
 
 
 
@@ -75,7 +75,7 @@ USE APPIUM DESKTOP --> START SERVER --> NEW SESSION --> GIVE DESIRED CAPABILITIE
 
 Predicate Format Strings are a typical Apple dev thing, and they also work in iOS. Predicate format strings enable basic comparisons and matching. In our case, they allow basic matching of elements according to simple criteria. What's really useful about predicate strings is that you can combine simple criteria to form more complex matches. In the XCUITest driver, predicate strings can be used to match various element attributes, including name, value, label, type, visible, etc...  
 
-![Appium Documentation](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/ios/ios-predicate.md)
+[Appium Documentation](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/ios/ios-predicate.md)
 
 ```
 Examples:
