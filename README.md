@@ -1,40 +1,44 @@
-# APPIUM MOBILE AUTOMATION FRAMEWORK
+# Appium Mobile Automation Framework
+This framework streamlines your mobile app testing with Appium, offering compatibility with Appium Java Client 9.3.0 and support for parallel test execution. Test across real devices, emulators, and simulators on both Android and iOS platforms.
 
-```
-Compatible With Android Oreo and IOS 11
-Uses explicit waits internally in all of the `src/main/java/com/company/project/utilities/AppiumUtil.java` functions that return mobile elements.  
-  
-Supports Parallel runs via testNG xml configuration  
-Note : an appium server supports onl one device, make sure multiple appium server instances are run to support parallel execution
-`open -n /Applications/Appium.app` - should do the trick on a mac to initialize a new instance of appium server
+## Features
+* **Parallel Testing:** Efficiently run tests in parallel using TestNG and multiple Appium server instances.
+* **Cross-Platform:**  Test seamlessly on both Android and iOS devices.
+* **Utility Functions:**  Simplify test creation with pre-built functions for common mobile interactions.
+* **Dynamic Configuration:** Easily target different apps, environments, and devices using parameterized TestNG XML files.
+* **Automatic Logs/Screenshots:** Capture logs/screenshots on test failures for faster debugging.
 
-Works With Native, Web & Hybrid Apps.
-Works on Emulators, Simulators & Real Devices.
-```
+## Tech Stack
+* Appium Java Client 9.3.0
+* Appium Inspector 2024.8.2
+* LOG4J 2.23.1
+* TestNG 7.10.2
+* Gradle 8.5
 
-##  FRAME WORK STACK 
-```
-1. Appium Java Client 5.0.4
-2. Appium Desktop 1.6.2
-3. Selenium 3.6.0
-4. LOG4J 2  
-5. TestNG 6.11
-6. Gradle
-```
+## Getting Started (Mac)
+1. **Install Appium Server** - `npm install -g appium`
+2. **Install Appium Drivers** - `appium setup`
+3. **Install Appium Inspector** - `https://github.com/appium/appium-inspector`
+1. **Launch Appium Server:** Open multiple instances for parallel testing:
+   ```bash
+   open -n /Applications/Appium.app
+   ```
+2. **Add Your Apps:** Place your `.apk` (Android) and `.ipa/.app` (iOS) files in `src/main/resources/testApps`.
+3. **Configure Tests:** Adjust parameters in the TestNG XML files within `src/test/resources` to target specific apps and devices.
+4. **Run Tests:** Execute using your TestNG runner or Gradle.
 
+## Framework Structure
+* `src/main/resources/testApps`: Store your app files here.
+* `src/main/java/com/company/project/utilities/`:
+    * `AppiumUserSimulations.java`: Contains utility functions for common mobile actions.
+    * `AppiumDriverFactory.java`:  Provides methods to create Appium drivers for different platforms.
+* `src/test/resources`:  Contains parameterized TestNG XML configuration files.
+* `screenshots`:  Automatically stores screenshots on test failures.
 
-##  IMPORTANT FILES  
-
-1. `src/main/resources` -- This folder contains Android,IOS apps that will be tested locally.   
- 
-2. `src/main/java/com/company/project/utilities/AppiumUtil.java` -- Has Utility functions that can be used to simulate mobile actions.  
-
-3. `src/test/resources` --  This folder contains testNG xml's which are parameterized with `AppName` and `runOn` details so that these XML's.
-
-can be modified to target different apps, environments and target devices instead of making changes to test files.
-
-4. A screen shot gets saved in screenshots folder with test class & test case name when there is a failure. 
-
+## Tips
+* Utilize the utility functions in `AppiumUserSimulations.java` for interacting with elements.
+* Manage Appium driver instances using `AppiumDriverFactory.java`.
+* Leverage parameterized TestNG XML files for flexible test configuration.
 
 ## TIPS AND TRICKS
 
@@ -46,4 +50,5 @@ can be modified to target different apps, environments and target devices instea
 
 * [ MOCKING LOCATION ](documents/MockLocation.md)
 
+**Happy testing!**
 

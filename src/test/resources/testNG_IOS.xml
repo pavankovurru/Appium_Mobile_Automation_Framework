@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="TEST SUITE">
+
+    <parameter name="runOn" value="IOSSimulator"/> <!--# IOSSimulator or IOSDevice -->
+    <parameter name="appName" value="UICatalog.app"/>
+    <parameter name="udid" value="b3b672660d55b619cc0d63df6956da6d780ed37b"/>
+
+    <listeners>
+        <listener class-name="com.company.project.utilities.retry.RetryListener"/>
+        <listener class-name="com.company.project.utilities.screenshot.ScreenshotListener"/>
+    </listeners>
+
+    <test name=" UI TESTS">
+        <classes>
+            <class name="com.company.project.ios.actionsheets.ActionSheetsTests"/>
+        </classes>
+    </test>
+
+</suite>
