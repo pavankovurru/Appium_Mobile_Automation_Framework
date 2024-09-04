@@ -1,5 +1,6 @@
 package com.company.project.utilities.appium;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.*;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -118,6 +120,9 @@ public class AppiumUserSimulations {
   }
 
   // ******* ANDROID ONLY ******** //
+
+  //Android EXECUTE METHODS - https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md
+
 
   // ANDROID KEY EVENTS
   public void android_HomeKeyEvent() {
@@ -443,8 +448,149 @@ public class AppiumUserSimulations {
     return wait_until_MobileElementsAre_Visible(driver, AppiumBy.className(className));
   }
 
-  // ***************************************** IOS ONLY
-  // ************************************************ //
+  // ************ IOS ONLY  *************** //
+
+  // EXECUTE METHODS - https://www.youtube.com/watch?v=oAJ7jwMNFVU
+  // https://github.com/appium/appium-xcuitest-driver/blob/master/docs/reference/execute-methods.md
+
+  public void validateInputDirection(String direction){
+    Set<String> validDirections = Set.of("up", "down", "left", "right");
+    if (!validDirections.contains(direction.toLowerCase())) {
+      log.error("Incorrect direction provided: " + direction + ". Valid directions are: " + validDirections);
+      throw new IllegalArgumentException("Invalid direction: " + direction);
+    }
+  }
+
+  public void swipeOnElementIOS(By locator, String direction) {
+    validateInputDirection(direction);
+    log.info("Attempting to swipe " + direction + " on an element located by: " + locator);
+
+    try {
+      WebElement element = driver.findElement(locator);
+      driver.executeScript("mobile: swipe", ImmutableMap.of(
+              "direction", direction.toLowerCase(),
+              "elementId", element
+      ));
+      log.info("Swipe " + direction + " performed successfully on element: " + locator);
+    } catch (NoSuchElementException e) {
+      log.error("Element not found with locator: " + locator, e);
+      throw e;
+    } catch (Exception e) {
+      log.error("Failed to perform swipe " + direction + " on element: " + locator, e);
+      throw e;
+    }
+  }
+
+  //NOTE : This auto scrolls to element inside a container, element has to be hittable
+  public void scrollToElementIOS(By locator) {
+    try {
+      WebElement element = driver.findElement(locator);
+      driver.executeScript("mobile: scroll", ImmutableMap.of(
+              "elementId", element
+      ));
+      log.info("scroll performed successfully on element with locator : " + locator);
+    } catch (NoSuchElementException e) {
+      log.error("Element not found with locator: " + locator, e);
+      throw e;
+    } catch (Exception e) {
+      log.error("Failed to perform scroll on element with locator: " + locator, e);
+      throw e;
+    }
+  }
+
+  public void scrollToElementWithPredicateIOS(String predicate, String direction) {
+    validateInputDirection(direction);
+    log.info("Attempting to swipe " + direction + " on an element located by predicate String: " + predicate);
+
+    try {
+      WebElement element = driver.findElement(AppiumBy.iOSNsPredicateString(predicate));
+      driver.executeScript("mobile: scroll", ImmutableMap.of(
+              "direction", direction.toLowerCase(),
+              "predicateString", element
+      ));
+      log.info("scroll " + direction + " performed successfully on element: by predicate String: " + predicate);
+    } catch (NoSuchElementException e) {
+      log.error("Element not found with locator with predicate: " + predicate, e);
+      throw e;
+    } catch (Exception e) {
+      log.error("Failed to perform scroll " + direction + " on element with predicate: " + predicate, e);
+      throw e;
+    }
+  }
+
+  public void scrollToElementWithPredicateOnContainerIOS(String predicate, By container, String direction) {
+    validateInputDirection(direction);
+    log.info("Attempting to swipe " + direction + " on an element located by predicate String: " + predicate);
+
+    try {
+      WebElement element = driver.findElement(AppiumBy.iOSNsPredicateString(predicate)); //scroll to element
+      WebElement containerElement = driver.findElement(container); //scroll in container
+
+      driver.executeScript("mobile: scroll", ImmutableMap.of(
+              "direction", direction.toLowerCase(),
+              "elementId ", containerElement,
+              "predicateString", element
+      ));
+      log.info("scroll " + direction + " performed successfully on element: by predicate String: " + predicate);
+    } catch (NoSuchElementException e) {
+      log.error("Element not found with locator with predicate: " + predicate, e);
+      throw e;
+    } catch (Exception e) {
+      log.error("Failed to perform scroll " + direction + " on element with predicate: " + predicate, e);
+      throw e;
+    }
+  }
+
+  public void doubleTapOnElementIOS( By container) {
+    WebElement element = driver.findElement(container);
+    try {
+      driver.executeScript("mobile: doubleTap", ImmutableMap.of(
+              "elementId ", element
+      ));
+      log.info("Double tap performed successfully on element: " + element);
+    } catch (NoSuchElementException e) {
+      log.error("Element not found with locator: " + element, e);
+      throw e;
+    } catch (Exception e) {
+      log.error("Failed to perform double tap gesture on element : " + element, e);
+      throw e;
+    }
+  }
+
+  public void pressAndHoldElementIOS(By container, int timeToHoldInSeconds) {
+    WebElement element = driver.findElement(container);
+    try {
+      driver.executeScript("mobile: touchAndHold", ImmutableMap.of(
+              "elementId ", element,
+              "duration", timeToHoldInSeconds
+      ));
+      log.info("press and hold performed successfully on element: " + element);
+    } catch (NoSuchElementException e) {
+      log.error("Element not found with locator: " + element, e);
+      throw e;
+    } catch (Exception e) {
+      log.error("Failed to perform press and hold gesture on element : " + element, e);
+      throw e;
+    }
+  }
+
+  public void tapOnElementIOS(By container, int xOffset, int yOffset) {
+    WebElement element = driver.findElement(container);
+    try {
+      driver.executeScript(" mobile: tap", ImmutableMap.of(
+              "elementId ", element,
+              "x", xOffset,
+              "y", yOffset
+      ));
+      log.info("Tap action performed successfully on element: " + element);
+    } catch (NoSuchElementException e) {
+      log.error("Element not found with locator: " + element, e);
+      throw e;
+    } catch (Exception e) {
+      log.error("Failed to perform tap action on element : " + element, e);
+      throw e;
+    }
+  }
 
   // Get MOBILE ELEMENT
   public WebElement ios_GetMobileElementUsingAccessibilityId(String accessibilityId) {

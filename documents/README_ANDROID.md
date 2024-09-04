@@ -26,6 +26,10 @@
 5. **Create and Run an Android Emulator:**
    - Ensure the emulator is up and running along with the Appium server for local test execution on the Android emulator.
 
+
+
+**TIP** - Developer Options -> enable `show taps` and `pointer location` to see where appium is performing actions
+
 ## ANDROID ELEMENT LOCATOR TOOLS
 
 1. **Appium Inspector:**  
