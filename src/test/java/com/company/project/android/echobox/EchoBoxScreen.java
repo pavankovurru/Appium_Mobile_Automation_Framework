@@ -1,13 +1,13 @@
 package com.company.project.android.echobox;
 
-import com.company.project.android.landing.LandingScreen;
+import com.company.project.android.landing.LandingScreenAndroid;
 import com.company.project.utilities.appium.AppiumUserSimulations;
 import io.appium.java_client.AppiumDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 
-public class EchoBoxScreen extends LandingScreen {
+public class EchoBoxScreen extends LandingScreenAndroid {
 
     private final Logger log = LogManager.getLogger();
     private AppiumUserSimulations appium;
@@ -36,7 +36,7 @@ public class EchoBoxScreen extends LandingScreen {
 
     // ASSERTIONS
     public void assertEchoBoxScreenTitle() {
-        appium.isDisplayed(EchoBoxLocators.echoBoxScreenTitle);
+        Assert.assertTrue(appium.isDisplayed(EchoBoxLocators.echoBoxScreenTitle));
     }
 
     public void assertSavedData(String uniqueString) {

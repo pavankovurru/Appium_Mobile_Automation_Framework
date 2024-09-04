@@ -3,17 +3,16 @@
 <suite name="TEST SUITE">
 
     <parameter name="runOn" value="IOSSimulator"/> <!--# IOSSimulator or IOSDevice -->
-    <parameter name="appName" value="UICatalog.app"/>
-    <parameter name="udid" value="b3b672660d55b619cc0d63df6956da6d780ed37b"/>
+    <parameter name="appName" value="UIKitCatalog.app"/>
+    <parameter name="udid" value="A0B0726F-5445-4381-99CD-669FFE8A258A"/>
 
     <listeners>
         <listener class-name="com.company.project.utilities.retry.RetryListener"/>
-        <listener class-name="com.company.project.utilities.screenshot.ScreenshotListener"/>
     </listeners>
 
     <test name=" UI TESTS">
         <classes>
-            <class name="com.company.project.ios.actionsheets.ActionSheetsTests"/>
+            <class name="com.company.project.ios.alertviews.AlertViewsTests"/>
         </classes>
     </test>
 

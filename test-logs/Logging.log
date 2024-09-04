@@ -1,44 +1,44 @@
-2024-09-02 12:45:37 | [invokeApp] | (EchoBoxTests.java:26) | Trying to create appium driver for -AndroidEmulator
-2024-09-02 12:45:37 | [createLocalAndroidDriverForEmulator] | (AppiumDriverFactory.java:44) | Trying to create Android Driver on emulator
-2024-09-02 12:45:41 | [invokeApp] | (EchoBoxTests.java:37) | --------------------------------------------------------------------------
-2024-09-02 12:45:41 | [invokeApp] | (EchoBoxTests.java:38) | Appium driver created for - AndroidEmulator
-2024-09-02 12:45:41 | [invokeApp] | (EchoBoxTests.java:39) | Targeting app - TheApp.apk
-2024-09-02 12:45:41 | [invokeApp] | (EchoBoxTests.java:40) | --------------------------------------------------------------------------
-2024-09-02 12:45:41 | [click] | (AppiumUserSimulations.java:42) | Trying to click element with locator - AppiumBy.accessibilityId: Echo Box
-2024-09-02 12:45:41 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:572) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: Echo Box
-2024-09-02 12:45:43 | [isDisplayed] | (AppiumUserSimulations.java:58) | Trying to check if element is displayed with locator - AppiumBy.androidUIAutomator: new UiSelector().text("Echo Screen")
-2024-09-02 12:45:43 | [wait_until_MobileElementIs_Visible] | (AppiumUserSimulations.java:579) | 15 secs - Waiting for element using -AppiumBy.androidUIAutomator: new UiSelector().text("Echo Screen")
-2024-09-02 12:45:43 | [tearDown] | (EchoBoxTests.java:49) | Tearing down driver
-2024-09-02 12:45:43 | [invokeApp] | (EchoBoxTests.java:26) | Trying to create appium driver for -AndroidEmulator
-2024-09-02 12:45:43 | [createLocalAndroidDriverForEmulator] | (AppiumDriverFactory.java:44) | Trying to create Android Driver on emulator
-2024-09-02 12:45:47 | [invokeApp] | (EchoBoxTests.java:37) | --------------------------------------------------------------------------
-2024-09-02 12:45:47 | [invokeApp] | (EchoBoxTests.java:38) | Appium driver created for - AndroidEmulator
-2024-09-02 12:45:47 | [invokeApp] | (EchoBoxTests.java:39) | Targeting app - TheApp.apk
-2024-09-02 12:45:47 | [invokeApp] | (EchoBoxTests.java:40) | --------------------------------------------------------------------------
-2024-09-02 12:45:47 | [click] | (AppiumUserSimulations.java:42) | Trying to click element with locator - AppiumBy.accessibilityId: Echo Box
-2024-09-02 12:45:47 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:572) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: Echo Box
-2024-09-02 12:45:49 | [click] | (AppiumUserSimulations.java:42) | Trying to click element with locator - AppiumBy.accessibilityId: messageInput
-2024-09-02 12:45:49 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:572) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: messageInput
-2024-09-02 12:45:50 | [clear] | (AppiumUserSimulations.java:67) | Trying to clear element contents from element with locator - AppiumBy.accessibilityId: messageInput
-2024-09-02 12:45:50 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:572) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: messageInput
-2024-09-02 12:45:50 | [sendKeys] | (AppiumUserSimulations.java:47) | Trying to send keys  - f5b976b600404b78a910c18b24e04fd2
-2024-09-02 12:45:50 | [sendKeys] | (AppiumUserSimulations.java:48) | To locator - AppiumBy.accessibilityId: messageInput
-2024-09-02 12:45:50 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:572) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: messageInput
-2024-09-02 12:45:51 | [click] | (AppiumUserSimulations.java:42) | Trying to click element with locator - AppiumBy.accessibilityId: messageSaveBtn
-2024-09-02 12:45:51 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:572) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: messageSaveBtn
-2024-09-02 12:45:52 | [getText] | (AppiumUserSimulations.java:53) | Trying to get text from element with locator - AppiumBy.androidUIAutomator: new UiSelector().resourceId("savedMessage")
-2024-09-02 12:45:52 | [wait_until_MobileElementIs_Visible] | (AppiumUserSimulations.java:579) | 15 secs - Waiting for element using -AppiumBy.androidUIAutomator: new UiSelector().resourceId("savedMessage")
-2024-09-02 12:45:53 | [tearDown] | (EchoBoxTests.java:49) | Tearing down driver
-2024-09-02 12:45:53 | [invokeApp] | (EchoBoxTests.java:26) | Trying to create appium driver for -AndroidEmulator
-2024-09-02 12:45:53 | [createLocalAndroidDriverForEmulator] | (AppiumDriverFactory.java:44) | Trying to create Android Driver on emulator
-2024-09-02 12:45:57 | [invokeApp] | (EchoBoxTests.java:37) | --------------------------------------------------------------------------
-2024-09-02 12:45:57 | [invokeApp] | (EchoBoxTests.java:38) | Appium driver created for - AndroidEmulator
-2024-09-02 12:45:57 | [invokeApp] | (EchoBoxTests.java:39) | Targeting app - TheApp.apk
-2024-09-02 12:45:57 | [invokeApp] | (EchoBoxTests.java:40) | --------------------------------------------------------------------------
-2024-09-02 12:45:57 | [click] | (AppiumUserSimulations.java:42) | Trying to click element with locator - AppiumBy.accessibilityId: Echo Box
-2024-09-02 12:45:57 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:572) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: Echo Box
-2024-09-02 12:45:58 | [click] | (AppiumUserSimulations.java:42) | Trying to click element with locator - AppiumBy.accessibilityId: Navigate Up
-2024-09-02 12:45:58 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:572) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: Navigate Up
-2024-09-02 12:45:59 | [isDisplayed] | (AppiumUserSimulations.java:58) | Trying to check if element is displayed with locator - AppiumBy.androidUIAutomator: new UiSelector().text("TheApp")
-2024-09-02 12:45:59 | [wait_until_MobileElementIs_Visible] | (AppiumUserSimulations.java:579) | 15 secs - Waiting for element using -AppiumBy.androidUIAutomator: new UiSelector().text("TheApp")
-2024-09-02 12:46:00 | [tearDown] | (EchoBoxTests.java:49) | Tearing down driver
+2024-09-04 11:00:07 | [invokeApp] | (EchoBoxTests.java:25) | Trying to create appium driver for -AndroidEmulator
+2024-09-04 11:00:07 | [createLocalAndroidDriverForEmulator] | (AppiumDriverFactory.java:44) | Trying to create Android Driver on emulator
+2024-09-04 11:00:32 | [invokeApp] | (EchoBoxTests.java:36) | --------------------------------------------------------------------------
+2024-09-04 11:00:32 | [invokeApp] | (EchoBoxTests.java:37) | Appium driver created for - AndroidEmulator
+2024-09-04 11:00:32 | [invokeApp] | (EchoBoxTests.java:38) | Targeting app - TheApp.apk
+2024-09-04 11:00:32 | [invokeApp] | (EchoBoxTests.java:39) | --------------------------------------------------------------------------
+2024-09-04 11:00:32 | [click] | (AppiumUserSimulations.java:38) | Trying to click element with locator - AppiumBy.accessibilityId: Echo Box
+2024-09-04 11:00:32 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:568) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: Echo Box
+2024-09-04 11:00:34 | [isDisplayed] | (AppiumUserSimulations.java:54) | Trying to check if element is displayed with locator - AppiumBy.androidUIAutomator: new UiSelector().text("Echo Screen")
+2024-09-04 11:00:34 | [wait_until_MobileElementIs_Visible] | (AppiumUserSimulations.java:575) | 15 secs - Waiting for element using -AppiumBy.androidUIAutomator: new UiSelector().text("Echo Screen")
+2024-09-04 11:00:34 | [tearDown] | (EchoBoxTests.java:48) | Tearing down driver
+2024-09-04 11:00:34 | [invokeApp] | (EchoBoxTests.java:25) | Trying to create appium driver for -AndroidEmulator
+2024-09-04 11:00:34 | [createLocalAndroidDriverForEmulator] | (AppiumDriverFactory.java:44) | Trying to create Android Driver on emulator
+2024-09-04 11:00:38 | [invokeApp] | (EchoBoxTests.java:36) | --------------------------------------------------------------------------
+2024-09-04 11:00:38 | [invokeApp] | (EchoBoxTests.java:37) | Appium driver created for - AndroidEmulator
+2024-09-04 11:00:38 | [invokeApp] | (EchoBoxTests.java:38) | Targeting app - TheApp.apk
+2024-09-04 11:00:38 | [invokeApp] | (EchoBoxTests.java:39) | --------------------------------------------------------------------------
+2024-09-04 11:00:38 | [click] | (AppiumUserSimulations.java:38) | Trying to click element with locator - AppiumBy.accessibilityId: Echo Box
+2024-09-04 11:00:38 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:568) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: Echo Box
+2024-09-04 11:00:40 | [click] | (AppiumUserSimulations.java:38) | Trying to click element with locator - AppiumBy.accessibilityId: messageInput
+2024-09-04 11:00:40 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:568) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: messageInput
+2024-09-04 11:00:41 | [clear] | (AppiumUserSimulations.java:63) | Trying to clear element contents from element with locator - AppiumBy.accessibilityId: messageInput
+2024-09-04 11:00:41 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:568) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: messageInput
+2024-09-04 11:00:41 | [sendKeys] | (AppiumUserSimulations.java:43) | Trying to send keys  - 50ab35cc5a4e442cb36c24e91a55fee0
+2024-09-04 11:00:41 | [sendKeys] | (AppiumUserSimulations.java:44) | To locator - AppiumBy.accessibilityId: messageInput
+2024-09-04 11:00:41 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:568) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: messageInput
+2024-09-04 11:00:42 | [click] | (AppiumUserSimulations.java:38) | Trying to click element with locator - AppiumBy.accessibilityId: messageSaveBtn
+2024-09-04 11:00:42 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:568) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: messageSaveBtn
+2024-09-04 11:00:43 | [getText] | (AppiumUserSimulations.java:49) | Trying to get text from element with locator - AppiumBy.androidUIAutomator: new UiSelector().resourceId("savedMessage")
+2024-09-04 11:00:43 | [wait_until_MobileElementIs_Visible] | (AppiumUserSimulations.java:575) | 15 secs - Waiting for element using -AppiumBy.androidUIAutomator: new UiSelector().resourceId("savedMessage")
+2024-09-04 11:00:44 | [tearDown] | (EchoBoxTests.java:48) | Tearing down driver
+2024-09-04 11:00:44 | [invokeApp] | (EchoBoxTests.java:25) | Trying to create appium driver for -AndroidEmulator
+2024-09-04 11:00:44 | [createLocalAndroidDriverForEmulator] | (AppiumDriverFactory.java:44) | Trying to create Android Driver on emulator
+2024-09-04 11:00:48 | [invokeApp] | (EchoBoxTests.java:36) | --------------------------------------------------------------------------
+2024-09-04 11:00:48 | [invokeApp] | (EchoBoxTests.java:37) | Appium driver created for - AndroidEmulator
+2024-09-04 11:00:48 | [invokeApp] | (EchoBoxTests.java:38) | Targeting app - TheApp.apk
+2024-09-04 11:00:48 | [invokeApp] | (EchoBoxTests.java:39) | --------------------------------------------------------------------------
+2024-09-04 11:00:48 | [click] | (AppiumUserSimulations.java:38) | Trying to click element with locator - AppiumBy.accessibilityId: Echo Box
+2024-09-04 11:00:48 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:568) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: Echo Box
+2024-09-04 11:00:50 | [click] | (AppiumUserSimulations.java:38) | Trying to click element with locator - AppiumBy.accessibilityId: Navigate Up
+2024-09-04 11:00:50 | [wait_until_MobileElementIs_Clickable] | (AppiumUserSimulations.java:568) | 15 secs - Waiting for element using -AppiumBy.accessibilityId: Navigate Up
+2024-09-04 11:00:51 | [isDisplayed] | (AppiumUserSimulations.java:54) | Trying to check if element is displayed with locator - AppiumBy.androidUIAutomator: new UiSelector().text("TheApp")
+2024-09-04 11:00:51 | [wait_until_MobileElementIs_Visible] | (AppiumUserSimulations.java:575) | 15 secs - Waiting for element using -AppiumBy.androidUIAutomator: new UiSelector().text("TheApp")
+2024-09-04 11:00:51 | [tearDown] | (EchoBoxTests.java:48) | Tearing down driver

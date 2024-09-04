@@ -6,7 +6,6 @@
 
 1. Create [apple developer account](https://developer.apple.com/)
 2. Install `XCODE`. 
-2. Install  appium desktop or `APPIUM 1.6 or higher` using `npm install -g appium`.
 3. Install [home brew] (https://brew.sh/)
 4. `brew install libimobiledevice` - open source package which is able to communicate with iOS devices.
 5. `brew install ios-deploy` - for transferring iOS apps onto your device.
@@ -57,22 +56,20 @@ Restart Appium Server
 ## 1. APPIUM INSPECTOR 
 
 ```
-USE APPIUM DESKTOP --> START SERVER --> NEW SESSION --> GIVE DESIRED CAPABILITIES -->THIS WILL START THE APP AND APPIUM INSPECTOR
+APPIUM INSPECTOR --> ADD DESIRED CAPABILITIES --> START SERVER --> THIS WILL START THE APP AND APPIUM INSPECTOR
 ```
 
 ![alt tag](https://github.com/pavankovurru/Appium_Mobile_Automation_Framework/blob/master/src/main/resources/AppiumInspector.png)
 
+[Appium Documentation Locator Strategies](https://appium.github.io/appium-xcuitest-driver/latest/reference/locator-strategies/)
 
-
-`driver.findElement(MobileBy.AccessibilityId(accessibilityId));`  -- `AccessibilityId` in inspector can be used here
-`driver.findElement(MobileBy.name(name));`  -- `name` value in inspector can be used here
- `XPATH` value in appium Inspector can be used in  `driver.findElement(MobileBy.xpath(xPath));`. 
-  
+`driver.findElement(AppiumBy.AccessibilityId(accessibilityId));`  -- `AccessibilityId` in inspector can be used here
+`driver.findElement(AppiumBy.name(name));`  -- `name` value in inspector can be used here
+ `XPATH` value in appium Inspector can be used in `driver.findElement(AppiumBy.xpath(xPath));`. 
+ 
 ### iOS Predicate String Strategy
 
 Predicate Format Strings are a typical Apple dev thing, and they also work in iOS. Predicate format strings enable basic comparisons and matching. In our case, they allow basic matching of elements according to simple criteria. What's really useful about predicate strings is that you can combine simple criteria to form more complex matches. In the XCUITest driver, predicate strings can be used to match various element attributes, including name, value, label, type, visible, etc...  
-
-[Appium Documentation](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/ios/ios-predicate.md)
 
 ```
 Examples:

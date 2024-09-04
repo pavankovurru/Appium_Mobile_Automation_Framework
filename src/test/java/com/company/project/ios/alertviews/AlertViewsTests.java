@@ -1,4 +1,4 @@
-package com.company.project.android.echobox;
+package com.company.project.ios.alertviews;
 
 import com.company.project.utilities.appium.AppiumDriverFactory;
 import com.company.project.utilities.appium.AppiumUserSimulations;
@@ -10,25 +10,23 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-public class EchoBoxTests {
-
+public class AlertViewsTests {
     private Logger log = LogManager.getLogger();
     AppiumUserSimulations appium = null;
     AppiumDriver driver = null;
     AppiumDriverFactory driverFactory = null;
-    EchoBoxScreen echoBoxScreen = null;
-    private String uniqueString = "";
+    AlertViewsScreen alertViewsScreen = null;
 
     @BeforeMethod(alwaysRun = true)
-    @Parameters({"runOn", "appName"})
-    public void invokeApp(String runOn, String appName) {
+    @Parameters({"runOn", "appName", "udid"})
+    public void invokeApp(String runOn, String appName, String udid) {
         log.info("Trying to create appium driver for -" + runOn);
         driverFactory = new AppiumDriverFactory();
 
-        if (runOn.equalsIgnoreCase("AndroidEmulator")){
-            driver = driverFactory.createLocalAndroidDriverForEmulator(appName, true);
+        if (runOn.equalsIgnoreCase("IOSSimulator")){
+            driver = driverFactory.createLocalIOSDriverForSimulator(appName, udid, false);
         } else if(runOn.equalsIgnoreCase("AndroidDevice")){
-            driver = driverFactory.createLocalAndroidDriverForEmulator(appName, true);
+            driver = driverFactory.createLocalIOSDriverForPhysicalDevice(appName,udid,"", false);
         } else {
             log.info("Incorrect runOn parameter provided" + runOn);
         }
@@ -39,8 +37,7 @@ public class EchoBoxTests {
         log.info("--------------------------------------------------------------------------");
 
         appium = new AppiumUserSimulations(driver);
-        uniqueString = appium.generateUniqueString();
-        echoBoxScreen = new EchoBoxScreen(driver);
+        alertViewsScreen = new AlertViewsScreen(driver);
     }
 
     @AfterMethod(alwaysRun = true)
@@ -52,23 +49,24 @@ public class EchoBoxTests {
     }
 
     @Test(priority = 1)
-    public void validateNavigationToEchoBoxScreen(){
-        echoBoxScreen.navigateToEchoBoxScreen();
-        echoBoxScreen.assertEchoBoxScreenTitle();
+    public void validateNavigationToAlertViewsScreen(){
+        alertViewsScreen.navigateToAlertViewsScreen();
+        alertViewsScreen.assertAlertViewsScreenTitle();
     }
 
     @Test(priority = 2)
-    public void saveAndValidateMessageOnEchoBoxScreen(){
-        echoBoxScreen.navigateToEchoBoxScreen();
-        echoBoxScreen.sendDataToMessageInputTextBox(uniqueString);
-        echoBoxScreen.saveDateSentToMessageTextBox();
-        echoBoxScreen.assertSavedData(uniqueString);
+    public void validateSimpleAlertViewOnAlertViewsScreen(){
+        alertViewsScreen.navigateToAlertViewsScreen();
+        alertViewsScreen.tapSimpleAlertStyleOnAlertViewsScreen();
+        alertViewsScreen.assertSimpleAlertView();
     }
 
     @Test(priority = 3)
-    public void ValidateNavigationFromEchoBoxToLandingScreen(){
-        echoBoxScreen.navigateToEchoBoxScreen();
-        echoBoxScreen.navigateFromEchoBoxScreenToLandingScreen();
-        echoBoxScreen.assertLandingScreenTitle();
+    public void ValidateDismissSimpleAlertAction(){
+        alertViewsScreen.navigateToAlertViewsScreen();
+        alertViewsScreen.tapSimpleAlertStyleOnAlertViewsScreen();
+        alertViewsScreen.tapSimpleAlertOKButton();
+        alertViewsScreen.assertSimpleAlertViewNotPresent();
     }
+
 }

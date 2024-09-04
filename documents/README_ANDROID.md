@@ -40,6 +40,7 @@
    **AppiumBy Class Locator Strategies:**
 
    ```java
+   https://javadoc.io/doc/io.appium/java-client/latest/io/appium/java_client/AppiumBy.html
    AppiumBy.accessibilityId("messageInput");
    AppiumBy.androidUIAutomator("new UiSelector().text(\"Save\")");
    AppiumBy.androidUIAutomator("new UiSelector().resourceId(\"savedMessage\")");
