@@ -24,7 +24,7 @@ task androidTest(type: Test) {
     group = 'Android'
     description = 'Run TestNG Android suite'
     useTestNG {
-        suites 'src/main/java/com/company/project/resources/testNG_Android.xml'
+        suites 'src/test/resources/testNG_Android.xml'
     }
 }
 
@@ -32,6 +32,6 @@ task iOSTest(type: Test) {
     group = 'iOS'
     description = 'Run TestNG iOS suite'
     useTestNG {
-        suites 'src/main/java/com/company/project/resources/testNG_IOS.xml'
+        suites 'src/test/resources/testNG_IOS.xml'
     }
 }
