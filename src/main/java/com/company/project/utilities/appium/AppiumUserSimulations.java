@@ -123,6 +123,107 @@ public class AppiumUserSimulations {
 
   //Android EXECUTE METHODS - https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md
 
+  public void validateSwipePercentage(int percent){
+    if (percent > 1 || percent < 0 ) {
+      log.error("Incorrect swipe percent provided: value needs to be between 0 & 1 ");
+      throw new IllegalArgumentException("Invalid percent: " + percent);
+    }
+  }
+
+  public void swipeOnElementAndroid(By locator, String direction, int percent) {
+    validateInputDirection(direction);
+    validateSwipePercentage(percent);
+    log.info("Attempting to swipe " + direction + " on an element located by: " + locator);
+
+    try {
+      WebElement element = driver.findElement(locator);
+      ((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
+              "direction", direction.toLowerCase(),
+              "elementId", element,
+              "percent", percent
+      ));
+      log.info("Swipe " + direction + " performed successfully on element: " + locator);
+    } catch (NoSuchElementException e) {
+      log.error("Element not found with locator: " + locator, e);
+      throw e;
+    } catch (Exception e) {
+      log.error("Failed to perform swipe " + direction + " on element: " + locator, e);
+      throw e;
+    }
+  }
+
+  public void scrollToElementAndroid(By locator, String direction, int percent) {
+    validateInputDirection(direction);
+    validateSwipePercentage(percent);
+    log.info("Attempting to swipe " + direction + " on an element located by: " + locator);
+
+    try {
+      WebElement element = driver.findElement(locator);
+      ((JavascriptExecutor) driver).executeScript("mobile: scrollGesture", ImmutableMap.of(
+              "direction", direction.toLowerCase(),
+              "elementId", element,
+              "percent", percent
+      ));
+      log.info("Swipe " + direction + " performed successfully on element: " + locator);
+    } catch (NoSuchElementException e) {
+      log.error("Element not found with locator: " + locator, e);
+      throw e;
+    } catch (Exception e) {
+      log.error("Failed to perform swipe " + direction + " on element: " + locator, e);
+      throw e;
+    }
+  }
+
+  public void doubleTapOnElementAndroid(By locator) {
+    WebElement element = driver.findElement(locator);
+    try {
+      driver.executeScript("mobile: doubleClickGesture", ImmutableMap.of(
+              "elementId ", element
+      ));
+      log.info("Double tap performed successfully on element: " + element);
+    } catch (NoSuchElementException e) {
+      log.error("Element not found with locator: " + element, e);
+      throw e;
+    } catch (Exception e) {
+      log.error("Failed to perform double tap gesture on element : " + element, e);
+      throw e;
+    }
+  }
+
+  public void pressAndHoldElementAndroid(By container, int timeToHoldInMilliSeconds) {
+    WebElement element = driver.findElement(container);
+    try {
+      driver.executeScript("mobile: longClickGesture", ImmutableMap.of(
+              "elementId ", element,
+              "duration", timeToHoldInMilliSeconds
+      ));
+      log.info("press and hold performed successfully on element: " + element);
+    } catch (NoSuchElementException e) {
+      log.error("Element not found with locator: " + element, e);
+      throw e;
+    } catch (Exception e) {
+      log.error("Failed to perform press and hold gesture on element : " + element, e);
+      throw e;
+    }
+  }
+
+  public void tapOnElementAndroid(By locator, int xOffset, int yOffset) {
+    WebElement element = driver.findElement(locator);
+    try {
+      driver.executeScript("mobile: clickGesture", ImmutableMap.of(
+              "elementId ", element,
+              "x", xOffset,
+              "y", yOffset
+      ));
+      log.info("Tap action performed successfully on element: " + element);
+    } catch (NoSuchElementException e) {
+      log.error("Element not found with locator: " + element, e);
+      throw e;
+    } catch (Exception e) {
+      log.error("Failed to perform tap action on element : " + element, e);
+      throw e;
+    }
+  }
 
   // ANDROID KEY EVENTS
   public void android_HomeKeyEvent() {
@@ -485,7 +586,7 @@ public class AppiumUserSimulations {
   public void scrollToElementIOS(By locator) {
     try {
       WebElement element = driver.findElement(locator);
-      driver.executeScript("mobile: scroll", ImmutableMap.of(
+      driver.executeScript("mobile: scrollToElement", ImmutableMap.of(
               "elementId", element
       ));
       log.info("scroll performed successfully on element with locator : " + locator);
@@ -541,8 +642,8 @@ public class AppiumUserSimulations {
     }
   }
 
-  public void doubleTapOnElementIOS( By container) {
-    WebElement element = driver.findElement(container);
+  public void doubleTapOnElementIOS(By locator) {
+    WebElement element = driver.findElement(locator);
     try {
       driver.executeScript("mobile: doubleTap", ImmutableMap.of(
               "elementId ", element
@@ -574,10 +675,10 @@ public class AppiumUserSimulations {
     }
   }
 
-  public void tapOnElementIOS(By container, int xOffset, int yOffset) {
-    WebElement element = driver.findElement(container);
+  public void tapOnElementIOS(By locator, int xOffset, int yOffset) {
+    WebElement element = driver.findElement(locator);
     try {
-      driver.executeScript(" mobile: tap", ImmutableMap.of(
+      driver.executeScript("mobile: tap", ImmutableMap.of(
               "elementId ", element,
               "x", xOffset,
               "y", yOffset
