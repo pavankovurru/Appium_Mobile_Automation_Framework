@@ -130,12 +130,12 @@ public class AppiumUserSimulations {
 
   public void switchToContext(String context) {
     log.info("Trying to switch to context - "+context);
-    driver.executeScript("mobile:Set Context");
+    driver.executeScript("mobile: Set Context");
   }
 
   public String getCurrentContext(String context) {
     log.info("Trying to get current context");
-    return (String) driver.executeScript("Get Current Context");
+    return (String) driver.executeScript("mobile: Get Current Context");
   }
 
   // ******* ANDROID ONLY ******** //
