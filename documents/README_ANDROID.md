@@ -34,6 +34,8 @@
 
 1. **Appium Inspector:**  
    [Appium Inspector GitHub Repository](https://github.com/appium/appium-inspector)
+2. 
+   [Locators Execution Time](https://github.com/appium/appium-uiautomator2-driver/blob/master/README.md#element-location)
 
    ```bash
    # Have the app running, open `appium-inspector`.

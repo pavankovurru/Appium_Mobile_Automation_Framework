@@ -119,6 +119,25 @@ public class AppiumUserSimulations {
         .perform();
   }
 
+  //Context Switching
+  // Get all available contexts (Native and WebView)
+  public List<String> getAllContexts() {
+    @SuppressWarnings("unchecked")
+    List<String> contexts = (List<String>) driver.executeScript("mobile: getContexts");
+    log.info("Available contexts: " + contexts);
+    return contexts;
+  }
+
+  public void switchToContext(String context) {
+    log.info("Trying to switch to context - "+context);
+    driver.executeScript("mobile:Set Context");
+  }
+
+  public String getCurrentContext(String context) {
+    log.info("Trying to get current context");
+    return (String) driver.executeScript("Get Current Context");
+  }
+
   // ******* ANDROID ONLY ******** //
 
   //Android EXECUTE METHODS - https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md
