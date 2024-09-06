@@ -130,7 +130,7 @@ public class AppiumUserSimulations {
 
   public void switchToContext(String context) {
     log.info("Trying to switch to context - "+context);
-    driver.executeScript("mobile: Set Context");
+    driver.executeScript("mobile: setContext", ImmutableMap.of("name", context));
   }
 
   public String getCurrentContext(String context) {
