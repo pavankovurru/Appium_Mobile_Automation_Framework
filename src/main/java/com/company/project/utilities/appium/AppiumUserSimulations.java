@@ -5,6 +5,7 @@ import io.appium.java_client.*;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.SupportsContextSwitching;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.ElementOption;
 import io.appium.java_client.touch.offset.PointOption;
@@ -119,23 +120,35 @@ public class AppiumUserSimulations {
         .perform();
   }
 
-  //Context Switching
-  // Get all available contexts (Native and WebView)
-  public List<String> getAllContexts() {
+  //Context Switching using executeScript
+  public List<String> getAllContextsJS() {
     @SuppressWarnings("unchecked")
     List<String> contexts = (List<String>) driver.executeScript("mobile: getContexts");
     log.info("Available contexts: " + contexts);
     return contexts;
   }
 
-  public void switchToContext(String context) {
+  public void switchToContextJS(String context) {
     log.info("Trying to switch to context - "+context);
     driver.executeScript("mobile: setContext", ImmutableMap.of("name", context));
   }
 
-  public String getCurrentContext(String context) {
+  public String getCurrentContextJS(String context) {
     log.info("Trying to get current context");
     return (String) driver.executeScript("mobile: Get Current Context");
+  }
+
+  //Context Switching using SupportsContextSwitching
+  public void switchToContext(String contextName) {
+    ((SupportsContextSwitching) driver).context(contextName);
+  }
+
+  public Set<String> getAllContexts() {
+    return ((SupportsContextSwitching) driver).getContextHandles();
+  }
+
+  public String getCurrentContext() {
+    return ((SupportsContextSwitching) driver).getContext();
   }
 
   // ******* ANDROID ONLY ******** //
