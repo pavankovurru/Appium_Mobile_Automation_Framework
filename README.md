@@ -19,10 +19,6 @@ This framework streamlines your mobile app testing with Appium, offering compati
 1. **Install Appium Server** - `npm install -g appium`
 2. **Install Appium Drivers** - `appium setup`
 3. **Install Appium Inspector** - `https://github.com/appium/appium-inspector`
-1. **Launch Appium Server:** Open multiple instances for parallel testing:
-   ```bash
-   open -n /Applications/Appium.app
-   ```
 2. **Add Your Apps:** Place your `.apk` (Android) and `.ipa/.app` (iOS) files in `src/main/resources/testApps`.
 3. **Configure Tests:** Adjust parameters in the TestNG XML files within `src/test/resources` to target specific apps and devices.
 4. **Run Tests:** Execute using your TestNG runner or Gradle.
@@ -40,15 +36,5 @@ This framework streamlines your mobile app testing with Appium, offering compati
 * Manage Appium driver instances using `AppiumDriverFactory.java`.
 * Leverage parameterized TestNG XML files for flexible test configuration.
 
-## TIPS AND TRICKS
 
-* [ ANDROID READ ME ](documents/README_ANDROID.md)
-
-* [ IOS  READ ME ](documents/README_IOS.md)
-
-* [ WEB APPS  READ ME ](documents/WebApps_ReadMe.md)
-
-* [ MOCKING LOCATION ](documents/MockLocation.md)
-
-**Happy testing!**
 

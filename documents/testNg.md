@@ -1,4 +1,3 @@
-Here’s a basic README file that explains how to use TestNG in a Java project, covering the essentials:
 
 ---
 
