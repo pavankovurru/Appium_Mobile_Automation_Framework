@@ -1,14 +1,13 @@
 package com.company.project.utilities.appium;
 
+import static java.time.Duration.ofSeconds;
+
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.*;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.SupportsContextSwitching;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.ElementOption;
-import io.appium.java_client.touch.offset.PointOption;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +18,8 @@ import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -53,32 +54,9 @@ public class AppiumUserSimulations {
     return wait_until_MobileElementIs_Visible(driver, locator).getText();
   }
 
-  public boolean isDisplayed(By locator) {
-    log.info("Trying to check if element is displayed with locator - " + locator);
-    try {
-      return wait_until_MobileElementIs_Visible(driver, locator).isDisplayed();
-    } catch (Exception e) {
-      return false;
-    }
-  }
-
   public void clear(By locator) {
     log.info("Trying to clear element contents from element with locator - " + locator);
     wait_until_MobileElementIs_Clickable(driver, locator).clear();
-  }
-
-  public void tapTouchAction(By locator) {
-    new TouchAction((PerformsTouchActions) driver)
-        .tap(ElementOption.element(wait_until_MobileElementIs_Clickable(driver, locator)))
-        .perform();
-  }
-
-  // Long Press Action
-  public void longPressTouchAction(By locator, int durationInSeconds) {
-    new TouchAction((PerformsTouchActions) driver)
-        .longPress(ElementOption.element(wait_until_MobileElementIs_Clickable(driver, locator)))
-        .release()
-        .perform();
   }
 
   // Change Device Orientation
@@ -91,36 +69,118 @@ public class AppiumUserSimulations {
     }
   }
 
-  // Swipe Actions
-  public void swipeHorizontal(
-      double startPercentage, double endPercentage, int durationInMilliSeconds) {
-    Dimension size = driver.manage().window().getSize();
-    int startx = (int) (size.width * startPercentage);
-    int endx = (int) (size.width * endPercentage);
-    int y = size.height / 2;
-    new TouchAction((PerformsTouchActions) driver)
-        .press(PointOption.point(startx, y))
-        .waitAction(WaitOptions.waitOptions(Duration.ofMillis(durationInMilliSeconds)))
-        .moveTo(PointOption.point(endx, y))
-        .release()
-        .perform();
+  public boolean isDisplayed(By locator) {
+    log.info("Trying to check if element is displayed with locator - " + locator);
+    boolean isDisplayed = true;
+    WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10));
+    wait.pollingEvery(Duration.ofMillis(50));
+    try {
+      wait.until(ExpectedConditions.visibilityOf(driver.findElement(locator)));
+      log.info("Element found");
+    } catch (Exception e) {
+      isDisplayed = false;
+      log.info("Element not found 😱");
+    }
+    return isDisplayed;
   }
 
-  public void swipeVertical(
-      double startPercentage, double endPercentage, int durationInMilliSeconds) {
-    Dimension size = driver.manage().window().getSize();
-    int x = size.width / 2;
-    int starty = (int) (size.height * startPercentage);
-    int endy = (int) (size.height * endPercentage);
-    new TouchAction((PerformsTouchActions) driver)
-        .press(PointOption.point(x, starty))
-        .waitAction(WaitOptions.waitOptions(Duration.ofMillis(durationInMilliSeconds)))
-        .moveTo(PointOption.point(x, endy))
-        .release()
-        .perform();
+  public boolean isDisplayed(By locator, int timeout) {
+    log.info("Trying to check if element is displayed with locator - " + locator);
+    boolean isDisplayed = true;
+    WebDriverWait wait = new WebDriverWait(driver, ofSeconds(timeout));
+    wait.pollingEvery(Duration.ofMillis(50));
+    try {
+      wait.until(ExpectedConditions.visibilityOf(driver.findElement(locator)));
+      log.info("Element found");
+    } catch (Exception e) {
+      isDisplayed = false;
+      log.info("Element not found 😱");
+    }
+    return isDisplayed;
   }
 
-  //Context Switching using executeScript
+  public boolean isiOSPlatform(AppiumDriver driver) {
+    Object platform = driver.getCapabilities().getCapability("platformName");
+    return ((Platform) platform).name().equalsIgnoreCase("ios");
+  }
+
+  public enum Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+  }
+
+  public void swipeUntilElementIsVisible(By locator, Direction direction, int MAX_SWIPE_ATTEMPTS) {
+    int swipeAttempts = 1;
+    while (swipeAttempts < MAX_SWIPE_ATTEMPTS) {
+      if (isDisplayed(locator, 1)) {
+        return;
+      } else {
+        log.info("Trying to swipe, Attempt -" + swipeAttempts);
+        swipe(direction);
+        swipeAttempts++;
+      }
+    }
+    throw new RuntimeException("Element not found after swiping" + MAX_SWIPE_ATTEMPTS + " times.");
+  }
+
+  private void swipe(Direction direction) {
+    int height = driver.manage().window().getSize().height;
+    int width = driver.manage().window().getSize().width;
+
+    int startX, startY, endX, endY;
+
+    // Determine the start and end coordinates for each direction
+    switch (direction) {
+      case UP:
+        startX = width / 2;
+        startY = (int) (height * 0.8);
+        endX = width / 2;
+        endY = (int) (height * 0.2);
+        break;
+
+      case DOWN:
+        startX = width / 2;
+        startY = (int) (height * 0.2);
+        endX = width / 2;
+        endY = (int) (height * 0.8);
+        break;
+
+      case LEFT:
+        startX = (int) (width * 0.8);
+        startY = height / 2;
+        endX = (int) (width * 0.2);
+        endY = height / 2;
+        break;
+
+      case RIGHT:
+        startX = (int) (width * 0.2);
+        startY = height / 2;
+        endX = (int) (width * 0.8);
+        endY = height / 2;
+        break;
+
+      default:
+        throw new IllegalArgumentException("Invalid swipe direction");
+    }
+
+    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+    Sequence swipe = new Sequence(finger, 1);
+
+    // Add actions to perform the swipe
+    swipe.addAction(
+        finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startX, startY));
+    swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+    swipe.addAction(
+        finger.createPointerMove(
+            Duration.ofMillis(600), PointerInput.Origin.viewport(), endX, endY));
+    swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+    driver.perform(Arrays.asList(swipe));
+  }
+
+  // Context Switching using executeScript
   public List<String> getAllContextsJS() {
     @SuppressWarnings("unchecked")
     List<String> contexts = (List<String>) driver.executeScript("mobile: getContexts");
@@ -129,7 +189,7 @@ public class AppiumUserSimulations {
   }
 
   public void switchToContextJS(String context) {
-    log.info("Trying to switch to context - "+context);
+    log.info("Trying to switch to context - " + context);
     driver.executeScript("mobile: setContext", ImmutableMap.of("name", context));
   }
 
@@ -138,7 +198,7 @@ public class AppiumUserSimulations {
     return (String) driver.executeScript("mobile: Get Current Context");
   }
 
-  //Context Switching using SupportsContextSwitching
+  // Context Switching using SupportsContextSwitching
   public void switchToContext(String contextName) {
     ((SupportsContextSwitching) driver).context(contextName);
   }
@@ -153,10 +213,11 @@ public class AppiumUserSimulations {
 
   // ******* ANDROID ONLY ******** //
 
-  //Android EXECUTE METHODS - https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md
+  // Android EXECUTE METHODS -
+  // https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md
 
-  public void validateSwipePercentage(int percent){
-    if (percent > 1 || percent < 0 ) {
+  public void validateSwipePercentage(int percent) {
+    if (percent > 1 || percent < 0) {
       log.error("Incorrect swipe percent provided: value needs to be between 0 & 1 ");
       throw new IllegalArgumentException("Invalid percent: " + percent);
     }
@@ -168,18 +229,19 @@ public class AppiumUserSimulations {
     log.info("Attempting to swipe " + direction + " on an element located by: " + locator);
 
     try {
-      WebElement element = driver.findElement(locator);
-      ((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
-              "direction", direction.toLowerCase(),
-              "elementId", element,
-              "percent", percent
-      ));
+      ((JavascriptExecutor) driver)
+          .executeScript(
+              "mobile: swipeGesture",
+              ImmutableMap.of(
+                  "direction", direction.toString(),
+                  "elementId", driver.findElement(locator).getAttribute("UID"),
+                  "percent", percent));
       log.info("Swipe " + direction + " performed successfully on element: " + locator);
     } catch (NoSuchElementException e) {
       log.error("Element not found with locator: " + locator, e);
       throw e;
     } catch (Exception e) {
-      log.error("Failed to perform swipe " + direction + " on element: " + locator, e);
+      log.error("Failed to perform swipe " + direction.toString() + " on element: " + locator, e);
       throw e;
     }
   }
@@ -190,12 +252,13 @@ public class AppiumUserSimulations {
     log.info("Attempting to swipe " + direction + " on an element located by: " + locator);
 
     try {
-      WebElement element = driver.findElement(locator);
-      ((JavascriptExecutor) driver).executeScript("mobile: scrollGesture", ImmutableMap.of(
-              "direction", direction.toLowerCase(),
-              "elementId", element,
-              "percent", percent
-      ));
+      ((JavascriptExecutor) driver)
+          .executeScript(
+              "mobile: scrollGesture",
+              ImmutableMap.of(
+                  "direction", direction.toLowerCase(),
+                  "elementId", driver.findElement(locator).getAttribute("UID"),
+                  "percent", percent));
       log.info("Swipe " + direction + " performed successfully on element: " + locator);
     } catch (NoSuchElementException e) {
       log.error("Element not found with locator: " + locator, e);
@@ -207,52 +270,53 @@ public class AppiumUserSimulations {
   }
 
   public void doubleTapOnElementAndroid(By locator) {
-    WebElement element = driver.findElement(locator);
     try {
-      driver.executeScript("mobile: doubleClickGesture", ImmutableMap.of(
-              "elementId ", element
-      ));
-      log.info("Double tap performed successfully on element: " + element);
+      driver.executeScript(
+          "mobile: doubleClickGesture",
+          ImmutableMap.of("elementId ", driver.findElement(locator).getAttribute("UID")));
+      log.info("Double tap performed successfully on element: " + locator);
     } catch (NoSuchElementException e) {
-      log.error("Element not found with locator: " + element, e);
+      log.error("Element not found with locator: " + locator, e);
       throw e;
     } catch (Exception e) {
-      log.error("Failed to perform double tap gesture on element : " + element, e);
+      log.error("Failed to perform double tap gesture on element : " + locator, e);
       throw e;
     }
   }
 
-  public void pressAndHoldElementAndroid(By container, int timeToHoldInMilliSeconds) {
-    WebElement element = driver.findElement(container);
+  public void pressAndHoldElementAndroid(By locator, int timeToHoldInMilliSeconds) {
     try {
-      driver.executeScript("mobile: longClickGesture", ImmutableMap.of(
-              "elementId ", element,
-              "duration", timeToHoldInMilliSeconds
-      ));
-      log.info("press and hold performed successfully on element: " + element);
+      driver.executeScript(
+          "mobile: longClickGesture",
+          ImmutableMap.of(
+              "elementId ",
+              driver.findElement(locator).getAttribute("UID"),
+              "duration",
+              timeToHoldInMilliSeconds));
+      log.info("press and hold performed successfully on element: " + locator);
     } catch (NoSuchElementException e) {
-      log.error("Element not found with locator: " + element, e);
+      log.error("Element not found with locator: " + locator, e);
       throw e;
     } catch (Exception e) {
-      log.error("Failed to perform press and hold gesture on element : " + element, e);
+      log.error("Failed to perform press and hold gesture on element : " + locator, e);
       throw e;
     }
   }
 
   public void tapOnElementAndroid(By locator, int xOffset, int yOffset) {
-    WebElement element = driver.findElement(locator);
     try {
-      driver.executeScript("mobile: clickGesture", ImmutableMap.of(
-              "elementId ", element,
+      driver.executeScript(
+          "mobile: clickGesture",
+          ImmutableMap.of(
+              "elementId ", driver.findElement(locator).getAttribute("UID"),
               "x", xOffset,
-              "y", yOffset
-      ));
-      log.info("Tap action performed successfully on element: " + element);
+              "y", yOffset));
+      log.info("Tap action performed successfully on element: " + locator);
     } catch (NoSuchElementException e) {
-      log.error("Element not found with locator: " + element, e);
+      log.error("Element not found with locator: " + locator, e);
       throw e;
     } catch (Exception e) {
-      log.error("Failed to perform tap action on element : " + element, e);
+      log.error("Failed to perform tap action on element : " + locator, e);
       throw e;
     }
   }
@@ -287,298 +351,10 @@ public class AppiumUserSimulations {
         .pressKey(new io.appium.java_client.android.nativekey.KeyEvent(AndroidKey.APP_SWITCH));
   }
 
-  // **** SCROLL FUNCTIONS (SCROLL'S ON ENTIRE PAGE) *****//
-  // ************************************************************
-
-  public WebElement android_ScrollToText(String text) {
-    log.info("Trying to scroll to element with text  - " + text);
-
-    WebElement el =
-        wait_until_MobileElementIs_Visible(
-            driver,
-            AppiumBy.androidUIAutomator(
-                "new UiScrollable(new UiSelector()).scrollIntoView(text(\"" + text + "\"));"));
-    return el;
-  }
-
-  public WebElement android_ScrollToContentDesc(String contentDesc) {
-    log.info("Trying to scroll to element with content desc - " + contentDesc);
-    WebElement el =
-        wait_until_MobileElementIs_Visible(
-            driver,
-            AppiumBy.androidUIAutomator(
-                "new UiScrollable(new UiSelector()).scrollIntoView(description(\""
-                    + contentDesc
-                    + "\"));"));
-    return el;
-  }
-
-  public WebElement android_scrollToID(String id) {
-    log.info("Trying to scroll to android element with ID - " + id);
-
-    WebElement el =
-        wait_until_MobileElementIs_Visible(
-            driver,
-            AppiumBy.androidUIAutomator(
-                "new UiScrollable(new UiSelector()).scrollIntoView(resourceId(\"" + id + "\"));"));
-    return el;
-  }
-
-  // **** SCROLL FUNCTIONS (SCROLL'S INSIDE PARTICULAR ELEMENT) *****//
-  // Other Supported Functions available here -
-  // https://developer.android.com/reference/android/support/test/uiautomator/UiSelector
-
-  public WebElement android_scrollToTextInsideElementWithResourceID(
-      String resourceID, String text) {
-    log.info("Trying to scroll to android element with text - " + text);
-    // make sure u give the resouce ID of the complete list of elements here as parameter
-
-    WebElement el =
-        wait_until_MobileElementIs_Visible(
-            driver,
-            AppiumBy.androidUIAutomator(
-                "new UiScrollable(new UiSelector()"
-                    + ".resourceId(\""
-                    + resourceID
-                    + "\")).scrollIntoView("
-                    + "new UiSelector().text(\""
-                    + text
-                    + "\"));"));
-    return el;
-  }
-
-  public WebElement android_scrollToTextInsideElementWithContentDesc(
-      String contentDesc, String text) {
-    log.info("Trying to scroll to android element with contentDesc - " + contentDesc);
-    // make sure u give the resouce ID of the complete list of elements here as parameter
-
-    WebElement el =
-        wait_until_MobileElementIs_Visible(
-            driver,
-            AppiumBy.androidUIAutomator(
-                "new UiScrollable(new UiSelector()"
-                    + ".description(\""
-                    + contentDesc
-                    + "\")).scrollIntoView("
-                    + "new UiSelector().text(\""
-                    + text
-                    + "\"));"));
-    return el;
-  }
-
-  public WebElement android_scrollToTextInsideElementWithID(String id, String text) {
-    log.info("Trying to scroll to android element with ID - " + id);
-    // make sure u give the resouce ID of the complete list of elements here as parameter
-
-    WebElement el =
-        wait_until_MobileElementIs_Visible(
-            driver,
-            AppiumBy.androidUIAutomator(
-                "new UiScrollable(new UiSelector()"
-                    + ".resourceId(\""
-                    + id
-                    + "\")).scrollIntoView("
-                    + "new UiSelector().text(\""
-                    + text
-                    + "\"));"));
-    return el;
-  }
-
   // Notifications Android
   public void openNotificationsAndroid() {
     log.info("Opening notifications page");
     ((AndroidDriver) driver).openNotifications();
-  }
-
-  public void clearNotificationsAndroid() {
-    // Attempt to find a "Clear all" button by various possible text labels
-    List<String> clearAllLabels =
-        Arrays.asList("CLEAR ALL", "Clear all", "clear all", "Dismiss all");
-    for (String label : clearAllLabels) {
-      if (android_isMobileElementPresentUsingText(label)) {
-        wait_until_MobileElementIs_Clickable(
-                driver, AppiumBy.androidUIAutomator("new UiSelector().text(\"" + label + "\")"))
-            .click();
-        log.info("Existing notifications Cleared");
-        return; // Exit the method after successfully clearing
-      }
-    }
-
-    // If no "Clear all" button found, try swiping down to reveal more options
-    Dimension size = driver.manage().window().getSize();
-    int startX = size.width / 2;
-    int startY = 0; // Start from the very top
-    int endY = size.height / 2; // Swipe halfway down the screen
-
-    new TouchAction((PerformsTouchActions) driver)
-        .press(PointOption.point(startX, startY))
-        .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500))) // Adjust duration as needed
-        .moveTo(PointOption.point(startX, endY))
-        .release()
-        .perform();
-
-    // Retry finding a "Clear all" button after the swipe
-    for (String label : clearAllLabels) {
-      if (android_isMobileElementPresentUsingText(label)) {
-        wait_until_MobileElementIs_Clickable(
-                driver, AppiumBy.androidUIAutomator("new UiSelector().text(\"" + label + "\")"))
-            .click();
-        log.info("Existing notifications Cleared");
-        return;
-      }
-    }
-    log.info("Could not find a clear notifications option. Tried multiple labels and swiping.");
-  }
-
-  // ********** CHECK FOR PRESENCE OF MOBILE ELEMENT ANDROID **************//
-  // ************************************************************
-
-  public boolean android_isMobileElementPresentUsingText(String text) {
-
-    try {
-      log.info("Trying to find element with text - " + text);
-      if (!wait_until_MobileElementsAre_Visible(
-              driver, (AppiumBy.androidUIAutomator("new UiSelector().text(\"" + text + "\")")), 5)
-          .isEmpty()) {
-        log.info("element found");
-      }
-    } catch (Exception e) {
-      log.info("element not found");
-      return false;
-    }
-    return true;
-  }
-
-  public boolean android_isMobileElementPresentUsingID(String id) {
-    log.info("Trying to find element with ID - " + id);
-
-    try {
-      if (!wait_until_MobileElementsAre_Visible(
-              driver,
-              (AppiumBy.androidUIAutomator("new UiSelector().resourceId(\"" + id + "\")")),
-              5)
-          .isEmpty()) {
-        log.info("Found element having id -" + id);
-      }
-    } catch (Exception e) {
-      log.info("element not found");
-      return false;
-    }
-    return true;
-  }
-
-  public boolean android_isMobileElementPresentUsingContentDesc(String contentDesc) {
-    try {
-      log.info("Trying to locate element using content-desc - " + contentDesc);
-      if (!wait_until_MobileElementsAre_Visible(
-              driver,
-              (AppiumBy.androidUIAutomator(
-                  "new UiSelector().description(\"" + contentDesc + "\")")),
-              5)
-          .isEmpty()) {
-        log.info("Found element having content desc - " + contentDesc);
-      }
-    } catch (Exception e) {
-      log.info("element not found");
-      return false;
-    }
-    return true;
-  }
-
-  public boolean android_isMobileElementPresentUsingXpath(String xPath) {
-    try {
-      log.info("Trying to locate element using content-desc - " + xPath);
-      if (wait_until_MobileElementsAre_Visible(driver, (AppiumBy.xpath(xPath)), 5).size() >= 1) {
-        log.info("Found element having content desc - " + xPath);
-      }
-    } catch (Exception e) {
-      log.info("element not found");
-      return false;
-    }
-    return false;
-  }
-
-  // ********** SCROLL AND CHECK FOR PRESENCE OF MOBILE ELEMENT ANDROID **************//
-  // ************************************************************
-
-  public boolean android_isMobileElementPresentUsingTextAfterScroll(String text) {
-    log.info("Trying to find element with text - " + text);
-    if (!wait_until_MobileElementsAre_Present(
-            driver,
-            (AppiumBy.androidUIAutomator(
-                "new UiScrollable(new UiSelector()).scrollIntoView(text(\"" + text + "\"));")))
-        .isEmpty()) {
-      log.info("element found");
-      return true;
-    } else {
-      log.info("element not found");
-      return false;
-    }
-  }
-
-  public boolean android_isMobileElementPresentUsingIDAfterScroll(String id) {
-    log.info("Trying to find element with ID - " + id);
-    if (!wait_until_MobileElementsAre_Present(
-            driver,
-            (AppiumBy.androidUIAutomator(
-                "new UiScrollable(new UiSelector()).scrollIntoView(resourceId(\"" + id + "\"));")))
-        .isEmpty()) return true;
-    else return false;
-  }
-
-  public boolean android_isMobileElementPresentUsingContentDescAfterScroll(String contentDesc) {
-    log.info("Trying to locate element using content-desc - " + contentDesc);
-    if (!wait_until_MobileElementsAre_Present(
-            driver,
-            (AppiumBy.androidUIAutomator(
-                "new UiScrollable(new UiSelector()).scrollIntoView(description(\""
-                    + contentDesc
-                    + "\"));")))
-        .isEmpty()) {
-      log.info("Found element having content desc -" + contentDesc);
-      return true;
-    } else return false;
-  }
-
-  // GET MOBILE ELEMENT ANDROID
-  public WebElement androidGetMobileElementPresentUsingText(String text) {
-    log.info("Trying to find element with text - " + text);
-    return wait_until_MobileElementIs_Visible(
-        driver, AppiumBy.androidUIAutomator("new UiSelector().text(\"" + text + "\")"));
-  }
-
-  public WebElement androidGetMobileElementPresentUsingID(String id) {
-    log.info("Trying to find element with ID - " + id);
-    return wait_until_MobileElementIs_Visible(
-        driver, AppiumBy.androidUIAutomator("new UiSelector().resourceId(\"" + id + "\")"));
-  }
-
-  public WebElement androidGetMobileElementPresentUsingContentDesc(String contentDesc) {
-    log.info("Trying to locate element using content-desc - " + contentDesc);
-    return wait_until_MobileElementIs_Visible(
-        driver,
-        AppiumBy.androidUIAutomator("new UiSelector().description(\"" + contentDesc + "\")"));
-  }
-
-  public WebElement androidGetMobileElementPresentUsingXPath(String xpath) {
-    log.info("Trying to locate element using x-path - " + xpath);
-    return wait_until_MobileElementIs_Visible(driver, AppiumBy.xpath(xpath));
-  }
-
-  public WebElement androidGetMobileElementPresentUsingClassName(String className) {
-    log.info("Trying to locate elements using className - " + className);
-    return wait_until_MobileElementIs_Visible(driver, AppiumBy.className(className));
-  }
-
-  // GET MOBILE ELEMENTS ANDROID
-  public List<WebElement> androidGetMobileElementsPresentUsingXPath(String xpath) {
-    log.info("Trying to locate elements using x-path - " + xpath);
-    return wait_until_MobileElementsAre_Visible(driver, AppiumBy.xpath(xpath));
-  }
-
-  public List<WebElement> androidGetMobileElementsPresentUsingClassName(String className) {
-    log.info("Trying to locate elements using className - " + className);
-    return wait_until_MobileElementsAre_Visible(driver, AppiumBy.className(className));
   }
 
   // ************ IOS ONLY  *************** //
@@ -586,10 +362,14 @@ public class AppiumUserSimulations {
   // EXECUTE METHODS - https://www.youtube.com/watch?v=oAJ7jwMNFVU
   // https://github.com/appium/appium-xcuitest-driver/blob/master/docs/reference/execute-methods.md
 
-  public void validateInputDirection(String direction){
+  public void validateInputDirection(String direction) {
     Set<String> validDirections = Set.of("up", "down", "left", "right");
     if (!validDirections.contains(direction.toLowerCase())) {
-      log.error("Incorrect direction provided: " + direction + ". Valid directions are: " + validDirections);
+      log.error(
+          "Incorrect direction provided: "
+              + direction
+              + ". Valid directions are: "
+              + validDirections);
       throw new IllegalArgumentException("Invalid direction: " + direction);
     }
   }
@@ -600,10 +380,11 @@ public class AppiumUserSimulations {
 
     try {
       WebElement element = driver.findElement(locator);
-      driver.executeScript("mobile: swipe", ImmutableMap.of(
+      driver.executeScript(
+          "mobile: swipe",
+          ImmutableMap.of(
               "direction", direction.toLowerCase(),
-              "elementId", element
-      ));
+              "elementId", element.getAttribute("UID")));
       log.info("Swipe " + direction + " performed successfully on element: " + locator);
     } catch (NoSuchElementException e) {
       log.error("Element not found with locator: " + locator, e);
@@ -614,13 +395,12 @@ public class AppiumUserSimulations {
     }
   }
 
-  //NOTE : This auto scrolls to element inside a container, element has to be hittable
+  // NOTE : This auto scrolls to element inside a container, element has to be hittable
   public void scrollToElementIOS(By locator) {
     try {
       WebElement element = driver.findElement(locator);
-      driver.executeScript("mobile: scrollToElement", ImmutableMap.of(
-              "elementId", element
-      ));
+      driver.executeScript(
+          "mobile: scrollToElement", ImmutableMap.of("elementId", element.getAttribute("UID")));
       log.info("scroll performed successfully on element with locator : " + locator);
     } catch (NoSuchElementException e) {
       log.error("Element not found with locator: " + locator, e);
@@ -633,43 +413,63 @@ public class AppiumUserSimulations {
 
   public void scrollToElementWithPredicateIOS(String predicate, String direction) {
     validateInputDirection(direction);
-    log.info("Attempting to swipe " + direction + " on an element located by predicate String: " + predicate);
+    log.info(
+        "Attempting to swipe "
+            + direction
+            + " on an element located by predicate String: "
+            + predicate);
 
     try {
       WebElement element = driver.findElement(AppiumBy.iOSNsPredicateString(predicate));
-      driver.executeScript("mobile: scroll", ImmutableMap.of(
-              "direction", direction.toLowerCase(),
-              "predicateString", element
-      ));
-      log.info("scroll " + direction + " performed successfully on element: by predicate String: " + predicate);
+      driver.executeScript(
+          "mobile: scroll",
+          ImmutableMap.of("direction", direction.toLowerCase(), "predicateString", element));
+      log.info(
+          "scroll "
+              + direction
+              + " performed successfully on element: by predicate String: "
+              + predicate);
     } catch (NoSuchElementException e) {
       log.error("Element not found with locator with predicate: " + predicate, e);
       throw e;
     } catch (Exception e) {
-      log.error("Failed to perform scroll " + direction + " on element with predicate: " + predicate, e);
+      log.error(
+          "Failed to perform scroll " + direction + " on element with predicate: " + predicate, e);
       throw e;
     }
   }
 
-  public void scrollToElementWithPredicateOnContainerIOS(String predicate, By container, String direction) {
+  public void scrollToElementWithPredicateOnContainerIOS(
+      String predicate, By container, String direction) {
     validateInputDirection(direction);
-    log.info("Attempting to swipe " + direction + " on an element located by predicate String: " + predicate);
+    log.info(
+        "Attempting to swipe "
+            + direction
+            + " on an element located by predicate String: "
+            + predicate);
 
     try {
-      WebElement element = driver.findElement(AppiumBy.iOSNsPredicateString(predicate)); //scroll to element
-      WebElement containerElement = driver.findElement(container); //scroll in container
+      WebElement element =
+          driver.findElement(AppiumBy.iOSNsPredicateString(predicate)); // scroll to element
+      WebElement containerElement = driver.findElement(container); // scroll in container
 
-      driver.executeScript("mobile: scroll", ImmutableMap.of(
+      driver.executeScript(
+          "mobile: scroll",
+          ImmutableMap.of(
               "direction", direction.toLowerCase(),
-              "elementId ", containerElement,
-              "predicateString", element
-      ));
-      log.info("scroll " + direction + " performed successfully on element: by predicate String: " + predicate);
+              "elementId ", containerElement.getAttribute("UID"),
+              "predicateString", element));
+      log.info(
+          "scroll "
+              + direction
+              + " performed successfully on element: by predicate String: "
+              + predicate);
     } catch (NoSuchElementException e) {
       log.error("Element not found with locator with predicate: " + predicate, e);
       throw e;
     } catch (Exception e) {
-      log.error("Failed to perform scroll " + direction + " on element with predicate: " + predicate, e);
+      log.error(
+          "Failed to perform scroll " + direction + " on element with predicate: " + predicate, e);
       throw e;
     }
   }
@@ -677,9 +477,8 @@ public class AppiumUserSimulations {
   public void doubleTapOnElementIOS(By locator) {
     WebElement element = driver.findElement(locator);
     try {
-      driver.executeScript("mobile: doubleTap", ImmutableMap.of(
-              "elementId ", element
-      ));
+      driver.executeScript(
+          "mobile: doubleTap", ImmutableMap.of("elementId ", element.getAttribute("UID")));
       log.info("Double tap performed successfully on element: " + element);
     } catch (NoSuchElementException e) {
       log.error("Element not found with locator: " + element, e);
@@ -693,10 +492,10 @@ public class AppiumUserSimulations {
   public void pressAndHoldElementIOS(By container, int timeToHoldInSeconds) {
     WebElement element = driver.findElement(container);
     try {
-      driver.executeScript("mobile: touchAndHold", ImmutableMap.of(
-              "elementId ", element,
-              "duration", timeToHoldInSeconds
-      ));
+      driver.executeScript(
+          "mobile: touchAndHold",
+          ImmutableMap.of(
+              "elementId ", element.getAttribute("UID"), "duration", timeToHoldInSeconds));
       log.info("press and hold performed successfully on element: " + element);
     } catch (NoSuchElementException e) {
       log.error("Element not found with locator: " + element, e);
@@ -710,11 +509,12 @@ public class AppiumUserSimulations {
   public void tapOnElementIOS(By locator, int xOffset, int yOffset) {
     WebElement element = driver.findElement(locator);
     try {
-      driver.executeScript("mobile: tap", ImmutableMap.of(
-              "elementId ", element,
+      driver.executeScript(
+          "mobile: tap",
+          ImmutableMap.of(
+              "elementId ", element.getAttribute("UID"),
               "x", xOffset,
-              "y", yOffset
-      ));
+              "y", yOffset));
       log.info("Tap action performed successfully on element: " + element);
     } catch (NoSuchElementException e) {
       log.error("Element not found with locator: " + element, e);
@@ -725,141 +525,27 @@ public class AppiumUserSimulations {
     }
   }
 
-  // Get MOBILE ELEMENT
-  public WebElement ios_GetMobileElementUsingAccessibilityId(String accessibilityId) {
-    log.info("Trying to find element with id - " + accessibilityId);
-    return wait_until_MobileElementIs_Visible(driver, AppiumBy.accessibilityId(accessibilityId));
-  }
-
-  public WebElement ios_GetMobileElementUsingName(String name) {
-    log.info("Trying to find element with name - " + name);
-    return wait_until_MobileElementIs_Visible(driver, AppiumBy.name(name));
-  }
-
-  public WebElement ios_GetMobileElementUsingClassName(String className) {
-    log.info("Trying to find element with class name - " + className);
-    return wait_until_MobileElementIs_Visible(driver, AppiumBy.className(className));
-  }
-
-  public WebElement ios_GetMobileElementUsingXpath(String xPath) {
-    log.info("Trying to find element with xPath - " + xPath);
-    return wait_until_MobileElementIs_Visible(driver, AppiumBy.xpath(xPath));
-  }
-
-  public WebElement ios_GetMobileElementUsingPredicateString(String predicateString) {
-    log.info("Trying to find element with predicateString - " + predicateString);
-    return wait_until_MobileElementIs_Visible(
-        driver, AppiumBy.iOSNsPredicateString(predicateString));
-  }
-
-  public WebElement ios_GetMobileElementUsingClassChain(String classChain) {
-    log.info("Trying to find element with classChain - " + classChain);
-    return wait_until_MobileElementIs_Visible(driver, AppiumBy.iOSClassChain(classChain));
-  }
-
-  // ***** PRESENCE OF MOBILE ELEMENT ****** //
-  public boolean ios_isElementPresentUsingAccessibilityId(
-      String acessibilityId, int timeinSeconds) {
-    try {
-      log.info("Trying to find element with AcessibilityId - " + acessibilityId);
-      if (!wait_until_MobileElementsAre_Visible(
-              driver, (AppiumBy.accessibilityId(acessibilityId)), timeinSeconds)
-          .isEmpty()) {
-        log.info("element found");
-        return true;
-      }
-    } catch (Exception e) {
-      log.info("element not found");
-      return false;
-    }
-    return false;
-  }
-
-  public boolean ios_isElementPresentUsingName(String name, int timeinSeconds) {
-    try {
-      log.info("Trying to find element with name - " + name);
-      if (!wait_until_MobileElementsAre_Visible(driver, (AppiumBy.name(name)), timeinSeconds)
-          .isEmpty()) {
-        log.info("element found");
-        return true;
-      }
-    } catch (Exception e) {
-      log.info("element not found");
-      return false;
-    }
-    return false;
-  }
-
-  public boolean ios_isElementPresentUsingXpath(String xPath, int timeinSeconds) {
-    try {
-      log.info("Trying to find element with xPath - " + xPath);
-      if (!wait_until_MobileElementsAre_Visible(driver, (AppiumBy.xpath(xPath)), timeinSeconds)
-          .isEmpty()) {
-        log.info("element found");
-        return true;
-      }
-    } catch (Exception e) {
-      log.info("element not found");
-      return false;
-    }
-    return false;
-  }
-
-  public boolean ios_isElementPresentUsingPredicateString(
-      String predicateString, int timeinSeconds) {
-
-    try {
-      log.info("Trying to find element with predicateString - " + predicateString);
-      if (!wait_until_MobileElementsAre_Visible(
-              driver, (AppiumBy.iOSNsPredicateString(predicateString)), timeinSeconds)
-          .isEmpty()) {
-        log.info("element found");
-        return true;
-      }
-    } catch (Exception e) {
-      log.info("element not found");
-      return false;
-    }
-    return false;
-  }
-
-  public boolean ios_isElementPresentUsingClassChain(String classChain, int timeinSeconds) {
-    try {
-      log.info("Trying to find element with classChain - " + classChain);
-      if (!wait_until_MobileElementsAre_Visible(
-              driver, (AppiumBy.iOSClassChain(classChain)), timeinSeconds)
-          .isEmpty()) {
-        log.info("element found");
-        return true;
-      }
-    } catch (Exception e) {
-      log.info("element not found");
-      return false;
-    }
-    return false;
-  }
-
   // ******* EXPLICIT WAITS ON SINGLE ELEMENT ******************//
   // ************************************************************
 
   // WAIT FOR MAX TIME 15 SECS TILL THE ELEMENT IS CLICKABLE - DISPLAYED AND ENABLED
   public WebElement wait_until_MobileElementIs_Clickable(WebDriver driver, By locator) {
     log.info("15 secs - Waiting for element using -" + locator);
-    wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    wait = new WebDriverWait(driver, ofSeconds(15));
     return wait.until(ExpectedConditions.elementToBeClickable(locator));
   }
 
   // WAIT FOR MAX TIME 15 SECS TILL THE ELEMENT IS VISIBLE
   public WebElement wait_until_MobileElementIs_Visible(WebDriver driver, By locator) {
     log.info("15 secs - Waiting for element using -" + locator);
-    wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    wait = new WebDriverWait(driver, ofSeconds(15));
     return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
   }
 
   // WAIT FOR MAX TIME 15 SECS TILL THE ELEMENT IS PRESENT
   public WebElement wait_until_MobileElementIs_Present(WebDriver driver, By locator) {
     log.info("15 secs - Waiting for element using -" + locator);
-    wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    wait = new WebDriverWait(driver, ofSeconds(15));
     return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
   }
 
@@ -869,28 +555,28 @@ public class AppiumUserSimulations {
   // WAIT FOR MAX TIME 15 SECS TILL THE ELEMENT IS PRESENT
   public List<WebElement> wait_until_MobileElementsAre_Present(WebDriver driver, By locator) {
     log.info("5 secs - Waiting for elements using -" + locator);
-    wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    wait = new WebDriverWait(driver, ofSeconds(15));
     return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
   }
 
   // WAIT FOR MAX TIME 5 SECS TILL THE ELEMENT IS VISIBLE
   public List<WebElement> wait_until_MobileElementsAre_Visible(WebDriver driver, By locator) {
     log.info("5 secs - Waiting for elements using -" + locator);
-    wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    wait = new WebDriverWait(driver, ofSeconds(15));
     return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
   }
 
   public List<WebElement> wait_until_MobileElementsAre_Visible(
       WebDriver driver, By locator, int timeInSeconds) {
     log.info("5 secs - Waiting for elements using -" + locator);
-    wait = new WebDriverWait(driver, Duration.ofSeconds(timeInSeconds));
+    wait = new WebDriverWait(driver, ofSeconds(timeInSeconds));
     return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
   }
 
   // ******** EXPLICIT WAITS ON PAGE TITLE,URL AND ELEMENT_NOT_PRESENT ************//
   public boolean is_MobileElement_NotPresent(WebDriver driver, By locator) {
     log.info("5 secs - checking for element presence using -" + locator);
-    wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    wait = new WebDriverWait(driver, ofSeconds(15));
     return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
   }
 

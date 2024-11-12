@@ -30,8 +30,7 @@ public class AppiumDriverFactory {
     cap.setCapability(
         "appium:app", System.getProperty("user.dir") + "/src/main/resources/testApps/" + appName);
 
-    //      These two capabilities are required for an android app that has splash screen as main
-    // activity
+    //      These two capabilities are required for an android app that has splash screen as main activity
     //      cap.setCapability( "appium:appPackage", "com.company.project");
     //      cap.setCapability( "appium:appActivity", "activity.SplashScreenActivity");
 
@@ -42,12 +41,11 @@ public class AppiumDriverFactory {
     try {
       appiumServerURL = new URL("http://127.0.0.1:4723");
       log.info("Trying to create Android Driver on emulator");
-      driver = new AppiumDriver(appiumServerURL, cap);
+      driver = new AndroidDriver(appiumServerURL, cap);
     } catch (MalformedURLException e) {
       log.info("Exception occurred while trying to create appium url session");
       e.printStackTrace();
     }
-
     return driver;
   }
 
@@ -60,8 +58,7 @@ public class AppiumDriverFactory {
     cap.setCapability(
         "appium:app", System.getProperty("user.dir") + "/src/main/resources/testApps/" + appName);
 
-    //      These two capabilities are required for an android app that has splash screen as main
-    // activity
+    //      These two capabilities are required for an android app that has splash screen as main activity
     //      cap.setCapability( "appium:appPackage", "com.company.project");
     //      cap.setCapability( "appium:appActivity", "activity.SplashScreenActivity");
 
@@ -71,7 +68,7 @@ public class AppiumDriverFactory {
 
     try {
       appiumServerURL = new URL("http://127.0.0.1:4723");
-      log.info("Trying to create Android Driver on emulator");
+      log.info("Trying to create Android Driver on physical device");
       driver = new AndroidDriver(appiumServerURL, cap);
     } catch (MalformedURLException e) {
       log.info("Exception occurred while trying to create appium url session");
@@ -98,7 +95,7 @@ public class AppiumDriverFactory {
 
     try {
       appiumServerURL = new URL("http://127.0.0.1:4723");
-      log.info("Trying to create Android Driver on emulator");
+      log.info("Trying to create iOS/iPadOS Driver on a simulator");
       driver = new IOSDriver(appiumServerURL, cap);
     } catch (MalformedURLException e) {
       log.info("Exception occurred while trying to create appium url session");
@@ -124,7 +121,7 @@ public class AppiumDriverFactory {
 
     try {
       appiumServerURL = new URL("http://127.0.0.1:4723");
-      log.info("Trying to create Android Driver on emulator");
+      log.info("Trying to create iOS/iPadOS Driver on physical device");
       driver = new IOSDriver(appiumServerURL, cap);
     } catch (MalformedURLException e) {
       log.info("Exception occurred while trying to create appium url session");
